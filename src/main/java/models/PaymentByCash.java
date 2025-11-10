@@ -6,15 +6,15 @@ import models.enums.PaymentType;
 import java.time.LocalDateTime;
 
 public class PaymentByCash extends Payment {
-    private double amountPayed;
+    private double amountPaid;
 
     public PaymentByCash(double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, double amountPayed) {
         super(totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
-        this.amountPayed = amountPayed;
+        this.amountPaid = amountPayed;
     }
 
     public double getChange() {
-        return amountPayed - getTotalPrice();
+        return amountPaid - getTotalPrice();
     }
 
     @Override
@@ -23,10 +23,10 @@ public class PaymentByCash extends Payment {
     }
 
     public double getAmountPayed() {
-        return amountPayed;
+        return amountPaid;
     }
 
     public void setAmountPayed(double amountPayed) {
-        this.amountPayed = amountPayed;
+        this.amountPaid = amountPayed;
     }
 }
