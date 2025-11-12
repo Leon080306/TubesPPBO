@@ -5,6 +5,7 @@ import models.enums.BookingStatus;
 import java.time.LocalDateTime;
 
 public class Booking {
+    private String bookingID;
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
     private BookingStatus bookingStatus;
@@ -12,7 +13,8 @@ public class Booking {
     private Payment payment;
     private int numberOfGuests;
 
-    public Booking(LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, Payment payment, int numberOfGuests) {
+    public Booking(String bookingID, LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, Payment payment, int numberOfGuests) {
+        this.bookingID = bookingID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.bookingStatus = bookingStatus;
@@ -21,6 +23,12 @@ public class Booking {
         this.numberOfGuests = numberOfGuests;
     }
 
+    public String getBookingID() {
+        return bookingID;
+    }
+    public void setBookingID(String bookingID) {
+        this.bookingID = bookingID;
+    }
     public LocalDateTime getCheckInDate() {
         return checkInDate;
     }

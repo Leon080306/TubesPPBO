@@ -5,13 +5,15 @@ import models.enums.TaskStatus;
 import java.time.LocalDateTime;
 
 public class Task {
+    private String task_id;
     private String title;
     private String description;
     private TaskStatus status;
     private LocalDateTime deadline;
     private LocalDateTime completedAt;
 
-    public Task(String title, String description, TaskStatus status, LocalDateTime deadline, LocalDateTime completedAt) {
+    public Task(String task_id, String title, String description, TaskStatus status, LocalDateTime deadline, LocalDateTime completedAt) {
+        this.task_id = task_id;
         this.title = title;
         this.description = description;
         this.status = status;
@@ -19,6 +21,12 @@ public class Task {
         this.completedAt = completedAt;
     }
 
+    public String getTask_id() {
+        return task_id;
+    }
+    public void setTask_id(String task_id) {
+        this.task_id = task_id;
+    }
     public String getTitle() {
         return title;
     }

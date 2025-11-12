@@ -3,18 +3,26 @@ package models;
 import models.enums.RoomType;
 
 public class Room {
+    private String roomID;
     private String roomNumber;
     private RoomType roomType;
     private String roomDescription;
     private double roomPrice;
 
-    public Room(String roomNumber, RoomType roomType, String roomDescription, double roomPrice) {
+    public Room(String roomID, String roomNumber, RoomType roomType, String roomDescription, double roomPrice) {
+        this.roomID = roomID;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomDescription = roomDescription;
         this.roomPrice = roomPrice;
     }
 
+    public String getRoomID() {
+        return roomID;
+    }
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
+    }
     public String getRoomNumber() {
         return roomNumber;
     }

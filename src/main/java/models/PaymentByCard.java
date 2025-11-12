@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 public class PaymentByCard extends Payment implements SecurePayment {
     private String creditCardNumber;
 
-    public PaymentByCard(double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, String creditCardNumber) {
-        super(totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
+    public PaymentByCard(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, String creditCardNumber) {
+        super(paymentID, totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
         this.creditCardNumber = creditCardNumber;
     }
 

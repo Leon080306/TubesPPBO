@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shift {
+    private String shift_id;
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalDate date;
     private boolean isPresent;
     private List<Task> tasksList;
 
-    public Shift(LocalTime startTime, LocalTime endTime, LocalDate date, boolean isPresent) {
+    public Shift(String shift_id, LocalTime startTime, LocalTime endTime, LocalDate date, boolean isPresent) {
+        this.shift_id = shift_id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;

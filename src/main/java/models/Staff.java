@@ -12,8 +12,8 @@ public class Staff extends Users {
     private Department department;
     private List<Shift> shifts;
 
-    public Staff (String password, String nama, int umur, String email, String phone, String address, String employeeID, double salary,  Department department) {
-        super(password, nama, umur, email, phone, address, UserType.STAFF);
+    public Staff (String user_id, String password, String nama, int umur, String email, String phone, String address, String employeeID, double salary,  Department department) {
+        super(user_id, password, nama, umur, email, phone, address, UserType.STAFF);
         this.employeeID = employeeID;
         this.salary = salary;
         this.department = department;

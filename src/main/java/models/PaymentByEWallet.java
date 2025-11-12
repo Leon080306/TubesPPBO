@@ -9,8 +9,8 @@ public class PaymentByEWallet extends Payment {
     private String provider;
     private String accountID;
 
-    public PaymentByEWallet(double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, String provider, String accountID) {
-        super(totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
+    public PaymentByEWallet(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, String provider, String accountID) {
+        super(paymentID, totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
         this.provider = provider;
         this.accountID = accountID;
     }

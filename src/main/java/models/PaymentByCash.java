@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 public class PaymentByCash extends Payment {
     private double amountPaid;
 
-    public PaymentByCash(double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, double amountPayed) {
-        super(totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
+    public PaymentByCash(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, double amountPayed) {
+        super(paymentID, totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
         this.amountPaid = amountPayed;
     }
 

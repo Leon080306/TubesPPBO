@@ -3,6 +3,7 @@ package models;
 import models.enums.UserType;
 
 public abstract class Users {
+    private String userID;
     private String password;
     private String nama;
     private int umur;
@@ -11,7 +12,8 @@ public abstract class Users {
     private String address;
     private UserType userType;
 
-    public Users (String password, String nama, int umur, String email, String phone, String address, UserType userType) {
+    public Users (String userID, String password, String nama, int umur, String email, String phone, String address, UserType userType) {
+        this.userID = userID;
         this.password = password;
         this.nama = nama;
         this.umur = umur;
@@ -19,6 +21,14 @@ public abstract class Users {
         this.phone = phone;
         this.address = address;
         this.userType = userType;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getPassword() {

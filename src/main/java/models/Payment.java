@@ -6,12 +6,14 @@ import models.enums.PaymentType;
 import java.time.LocalDateTime;
 
 public abstract class Payment {
+    private String paymentID;
     private double totalPrice;
     private LocalDateTime paymentDate;
     private PaymentType paymentType;
     private PaymentStatus paymentStatus;
 
-    public Payment(double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus) {
+    public Payment(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus) {
+        this.paymentID = paymentID;
         this.totalPrice = totalPrice;
         this.paymentDate = paymentDate;
         this.paymentType = paymentType;
@@ -20,6 +22,12 @@ public abstract class Payment {
 
     public abstract boolean processPayment();
 
+    public String getPaymentID() {
+        return paymentID;
+    }
+    public void setPaymentID(String paymentID) {
+        this.paymentID = paymentID;
+    }
     public double getTotalPrice() {
         return totalPrice;
     }
