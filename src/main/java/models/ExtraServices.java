@@ -6,8 +6,8 @@ import models.enums.TaskStatus;
 
 public class ExtraServices extends Task{
     private double price;
-    public ExtraServices(String title, String description, TaskStatus status, LocalDateTime deadline, LocalDateTime completedAt, double price){
-        super(title, description, status, deadline, completedAt);
+    public ExtraServices(String taskID, String title, String description, TaskStatus status, LocalDateTime deadline, LocalDateTime completedAt, double price){
+        super(taskID, title, description, status, deadline, completedAt);
         this.price = price;
     }
 
