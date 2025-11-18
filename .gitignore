@@ -39,5 +39,8 @@ bin/
 ### VS Code ###
 .vscode/
 
+### Database Configuration ###
+src/main/java/utils/Database.java
+
 ### Mac OS ###
 .DS_Store
