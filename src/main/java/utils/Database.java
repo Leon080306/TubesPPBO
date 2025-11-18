@@ -4,13 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 public class Database {
-    public static final String DATABASE = "hotel_harapan_bangsa";
-    public static final String PORT = "5432";
-    public static final String HOST = "localhost";
-    public static final String USER = "postgres";
-    public static final String PASSWORD = "2005";
+    public static final String DATABASE = AppConfig.DATABASE;
+    public static final String PORT = AppConfig.PORT;
+    public static final String HOST = AppConfig.HOST;
+    public static final String USER = AppConfig.USER;
+    public static final String PASSWORD = AppConfig.PASSWORD;
     public static final String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE;
 
     public static Connection connect() {
