@@ -10,7 +10,7 @@ public class Database {
     public static final String PORT = "5432";
     public static final String HOST = "localhost";
     public static final String USER = "postgres";
-    public static final String PASSWORD = "Leon080306";
+    public static final String PASSWORD = "2005";
     public static final String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE;
 
     public static Connection connect() {
