@@ -40,7 +40,7 @@ bin/
 .vscode/
 
 ### Configuration Files ###
-src/main/java/utils.AppConfig.java
+src/main/java/utils/AppConfig.java
 
 ### Mac OS ###
 .DS_Store
