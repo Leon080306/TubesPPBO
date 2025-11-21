@@ -1,5 +1,5 @@
 package models.enums;
 
 public enum Department {
-    MANAGEMENT, FOOD, CLEANING
+    MANAGEMENT, FOOD, CLEANING, ADMIN
 }
