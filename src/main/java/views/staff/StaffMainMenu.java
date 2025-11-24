@@ -1,26 +1,18 @@
 package views.staff;
 
+import views.MainFrame;
+
 import javax.swing.*;
 
 public class StaffMainMenu {
-    JFrame frame;
+    MainFrame frame;
 
     public StaffMainMenu() {
-        frame = new JFrame("Staff Main Menu");
-        renderStaffMainMenu();
+        frame = new MainFrame();
+        renderAdminMainMenu();
     }
 
-    private void renderStaffMainMenu() {
-        int width = 800;
-        int height = 600;
-
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setAlwaysOnTop(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Add your components here (panels, buttons, etc.)
-
+    private void renderAdminMainMenu() {
         frame.setVisible(true); // Don't forget this!
     }
 }

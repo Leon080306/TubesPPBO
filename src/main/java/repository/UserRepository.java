@@ -10,7 +10,6 @@ import models.enums.MembershipLevel;
 import utils.Database;
 import utils.PasswordHashing;
 import utils.StringToEnum;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

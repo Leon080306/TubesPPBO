@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class LoginView {
     UserController userController;
-    JFrame frame;
+    MainFrame frame;
     UserType userType;
 
     public LoginView() {
@@ -20,14 +20,7 @@ public class LoginView {
     }
 
     private void renderLoginView() {
-        frame = new JFrame("Hotel Harapan Bangsa Management System");
-        int width = 800;
-        int height = 600;
-
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setAlwaysOnTop(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame = new MainFrame();
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 

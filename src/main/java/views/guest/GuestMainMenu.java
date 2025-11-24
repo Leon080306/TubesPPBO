@@ -1,26 +1,18 @@
 package views.guest;
 
+import views.MainFrame;
+
 import javax.swing.*;
 
 public class GuestMainMenu {
-    JFrame frame;
+    MainFrame frame;
 
     public GuestMainMenu() {
-        frame = new JFrame("Guest Main Menu");
-        renderGuestMainMenu();
+        frame = new MainFrame();
+        renderAdminMainMenu();
     }
 
-    private void renderGuestMainMenu() {
-        int width = 800;
-        int height = 600;
-
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-        frame.setAlwaysOnTop(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Add your components here (panels, buttons, etc.)
-
+    private void renderAdminMainMenu() {
         frame.setVisible(true); // Don't forget this!
     }
 }
