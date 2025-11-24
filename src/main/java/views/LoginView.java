@@ -78,7 +78,7 @@ public class LoginView {
             String email = textField.getText();
             String password = new String(passwordField.getPassword());
             userType = userController.login(email, password);
-            switch(userType) {
+            switch (userType) {
                 case null:
                     showDialog("Error", "Invalid email or password");
                     break;
@@ -118,28 +118,30 @@ public class LoginView {
         okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         okButton.addActionListener(e -> {
             dialog.dispose();
-
-            // Only navigate if login was successful (userType is not null)
             if (userType != null) {
-                frame.dispose(); // Close login window
-
-                switch(userType) {
-                    case ADMIN:
-                        new AdminMainMenu();
-                        break;
-                    case GUEST:
-                    new GuestMainMenu();
-                        break;
-                    case STAFF:
-                    new StaffMainMenu();
-                        break;
-                }
+                frame.dispose();
+                navigateMenu();
             }
         });
+
         panel.add(okButton);
 
         dialog.add(panel);
         dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
+    }
+
+    private void navigateMenu() {
+        switch (userType) {
+            case ADMIN:
+                new AdminMainMenu();
+                break;
+            case GUEST:
+                new GuestMainMenu();
+                break;
+            case STAFF:
+                new StaffMainMenu();
+                break;
+        }
     }
 }
