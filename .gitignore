@@ -5,9 +5,6 @@ build/
 !**/src/test/**/build/
 .kotlin
 
-### Configuration Files ###
-src/main/java/utils.AppConfig.java
-
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -47,3 +44,4 @@ src/main/java/utils/AppConfig.java
 
 ### Mac OS ###
 .DS_Store
+*.log

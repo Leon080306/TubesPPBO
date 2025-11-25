@@ -22,7 +22,12 @@ public class Shift {
         this.isPresent = isPresent;
         this.tasksList = new ArrayList<>();
     }
-
+    public String getShiftId(){
+        return shift_id;
+    }
+    public void setShiftID(String shiftId){
+        this.shift_id = shiftId;
+    }
     public LocalTime getStartTime() {
         return startTime;
     }
