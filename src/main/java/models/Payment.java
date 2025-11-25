@@ -3,6 +3,7 @@ package models;
 import models.enums.PaymentStatus;
 import models.enums.PaymentType;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public abstract class Payment {
