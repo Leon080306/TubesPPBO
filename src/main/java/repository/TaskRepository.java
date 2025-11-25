@@ -16,10 +16,10 @@ import utils.Database;
 public class TaskRepository {
     public static Connection conn = Database.connect();
 
-    public boolean addTask(String shiftId, String title, String descriptionTask, TaskStatus status, LocalDateTime deadDateTime, LocalDateTime completedAt){
-        String sql = "INSERT INTO task (taskid)"; 
+    // public boolean addTask(String shiftId, String title, String descriptionTask, TaskStatus status, LocalDateTime deadDateTime, LocalDateTime completedAt){
+    //     String sql = "INSERT INTO task (taskid, shiftid, title, description, )"; 
 
-    }
+    // }
     //show task per shift
     public List<Task> findTasksByShiftId(String shiftId){
         List<Task> listTaskByShiftId = new ArrayList<>();
