@@ -83,4 +83,21 @@ public class UserRepository {
         }
         return null;
     }
+
+    public String addUser(String password, String name, int umur, String email, String phone, String address, String type) {
+        try {
+            PreparedStatement insertPrepUser = con.prepareStatement("INSERT INTO users (password, nama, umur, email, phone, address, type, userid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            insertPrepUser.setString(1, password);
+            insertPrepUser.setString(2, name);
+            insertPrepUser.setInt(3, umur);
+            insertPrepUser.setString(4, email);
+            insertPrepUser.setString(5, phone);
+            insertPrepUser.setString(6, address);
+            insertPrepUser.setString(7, type);
+            insertPrepUser.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }
