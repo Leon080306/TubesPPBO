@@ -8,6 +8,7 @@ import models.Users;
 import models.enums.Department;
 import models.enums.MembershipLevel;
 import utils.Database;
+import utils.GenerateUUID;
 import utils.PasswordHashing;
 import utils.StringToEnum;
 import java.sql.Connection;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
 public class UserRepository {
     private static final Connection con = Database.connect();
 
-    public Users getUserData(String email) throws NoResultsFound {
+    public static Users getUserData(String email) throws NoResultsFound {
         try {
             PreparedStatement prepUser = con.prepareStatement("SELECT * FROM users WHERE email = ?");
             prepUser.setString(1, email);
@@ -84,7 +85,7 @@ public class UserRepository {
         return null;
     }
 
-    public String addUser(String password, String name, int umur, String email, String phone, String address, String type) {
+    public static String addUser(String password, String name, int umur, String email, String phone, String address, String type) {
         try {
             PreparedStatement insertPrepUser = con.prepareStatement("INSERT INTO users (password, nama, umur, email, phone, address, type, userid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             insertPrepUser.setString(1, password);
@@ -94,10 +95,13 @@ public class UserRepository {
             insertPrepUser.setString(5, phone);
             insertPrepUser.setString(6, address);
             insertPrepUser.setString(7, type);
+            String uuid = GenerateUUID.generateUUID();
+            insertPrepUser.setString(8, uuid);
             insertPrepUser.executeUpdate();
+            return uuid;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return "";
     }
 }

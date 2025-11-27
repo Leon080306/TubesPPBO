@@ -1,21 +1,16 @@
 package controller;
 
 import exceptions.NoResultsFound;
+import models.Guest;
 import models.Users;
 import models.enums.UserType;
 import repository.UserRepository;
 import utils.PasswordHashing;
 
 public class UserController {
-    UserRepository userRepository;
-
-    public UserController() {
-        userRepository = new UserRepository();
-    }
-
-    public UserType login(String email, String password) {
+    public static UserType login(String email, String password) {
         try {
-            Users user = userRepository.getUserData(email);
+            Users user = UserRepository.getUserData(email);
             if(user == null || !PasswordHashing.verifyPassword(password, user.getPassword())) {
                 return null;
             }

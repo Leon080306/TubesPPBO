@@ -34,6 +34,11 @@ public class LoginView {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         centerPanel.add(title);
 
+        JLabel subTitle = new JLabel("Login");
+        subTitle.setFont(new Font("Poppins", Font.BOLD, 32));
+        subTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(subTitle);
+
         centerPanel.add(Box.createVerticalStrut(40));
 
         JLabel labelEmail = new JLabel("Email");
@@ -62,12 +67,12 @@ public class LoginView {
 
         centerPanel.add(Box.createVerticalStrut(30));
 
-        JButton btn = new JButton("Login");
-        btn.setMaximumSize(new Dimension(300, 35));
-        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(btn);
+        JButton loginBtn = new JButton("Login");
+        loginBtn.setMaximumSize(new Dimension(300, 35));
+        loginBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(loginBtn);
 
-        btn.addActionListener(e -> {
+        loginBtn.addActionListener(e -> {
             String email = textField.getText();
             String password = new String(passwordField.getPassword());
             userType = userController.login(email, password);
@@ -87,9 +92,21 @@ public class LoginView {
             }
         });
 
+        centerPanel.add(Box.createVerticalStrut(30));
+
+        JButton registerBtn = new JButton("Register as New Guest");
+        registerBtn.setMaximumSize(new Dimension(300, 35));
+        registerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(registerBtn);
+
+        registerBtn.addActionListener(e -> {
+            frame.dispose();
+            new GuestRegisterView();
+        });
+
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         frame.add(mainPanel);
-        frame.setVisible(true);
+        frame.showFrame();
     }
 
     private void showDialog(String title, String message) {
