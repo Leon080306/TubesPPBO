@@ -1,5 +1,13 @@
 package views;
 
+import controller.GuestController;
+import controller.UserController;
+import models.enums.UserType;
+import utils.PasswordHashing;
+import views.admin.AdminMainMenu;
+import views.guest.GuestMainMenu;
+import views.staff.StaffMainMenu;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -38,10 +46,10 @@ public class GuestRegisterView {
 
         centerPanel.add(Box.createVerticalStrut(5));
 
-        JTextField textField = new JTextField(20);
-        textField.setMaximumSize(new Dimension(300, 30));
-        textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(textField);
+        JTextField fieldEmail = new JTextField(20);
+        fieldEmail.setMaximumSize(new Dimension(300, 30));
+        fieldEmail.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(fieldEmail);
 
         centerPanel.add(Box.createVerticalStrut(20));
 
@@ -58,14 +66,86 @@ public class GuestRegisterView {
 
         centerPanel.add(Box.createVerticalStrut(30));
 
+        JLabel labelNama = new JLabel("Nama Lengkap");
+        labelNama.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(labelNama);
+
+        centerPanel.add(Box.createVerticalStrut(5));
+
+        JTextField fieldNama = new JTextField(20);
+        fieldNama.setMaximumSize(new Dimension(300, 30));
+        fieldNama.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(fieldNama);
+
+        centerPanel.add(Box.createVerticalStrut(20));
+
+        JLabel labelUmur = new JLabel("Umur");
+        labelUmur.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(labelUmur);
+
+        centerPanel.add(Box.createVerticalStrut(5));
+
+        JTextField fieldUmur = new JTextField(20);
+        fieldUmur.setMaximumSize(new Dimension(300, 30));
+        fieldUmur.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(fieldUmur);
+
+        centerPanel.add(Box.createVerticalStrut(20));
+
+        JLabel labelPhone = new JLabel("No HP");
+        labelPhone.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(labelPhone);
+
+        centerPanel.add(Box.createVerticalStrut(5));
+
+        JTextField fieldPhone = new JTextField(20);
+        fieldPhone.setMaximumSize(new Dimension(300, 30));
+        fieldPhone.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(fieldPhone);
+
+        centerPanel.add(Box.createVerticalStrut(20));
+
+        JLabel labelAddress = new JLabel("Alamaat");
+        labelAddress.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(labelAddress);
+
+        centerPanel.add(Box.createVerticalStrut(5));
+
+        JTextField fieldAddress = new JTextField(20);
+        fieldAddress.setMaximumSize(new Dimension(300, 30));
+        fieldAddress.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(fieldAddress);
+
+        centerPanel.add(Box.createVerticalStrut(20));
+
         JButton registerBtn = new JButton("Add New Account");
         registerBtn.setMaximumSize(new Dimension(300, 35));
         registerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         centerPanel.add(registerBtn);
 
         registerBtn.addActionListener(e -> {
-            String email = textField.getText();
-            String password = new String(passwordField.getPassword());
+            String email = fieldEmail.getText();
+            String rawPassword = new String(passwordField.getPassword());
+            String password = PasswordHashing.hashPassword(rawPassword);
+            String nama = fieldNama.getText();
+            int umur = Integer.parseInt(fieldUmur.getText());
+            String noHp = fieldPhone.getText();
+            String alamat = fieldAddress.getText();
+
+            GuestController.addNewGuest(password, nama, umur, email, noHp, alamat);
+            UserType userType = UserController.login(email, rawPassword);
+            frame.dispose();
+            switch (userType) {
+                case ADMIN:
+                    new AdminMainMenu();
+                    break;
+                case GUEST:
+                    new GuestMainMenu();
+                    break;
+                case STAFF:
+                    new StaffMainMenu();
+                    break;
+            }
         });
 
         centerPanel.add(Box.createVerticalStrut(30));
@@ -81,7 +161,7 @@ public class GuestRegisterView {
         });
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        frame.add(mainPanel);
+        frame.addComponent(mainPanel);
         frame.showFrame();
     }
 }

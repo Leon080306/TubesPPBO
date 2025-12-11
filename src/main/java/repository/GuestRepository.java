@@ -1,6 +1,7 @@
 package repository;
 
 import models.enums.MembershipLevel;
+import models.enums.UserType;
 import utils.Database;
 import utils.GenerateUUID;
 
@@ -10,10 +11,10 @@ import java.sql.PreparedStatement;
 public class GuestRepository {
     private static final Connection con = Database.connect();
 
-    public static boolean addGuest(String password, String name, int umur, String email, String phone, String address, String type) {
+    public static boolean addGuest(String password, String name, int umur, String email, String phone, String address) {
         try {
-            String uuid = UserRepository.addUser(password, name, umur, email, phone, address, type);
-            PreparedStatement insertGuest = con.prepareStatement("INSERT INTO guest (guestid, membershipLevel, points, userid) VALUES (?, ?, ?, ?)");
+            String uuid = UserRepository.addUser(password, name, umur, email, phone, address, UserType.GUEST);
+            PreparedStatement insertGuest = con.prepareStatement("INSERT INTO guest (guestid, membershipLevel, points, userid) VALUES (?, cast(? as membershiplevel_type), ?, ?)");
             insertGuest.setString(1, GenerateUUID.generateUUID());
             insertGuest.setString(2, MembershipLevel.REGULAR.name());
             insertGuest.setInt(3, 0);

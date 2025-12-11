@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+    private JPanel contentPanel;
+
     public MainFrame() {
         setTitle("Hotel Harapan Bangsa Management System");
 
@@ -16,8 +18,21 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         createMenuBar();
-
         setLayout(new BorderLayout());
+
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    public void addComponent(Component component) {
+        contentPanel.add(component);
     }
 
     public void showFrame() {
@@ -40,7 +55,7 @@ public class MainFrame extends JFrame {
         setJMenuBar(menuBar);
     }
 
-    private void showDialog(String title, String message) {
+    public void showDialog(String title, String message) {
         JDialog dialog = new JDialog(this, title, true);
         dialog.setSize(300, 150);
 
@@ -57,8 +72,9 @@ public class MainFrame extends JFrame {
 
         JButton okButton = new JButton("OK");
         okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         panel.add(okButton);
+
+        okButton.addActionListener(e -> dialog.dispose());
 
         dialog.add(panel);
         dialog.setLocationRelativeTo(this);

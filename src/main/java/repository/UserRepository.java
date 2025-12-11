@@ -7,6 +7,7 @@ import models.Staff;
 import models.Users;
 import models.enums.Department;
 import models.enums.MembershipLevel;
+import models.enums.UserType;
 import utils.Database;
 import utils.GenerateUUID;
 import utils.PasswordHashing;
@@ -85,16 +86,16 @@ public class UserRepository {
         return null;
     }
 
-    public static String addUser(String password, String name, int umur, String email, String phone, String address, String type) {
+    public static String addUser(String password, String name, int umur, String email, String phone, String address, UserType type) {
         try {
-            PreparedStatement insertPrepUser = con.prepareStatement("INSERT INTO users (password, nama, umur, email, phone, address, type, userid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement insertPrepUser = con.prepareStatement("INSERT INTO users (password, nama, umur, email, phone, address, type, userid) VALUES (?, ?, ?, ?, ?, ?, cast(? as user_type), ?)");
             insertPrepUser.setString(1, password);
             insertPrepUser.setString(2, name);
             insertPrepUser.setInt(3, umur);
             insertPrepUser.setString(4, email);
             insertPrepUser.setString(5, phone);
             insertPrepUser.setString(6, address);
-            insertPrepUser.setString(7, type);
+            insertPrepUser.setString(7, type.name());
             String uuid = GenerateUUID.generateUUID();
             insertPrepUser.setString(8, uuid);
             insertPrepUser.executeUpdate();

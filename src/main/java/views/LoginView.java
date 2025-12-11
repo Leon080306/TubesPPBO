@@ -47,10 +47,10 @@ public class LoginView {
 
         centerPanel.add(Box.createVerticalStrut(5));
 
-        JTextField textField = new JTextField(20);
-        textField.setMaximumSize(new Dimension(300, 30));
-        textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(textField);
+        JTextField emailField = new JTextField(20);
+        emailField.setMaximumSize(new Dimension(300, 30));
+        emailField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(emailField);
 
         centerPanel.add(Box.createVerticalStrut(20));
 
@@ -73,22 +73,14 @@ public class LoginView {
         centerPanel.add(loginBtn);
 
         loginBtn.addActionListener(e -> {
-            String email = textField.getText();
+            String email = emailField.getText();
             String password = new String(passwordField.getPassword());
-            userType = userController.login(email, password);
-            switch (userType) {
-                case null:
-                    showDialog("Error", "Invalid email or password");
-                    break;
-                case ADMIN:
-                    showDialog("Success", "Login successful");
-                    break;
-                case GUEST:
-                    showDialog("Success", "Login successful");
-                    break;
-                case STAFF:
-                    showDialog("Success", "Login successful");
-                    break;
+            userType = UserController.login(email, password);
+            if(userType == null) {
+                showDialog("Login Failed", "Invalid email or password");
+            }
+            else {
+                showDialog("Login Successful", "Login Successful!");
             }
         });
 
@@ -105,7 +97,7 @@ public class LoginView {
         });
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        frame.add(mainPanel);
+        frame.addComponent(mainPanel);
         frame.showFrame();
     }
 
@@ -130,7 +122,7 @@ public class LoginView {
             dialog.dispose();
             if (userType != null) {
                 frame.dispose();
-                navigateMenu();
+                navigateMenu(userType);
             }
         });
 
@@ -141,7 +133,7 @@ public class LoginView {
         dialog.setVisible(true);
     }
 
-    private void navigateMenu() {
+    private void navigateMenu(UserType userType) {
         switch (userType) {
             case ADMIN:
                 new AdminMainMenu();
