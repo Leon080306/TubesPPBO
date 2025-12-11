@@ -1,5 +1,6 @@
 package models;
 
+import controllers.BookingControllers;
 import models.enums.PaymentStatus;
 import models.enums.PaymentType;
 
@@ -12,6 +13,8 @@ public abstract class Payment {
     private LocalDateTime paymentDate;
     private PaymentType paymentType;
     private PaymentStatus paymentStatus;
+    private String guestID;
+    private Booking booking;
 
     public Payment(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus) {
         this.paymentID = paymentID;

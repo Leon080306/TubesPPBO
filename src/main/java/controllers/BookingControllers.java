@@ -4,6 +4,7 @@ import exceptions.NoResultsFound;
 import models.Booking;
 import repository.BookingRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class BookingControllers {
@@ -21,5 +22,11 @@ public class BookingControllers {
         return bookingRepository.getBooking(guestID);
     }
 
+    public void addBooking (String guestID, String roomID, String checkIn, String checkOut,int guestTotal){
+        bookingRepository.addBooking(guestID, roomID, checkIn, checkOut, guestTotal);
+    }
+
+//    public Booking addBooking (String roomID, String checkIn, String checkOut){
+//    }
 
 }
