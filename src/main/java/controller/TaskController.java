@@ -49,8 +49,8 @@ public class TaskController {
         return false;
     }
 
-    public boolean addExtraSevices(String title, String description, String bookingID, LocalDateTime deadline, Department department){
-        if (taskRepository.addExtraSevices(title, description, bookingID, deadline, department)) {
+    public boolean addExtraSevices(String title, String description, String bookingID, LocalDateTime deadline, Department department, double price){
+        if (taskRepository.addExtraSevices(title, description, bookingID, deadline, department, price)) {
             return true;
         }
         return false;

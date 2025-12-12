@@ -127,8 +127,8 @@ public class TaskRepository {
     }
 
     //add extraservice
-    public boolean addExtraSevices(String title, String description, String bookingID, LocalDateTime deadline, Department department){
-        String sqlInsert = "INSERT INTO task(taskid, shiftid, bookingid, title, description, status, deadline, completedat) VALUES (?, ?, ?, ?,?, 'ASSIGNED', ?, NULL)";
+    public boolean addExtraSevices(String title, String description, String bookingID, LocalDateTime deadline, Department department, double price){
+        String sqlInsert = "INSERT INTO task(taskid, shiftid, bookingid, title, description, status, deadline, completedat, price) VALUES (?, ?, ?, ?,?, 'ASSIGNED', ?, NULL, ?)";
         Random random = new Random();
         try {
             List<Staff> listStaffDepartment = getStaff(department);
@@ -141,6 +141,7 @@ public class TaskRepository {
             pstmtInsert.setString(4, title);
             pstmtInsert.setString(5, description);
             pstmtInsert.setTimestamp(6, Timestamp.valueOf(deadline));
+            pstmtInsert.setDouble(7, price);
 
             pstmtInsert.executeUpdate();
             return true;

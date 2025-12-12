@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -57,7 +59,7 @@ public class ExtraServicesView {
 
         panelGuest.add(Box.createVerticalStrut(40));
 
-        JButton buttonAddTask = new JButton("Add Task");
+        JButton buttonAddTask = new JButton("Add Extra Services");
         buttonAddTask.setFont(new Font("SansSerif", Font.BOLD, 14));
         buttonAddTask.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonAddTask.setFocusPainted(false);
@@ -80,7 +82,13 @@ public class ExtraServicesView {
         panelExtraService.setBorder(new EmptyBorder(20, 20, 20, 20));
         panelExtraService.add(Box.createVerticalGlue());
 
-        JComboBox<Department> listDepartment = new JComboBox<>(Department.values());
+        JLabel labelDept = new JLabel("Department");
+        labelDept.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelDept.setFont(new Font("SansSerif", Font.BOLD, 17));
+        panelExtraService.add(labelDept);
+
+        Department[] filteredDepartment = {Department.FOOD,Department.CLEANING};
+        JComboBox<Department> listDepartment = new JComboBox<>(filteredDepartment);
         listDepartment.setMaximumSize(new Dimension(300, 30));
         panelExtraService.add(listDepartment);
 
@@ -91,9 +99,12 @@ public class ExtraServicesView {
         labelTitle.setFont(new Font("SansSerif", Font.BOLD, 17));
         panelExtraService.add(labelTitle);
 
+        panelExtraService.add(Box.createVerticalStrut(10));
+        JComboBox<String> listTitle = new JComboBox<>();
+        listTitle.setMaximumSize(new Dimension(300, 30));
+        panelExtraService.add(listTitle);
 
         panelExtraService.add(Box.createVerticalStrut(10));
-
         JLabel labelDescription = new JLabel("Service Description");
         labelDescription.setAlignmentX(Component.CENTER_ALIGNMENT);
         labelDescription.setFont(new Font("SansSerif", Font.BOLD, 17));
@@ -104,6 +115,69 @@ public class ExtraServicesView {
         JTextField fieldDescription = new JTextField(15);
         fieldDescription.setMaximumSize(new Dimension(300, 30));
         panelExtraService.add(fieldDescription);
+
+        panelExtraService.add(Box.createVerticalStrut(10));
+
+        JLabel labelPrice = new JLabel("Price");
+        labelPrice.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelPrice.setFont(new Font("SansSerif", Font.BOLD, 17));
+        panelExtraService.add(labelPrice);
+
+        panelExtraService.add(Box.createVerticalStrut(10));
+
+        JTextField fieldPrice = new JTextField(15);
+        fieldPrice.setMaximumSize(new Dimension(300, 30));
+        fieldPrice.setEditable(false);
+        panelExtraService.add(fieldPrice);
+
+
+        Runnable updateMenu = () -> {
+            Department selectedDept = (Department) listDepartment.getSelectedItem();
+            listTitle.removeAllItems();
+            if (selectedDept.equals(Department.FOOD)) {
+                listTitle.addItem("Fried Rice Special");
+                listTitle.addItem("Wagyu Steak");
+                listTitle.addItem("Orange Juice");
+            } else if (selectedDept.equals(Department.CLEANING)) {
+                listTitle.addItem("Laundry 1kg");
+                listTitle.addItem("Shoe Polish");
+                listTitle.addItem("Room Deep Cleaning");
+            }
+        };
+        updateMenu.run();
+        listDepartment.addActionListener(e -> updateMenu.run());
+
+        listTitle.addActionListener(e -> {
+            String selectedMenu = (String) listTitle.getSelectedItem();
+            if (selectedMenu != null) {
+                double price = 0;
+
+                switch (selectedMenu) {
+                    case "Fried Rice Special":
+                        price = 45000;
+                        break;
+                    case "Wagyu Steak":
+                        price = 150000;
+                        break;
+                    case "Orange Juice":
+                        price = 30000;
+                        break;
+                    case "Laundry 1kg":
+                        price = 12000;
+                        break;
+                    case "Shoe Polish":
+                        price = 100000;
+                        break;
+                    case "Room Deep Cleaning":
+                        price = 100000;
+                        break;
+                
+                    default:
+                        break;
+                }
+                fieldPrice.setText(String.valueOf(price));
+            }
+        });
 
         panelExtraService.add(Box.createVerticalStrut(10));
 
@@ -124,7 +198,25 @@ public class ExtraServicesView {
         buttonAddExtraServ.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonAddExtraServ.setFocusPainted(false);
         buttonAddExtraServ.addActionListener(e -> {
+            Department selectedDepartment = (Department) listDepartment.getSelectedItem();
+            String title = (String) listTitle.getSelectedItem();
+            double price = Double.parseDouble(fieldPrice.getText());
+            String description = fieldDescription.getText();
+            DateTimeFormatter formatDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String deadlineInput = fieldDeadline.getText();
+            LocalDateTime deadline = LocalDateTime.parse(deadlineInput, formatDateTime);
 
+            if (taskController.addExtraSevices(title, description, deadlineInput, deadline, selectedDepartment, price)) {
+                showDialog(frameExtraSevice, "Success", "Order received. Please wait a moment", () -> {
+                    frameExtraSevice.dispose();
+                    renderExtraServicesView();
+                });
+            } else {
+                showDialog(frameExtraSevice, "Error", "Failed Order", () -> {
+                    frameExtraSevice.dispose();
+                    renderExtraServicesView();
+                });
+            }
         });
 
         panelExtraService.add(Box.createVerticalStrut(15));
