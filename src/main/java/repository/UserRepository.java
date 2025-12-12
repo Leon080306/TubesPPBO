@@ -105,4 +105,24 @@ public class UserRepository {
             return null;
         }
     }
+
+    public static boolean updateUserData(String password, String nama, int umur, String email, String phone, String address, UserType type, String userId) {
+        try {
+            PreparedStatement updatePrepUser = con.prepareStatement("UPDATE users SET password = ?, name = ?, umur = ?, email = ?, phone = ?, address = ?, type = cast(? as user_type) WHERE userid = ?");
+            updatePrepUser.setString(1, password);
+            updatePrepUser.setString(2, nama);
+            updatePrepUser.setInt(3, umur);
+            updatePrepUser.setString(4, email);
+            updatePrepUser.setString(5, phone);
+            updatePrepUser.setString(6, address);
+            updatePrepUser.setString(7, type.name());
+            updatePrepUser.setString(8, userId);
+            updatePrepUser.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

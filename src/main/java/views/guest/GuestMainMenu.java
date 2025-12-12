@@ -8,7 +8,7 @@ public class GuestMainMenu {
     MainFrame frame;
 
     public GuestMainMenu() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
         renderAdminMainMenu();
     }
 

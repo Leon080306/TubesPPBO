@@ -9,7 +9,7 @@ public class AdminMainMenu {
     MainFrame frame;
 
     public AdminMainMenu() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
         renderAdminMainMenu();
     }
 

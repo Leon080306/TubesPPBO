@@ -19,7 +19,7 @@ public class GuestRegisterView {
     }
 
     private void renderSignUpView() {
-        frame = new MainFrame();
+        frame = new MainFrame(false);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 

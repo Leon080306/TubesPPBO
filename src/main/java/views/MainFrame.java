@@ -5,8 +5,11 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
     private JPanel contentPanel;
+    private boolean isLoggedIn;
 
-    public MainFrame() {
+    public MainFrame(boolean isLoggedin) {
+        this.isLoggedIn = isLoggedin;
+
         setTitle("Hotel Harapan Bangsa Management System");
 
         int width = 800;
@@ -40,19 +43,30 @@ public class MainFrame extends JFrame {
     }
 
     private void createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
+        if(isLoggedIn) {
+            JMenuBar menuBar = new JMenuBar();
+            JMenu fileMenu = new JMenu("Menu");
+            JMenuItem logoutbutton = new JMenuItem("Logout");
 
-        JMenu fileMenu = new JMenu("Menu");
-        JMenuItem exitItem = new JMenuItem("Logout");
+            logoutbutton.addActionListener(e -> {
+                dispose();
+                new LoginView();
+            });
 
-        exitItem.addActionListener(e -> {
-            dispose();
-            new LoginView();
-        });
+            fileMenu.add(logoutbutton);
 
-        fileMenu.add(exitItem);
-        menuBar.add(fileMenu);
-        setJMenuBar(menuBar);
+            JMenuItem editProfile = new JMenuItem("Edit Profile");
+
+            editProfile.addActionListener(e -> {
+                dispose();
+                new EditProfileMenu();
+            });
+
+            fileMenu.add(editProfile);
+
+            menuBar.add(fileMenu);
+            setJMenuBar(menuBar);
+        }
     }
 
     public void showDialog(String title, String message) {

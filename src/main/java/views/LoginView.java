@@ -20,7 +20,7 @@ public class LoginView {
     }
 
     private void renderLoginView() {
-        frame = new MainFrame();
+        frame = new MainFrame(false);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
