@@ -130,8 +130,7 @@ public class TaskView {
         buttonAddTask.setFont(new Font("SansSerif", Font.BOLD, 14));
         buttonAddTask.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonAddTask.setFocusPainted(false);
-        buttonAddTask.setMaximumSize(new Dimension(250, 45));
-        buttonAddTask.setPreferredSize(new Dimension(250, 45));
+        buttonAddTask.setMaximumSize(new Dimension(140, 25));
         buttonAddTask.addActionListener(e -> {
             String shiftId = fieldShiftId.getText();
             String title = fieldTitle.getText();
@@ -150,7 +149,11 @@ public class TaskView {
                 showDialog(frameAddTaskAdmin, "Error", "Add Task Error", null);
             }
         });
+
+        panelAdminAddTask.add(Box.createVerticalStrut(15));
         panelAdminAddTask.add(buttonAddTask);
+        panelAdminAddTask.add(Box.createVerticalStrut(15));
+        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> renderTaskViewAdmin()));
 
         frameAddTaskAdmin.add(panelAdminAddTask);
     }
@@ -288,6 +291,8 @@ public class TaskView {
         });
 
         panelViewTask.add(buttonSearch);
+        panelViewTask.add(Box.createVerticalStrut(15));
+        panelViewTask.add(buttonBack(frameViewTask, () -> renderTaskViewStaff()));
         panelViewTask.add(Box.createVerticalGlue());
         frameViewTask.add(panelViewTask);
         frameViewTask.setVisible(true);
@@ -334,6 +339,8 @@ public class TaskView {
             }
 
         });
+        panelDoSpesificTask.add(Box.createVerticalStrut(15));
+        panelDoSpesificTask.add(buttonBack(frameDoSpesificTask, () -> renderTaskViewStaff()));
         panelDoSpesificTask.add(Box.createVerticalGlue());
         frameDoSpesificTask.add(panelDoSpesificTask);
         frameDoSpesificTask.setVisible(true);
@@ -405,6 +412,8 @@ public class TaskView {
                 
             }
         });
+        panelDoAllTask.add(Box.createVerticalStrut(15));
+        panelDoAllTask.add(buttonBack(frameDoAllTask, () -> renderTaskViewStaff()));
         panelDoAllTask.add(Box.createVerticalGlue());
         frameDoAllTask.add(panelDoAllTask);
     }
@@ -457,10 +466,26 @@ public class TaskView {
             }
 
         });
+        panelUpdateTaskStatus.add(Box.createVerticalStrut(15));
+        panelUpdateTaskStatus.add(buttonBack(frameUpdateTaskStatus, () -> renderTaskViewStaff()));
         panelUpdateTaskStatus.add(Box.createVerticalGlue());
         frameUpdateTaskStatus.add(panelUpdateTaskStatus);
         frameUpdateTaskStatus.setVisible(true);
 
+    }
+
+    private JButton buttonBack(JFrame mainFrame, Runnable nextAction){
+        JButton buttonBack = new JButton("Back to Main Menu");
+        buttonBack.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonBack.addActionListener(e -> {
+            mainFrame.dispose();
+            
+            if (nextAction != null) {
+                nextAction.run();
+            }
+        });
+
+        return buttonBack;
     }
 
     private void showDialog(JFrame mainFrame, String title, String message, Runnable nextAction){

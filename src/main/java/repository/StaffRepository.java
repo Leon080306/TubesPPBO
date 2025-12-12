@@ -11,9 +11,6 @@ import utils.Database;
 
 public class StaffRepository {
     public static Connection conn = Database.connect();
-    
-    //String userId, String password, String nama, int umur, String email, String phone, String address, 
-    // String employeeID, double salary,  Department department
 
     public Staff findStaffByStaffId(String staffId){
         Staff staff = null;

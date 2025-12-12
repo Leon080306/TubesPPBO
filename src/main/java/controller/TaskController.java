@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
  
 import models.Task;
+import models.enums.Department;
 import models.enums.TaskStatus;
 import repository.TaskRepository;
 
@@ -43,6 +44,13 @@ public class TaskController {
 
     public boolean updateTaskStatus(String taskId, TaskStatus status){
         if (taskRepository.updateTaskStatus(taskId, status)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addExtraSevices(String title, String description, String bookingID, LocalDateTime deadline, Department department){
+        if (taskRepository.addExtraSevices(title, description, bookingID, deadline, department)) {
             return true;
         }
         return false;
