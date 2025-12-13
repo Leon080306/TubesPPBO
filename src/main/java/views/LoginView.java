@@ -1,7 +1,10 @@
 package views;
 
 import controller.UserController;
+import models.Users;
 import models.enums.UserType;
+import moduls.GlobalVariables;
+import repository.UserRepository;
 import views.admin.AdminMainMenu;
 import views.guest.GuestMainMenu;
 import views.staff.StaffMainMenu;
@@ -80,6 +83,8 @@ public class LoginView {
                 showDialog("Login Failed", "Invalid email or password");
             }
             else {
+                //set global variable
+                GlobalVariables.setUser(UserController.getUserDataByEmail(email));
                 showDialog("Login Successful", "Login Successful!");
             }
         });

@@ -3,6 +3,7 @@ package views;
 import controller.GuestController;
 import controller.UserController;
 import models.enums.UserType;
+import moduls.GlobalVariables;
 import utils.PasswordHashing;
 import views.admin.AdminMainMenu;
 import views.guest.GuestMainMenu;
@@ -133,6 +134,8 @@ public class GuestRegisterView {
             String alamat = fieldAddress.getText();
 
             GuestController.addNewGuest(password, nama, umur, email, noHp, alamat);
+            //set global variable
+            GlobalVariables.setUser(UserController.getUserDataByEmail(email));
             UserType userType = UserController.login(email, rawPassword);
             frame.dispose();
             switch (userType) {

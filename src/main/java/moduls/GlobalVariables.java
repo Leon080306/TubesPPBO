@@ -1,15 +1,20 @@
 package moduls;
 
+import controller.UserController;
 import models.Users;
 
 public class GlobalVariables {
     private static Users user;
 
-    public Users getUser(){
-        return this.user;
+    public static Users getUser(){
+        return user;
     }
 
-    public void setUser(Users user){
-        this.user = user;
+    public static void setUser(Users userData){
+        user = userData;
+    }
+
+    public static void refreshUserData() {
+        user = UserController.getUserDataByUserId(user.getUserID());
     }
 }

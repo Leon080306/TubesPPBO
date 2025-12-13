@@ -1,5 +1,7 @@
 package views.guest;
 
+import models.Guest;
+import moduls.GlobalVariables;
 import views.MainFrame;
 
 import javax.swing.*;

@@ -7,12 +7,45 @@ import java.sql.SQLException;
 
 import models.Staff;
 import models.enums.Department;
+import models.enums.MembershipLevel;
+import models.enums.UserType;
 import utils.Database;
+import utils.GenerateUUID;
 
 public class StaffRepository {
     public static Connection conn = Database.connect();
 
-    public Staff findStaffByStaffId(String staffId){
+    public static boolean addStaff(String password, String name, int umur, String email, String phone, String address, UserType userType, double salary, Department department) {
+        try {
+            String uuid = UserRepository.addUser(password, name, umur, email, phone, address, userType);
+            PreparedStatement insertStaff = conn.prepareStatement("INSERT INTO staff (employeeid, userid, salary, department) VALUES (?, ?, ?, cast(? as department_type))");
+            insertStaff.setString(1, GenerateUUID.generateUUID());
+            insertStaff.setString(2, uuid);
+            insertStaff.setDouble(3, salary);
+            insertStaff.setString(4, department.name());
+            insertStaff.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateStaffData(double salary, Department department, String userId) {
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE staff SET salary = ?, department = cast(? as department_type) WHERE userid = ?");
+            pstmt.setDouble(1, salary);
+            pstmt.setString(2, department.name());
+            pstmt.setString(3, userId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static Staff findStaffByStaffId(String staffId){
         Staff staff = null;
         String sql = "SELECT st.*, u.userid, u.nama, u.password, u.email, u.umur, u.phone, u.address FROM users u INNER JOIN staff st ON u.userid = st.userid WHERE st.userid = ?";
         try {
