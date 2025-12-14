@@ -10,17 +10,17 @@ public class Booking {
     private LocalDateTime checkOutDate;
     private BookingStatus bookingStatus;
     private Room room;
-    private Payment payment;
+    private Guest guest;
     private int numberOfGuests;
 
-    public Booking(String bookingID, LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, Payment payment, int numberOfGuests) {
+    public Booking(String bookingID, LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, int numberOfGuests, Guest guest) {
         this.bookingID = bookingID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.bookingStatus = bookingStatus;
         this.room = room;
-        this.payment = payment;
         this.numberOfGuests = numberOfGuests;
+        this.guest = guest;
     }
 
     public String getBookingID() {
@@ -52,12 +52,6 @@ public class Booking {
     }
     public void setRoom(Room room) {
         this.room = room;
-    }
-    public Payment getPayment() {
-        return payment;
-    }
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
     public int getNumberOfGuests() {
         return numberOfGuests;

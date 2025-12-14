@@ -34,10 +34,11 @@ public class AddUserView {
         else {
             textTitle = "Add New Guest";
         }
-        JLabel title = new JLabel(textTitle);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel(textTitle, SwingConstants.CENTER);
         title.setFont(new Font("Poppins", Font.BOLD, 32));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(title);
+        titlePanel.add(title, BorderLayout.CENTER);
+        mainPanel.add(titlePanel);
 
         //Fields panel
         JPanel fieldsPanel = new JPanel();

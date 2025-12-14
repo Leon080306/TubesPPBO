@@ -1,9 +1,15 @@
 package controller;
 
+import models.Guest;
 import models.enums.MembershipLevel;
 import repository.GuestRepository;
 
 public class GuestController {
+
+    public static Guest getGuestByGuestId(String guestId) {
+        return GuestRepository.getGuestByGuestId(guestId);
+    }
+
     public static void updateGuestData(int points, MembershipLevel membershipLevel, String userId) {
         GuestRepository.udpateGuestData(points, membershipLevel, userId);
     }

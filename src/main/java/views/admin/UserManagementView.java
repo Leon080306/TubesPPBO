@@ -22,16 +22,26 @@ public class UserManagementView {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("USER MANAGEMENT");
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("USER MANAGEMENT", SwingConstants.CENTER);
         title.setFont(new Font("Poppins", Font.BOLD, 32));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(Box.createVerticalStrut(20));
-        mainPanel.add(title);
+        titlePanel.add(title, BorderLayout.CENTER);
+        mainPanel.add(titlePanel);
         mainPanel.add(Box.createVerticalStrut(10));
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
         buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        //Back button
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new AdminMainMenu();
+        });
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonsPanel.add(backButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 
         //add new guest button
         JButton addGuestButton = new JButton("Add New Guest");

@@ -17,10 +17,12 @@ public class AdminMainMenu {
     private void renderAdminMainMenu() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        JLabel title = new JLabel("ADMIN MAIN MENU");
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("ADMIN MENU", SwingConstants.CENTER);
         title.setFont(new Font("Poppins", Font.BOLD, 32));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(title);
+        titlePanel.add(title, BorderLayout.CENTER);
+        titlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Add this line
+        mainPanel.add(titlePanel);
         mainPanel.add(Box.createVerticalStrut(50));
 
         JButton userManagementButton = new JButton("User Management");
@@ -29,8 +31,17 @@ public class AdminMainMenu {
             frame.dispose();
             new UserManagementView();
         });
-
         mainPanel.add(userManagementButton);
+        mainPanel.add(Box.createVerticalStrut(20));
+
+        JButton roomManagementButton = new JButton("Room Management");
+        roomManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        roomManagementButton.addActionListener(e -> {
+            frame.dispose();
+            new RoomManagementView();
+        });
+        mainPanel.add(roomManagementButton);
+        mainPanel.add(Box.createVerticalStrut(20));
 
         frame.addComponent(mainPanel);
         frame.setVisible(true);

@@ -22,6 +22,19 @@ import java.sql.SQLException;
 public class GuestRepository {
     private static final Connection con = Database.connect();
 
+    public static Guest getGuestByGuestId(String guestId) {
+        try {
+            PreparedStatement psmt = con.prepareStatement("SELECT * FROM guest WHERE guestid = ?");
+            psmt.setString(1, guestId);
+            ResultSet rs = psmt.executeQuery();
+            rs.next();
+            return (Guest) UserController.getUserDataByUserId(rs.getString("userid"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static boolean udpateGuestData(int points, MembershipLevel membershipLevel, String userId) {
         try {
             PreparedStatement pstmt = con.prepareStatement("UPDATE guest SET membershiplevel = cast(? as  membershiplevel_type), points = ? WHERE userid = ?");

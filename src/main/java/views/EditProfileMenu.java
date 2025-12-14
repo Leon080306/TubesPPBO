@@ -53,10 +53,11 @@ public class EditProfileMenu {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
         //"EDIT PROFILE" title
-        JLabel title = new JLabel("EDIT PROFILE");
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("EDIT PROFILE", SwingConstants.CENTER);
         title.setFont(new Font("Poppins", Font.BOLD, 32));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(title);
+        titlePanel.add(title, BorderLayout.CENTER);
+        centerPanel.add(titlePanel);
 
         //Fields panel
         JPanel fieldsPanel = new JPanel();
@@ -323,7 +324,6 @@ public class EditProfileMenu {
                 }
                 else {
                     if(userData.getUserType() == UserType.GUEST) {
-                        System.out.println("UPDATING GUEST DATA");
                         GuestController.updateGuestData(Integer.parseInt(pointsField.getText()), (MembershipLevel) membershipField.getSelectedItem(), userData.getUserID());
                     }
                     else if(userData.getUserType() == UserType.STAFF) {
