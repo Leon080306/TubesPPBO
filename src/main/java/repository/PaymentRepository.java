@@ -58,11 +58,12 @@ public class PaymentRepository {
     public String addPayment(String bookingID, String guestID){
         String paymentID = new GeneratedUUID().toString();
         try{
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,bookingid,guestid) VALUES(?,?,'CASH','PENDING',?,?)");
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,bookingid,guestid,amountpaid) " +
+            "SELECT ?,?,'CASH','PENDING',b.bookingid, b.guestid, r.roomprice + SUM(t.price) FROM booking b JOIN room r ON b.roomid = r.roomid JOIN task t ON t.bookingid = b.bookingid WHERE b.bookingid = ? " +
+            "GROUP BY b.bookingid, b.guestid, r.roomprice;");
             stmt.setString(1,paymentID);
             stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             stmt.setString(3,bookingID);
-            stmt.setString(4,guestID);
             stmt.executeUpdate();
 
             return paymentID;
@@ -71,7 +72,7 @@ public class PaymentRepository {
         }
     }
 
-    public void addCashPayment(String paymentID, double nominal, double tips, String guestID, String bookingID) throws UnderPaymentHandling {
+    public void cashPayment(String paymentID, double nominal, double tips, String guestID, String bookingID) throws UnderPaymentHandling {
 
         try {
             PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,creditcardnumberpin,amountpaid,ewalletprovider,ewalletaccountid,bookingid,tips,guestid) VALUES(?,?,?,?,?,?,?,?,?,?,?);");

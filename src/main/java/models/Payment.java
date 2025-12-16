@@ -15,13 +15,15 @@ public abstract class Payment {
     private PaymentStatus paymentStatus;
     private String guestID;
     private Booking booking;
+    private ExtraServices extraService;
 
-    public Payment(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus) {
+    public Payment(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus, ExtraServices extraService) {
         this.paymentID = paymentID;
         this.totalPrice = totalPrice;
         this.paymentDate = paymentDate;
         this.paymentType = paymentType;
         this.paymentStatus = paymentStatus;
+        this.extraService = extraService;
     }
 
     public abstract boolean processPayment();
@@ -55,5 +57,11 @@ public abstract class Payment {
     }
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+    public ExtraServices getExtraService() {
+        return extraService;
+    }
+    public void setExtraService(ExtraServices extraService) {
+        this.extraService = extraService;
     }
 }

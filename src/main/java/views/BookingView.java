@@ -33,10 +33,10 @@ public class BookingView {
         centralPanel.setBackground(Color.WHITE);
         centralPanel.setBackground(Color.WHITE);
 
-        JButton addBookingBtn = new JButton("Add Booking");
-        addBookingBtn.setFont(new Font("Poppins", Font.BOLD, 20));
-        addBookingBtn.addActionListener(e -> openAddBookingForm());
-        mainPanel.add(addBookingBtn, BorderLayout.SOUTH);
+//        JButton addBookingBtn = new JButton("Add Booking");
+//        addBookingBtn.setFont(new Font("Poppins", Font.BOLD, 20));
+//        addBookingBtn.addActionListener(e -> openAddBookingForm());
+//        mainPanel.add(addBookingBtn, BorderLayout.SOUTH);
 
 
         for (Booking b : bookings) {
@@ -70,63 +70,63 @@ public class BookingView {
 
     }
 
-    //AI
-    private void openAddBookingForm() {
-        JDialog dialog = new JDialog(frame, "Add Booking", true);
-        dialog.setSize(400, 400);
-        dialog.setLayout(new GridLayout(0, 2, 10, 10));
-
-        JTextField checkInField = new JTextField();
-        JTextField checkOutField = new JTextField();
-        JTextField guestField = new JTextField();
-        JTextField roomIdField = new JTextField();
-
-        dialog.add(new JLabel("Check-In (YYYY-MM-DD):"));
-        dialog.add(checkInField);
-
-        dialog.add(new JLabel("Check-Out (YYYY-MM-DD):"));
-        dialog.add(checkOutField);
-
-        dialog.add(new JLabel("Guests:"));
-        dialog.add(guestField);
-
-        dialog.add(new JLabel("Room ID:"));
-        dialog.add(roomIdField);
-
-        JButton saveBtn = new JButton("Save Booking");
-        saveBtn.addActionListener(e -> {
-            try {
-                bookingControllers.addBooking(
-                    "c3d7e5f6-3b6a-4e1f-8b3c-33333333cccc",
-                    roomIdField.getText(),
-                    checkInField.getText(),
-                    checkOutField.getText(),
-                    Integer.parseInt(guestField.getText())
-                );
-
-                dialog.dispose();// RELOAD UI
-                refreshBookings();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(dialog, "Error: " + ex.getMessage());
-            }
-        });
-
-        dialog.add(new JLabel());  // empty spacing
-        dialog.add(saveBtn);
-
-        dialog.setLocationRelativeTo(frame);
-        dialog.setVisible(true);
-    }
-
-    private void refreshBookings() {
-        try {
-            List<Booking> updated = bookingControllers.showAllBooking();
-            frame.dispose();
-            displayAllBookings(updated);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    //AI
+//    private void openAddBookingForm() {
+//        JDialog dialog = new JDialog(frame, "Add Booking", true);
+//        dialog.setSize(400, 400);
+//        dialog.setLayout(new GridLayout(0, 2, 10, 10));
+//
+//        JTextField checkInField = new JTextField();
+//        JTextField checkOutField = new JTextField();
+//        JTextField guestField = new JTextField();
+//        JTextField roomIdField = new JTextField();
+//
+//        dialog.add(new JLabel("Check-In (YYYY-MM-DD):"));
+//        dialog.add(checkInField);
+//
+//        dialog.add(new JLabel("Check-Out (YYYY-MM-DD):"));
+//        dialog.add(checkOutField);
+//
+//        dialog.add(new JLabel("Guests:"));
+//        dialog.add(guestField);
+//
+//        dialog.add(new JLabel("Room ID:"));
+//        dialog.add(roomIdField);
+//
+//        JButton saveBtn = new JButton("Save Booking");
+//        saveBtn.addActionListener(e -> {
+//            try {
+//                bookingControllers.addBooking(
+//                    "c3d7e5f6-3b6a-4e1f-8b3c-33333333cccc",
+//                    Integer.parseInt(roomIdField.getText()),
+//                    checkInField.getText(),
+//                    checkOutField.getText(),
+//                    Integer.parseInt(guestField.getText())
+//                );
+//
+//                dialog.dispose();// RELOAD UI
+//                refreshBookings();
+//            } catch (Exception ex) {
+//                JOptionPane.showMessageDialog(dialog, "Error: " + ex.getMessage());
+//            }
+//        });
+//
+//        dialog.add(new JLabel());  // empty spacing
+//        dialog.add(saveBtn);
+//
+//        dialog.setLocationRelativeTo(frame);
+//        dialog.setVisible(true);
+//    }
+//
+//    private void refreshBookings() {
+//        try {
+//            List<Booking> updated = bookingControllers.showAllBooking();
+//            frame.dispose();
+//            displayAllBookings(updated);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
