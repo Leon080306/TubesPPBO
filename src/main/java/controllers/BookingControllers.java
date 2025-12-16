@@ -15,7 +15,12 @@ public class BookingControllers {
     }
 
     public List<Booking> showAllBooking() throws NoResultsFound {
-        return bookingRepository.getAllBooking();
+        try{
+            return bookingRepository.getAllBooking();
+        } catch (NoResultsFound e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public Booking showBooking(String guestID) throws  NoResultsFound{
