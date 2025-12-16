@@ -24,7 +24,12 @@ public class BookingControllers {
     }
 
     public Booking showBooking(String guestID) throws  NoResultsFound{
-        return bookingRepository.getBooking(guestID);
+        try{
+            return bookingRepository.getBooking(guestID);
+        } catch (NoResultsFound e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void addBooking (String guestID, String roomID, String checkIn, String checkOut,int guestTotal){

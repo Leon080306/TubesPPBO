@@ -14,6 +14,11 @@ public class PaymentControllers {
     }
 
     public List<Payment> showPaymentHistory(String guestID) throws NoResultsFound {
-        return paymentRepository.getPaymentHistory(guestID);
+        try{
+            return paymentRepository.getPaymentHistory(guestID);
+        } catch (NoResultsFound e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
