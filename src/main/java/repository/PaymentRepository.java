@@ -2,12 +2,8 @@ package repository;
 
 import exceptions.NoResultsFound;
 import exceptions.UnderPaymentHandling;
-import models.Payment;
-import models.PaymentByCard;
-import models.PaymentByCash;
-import models.PaymentByEWallet;
-import models.enums.PaymentStatus;
-import models.enums.PaymentType;
+import models.*;
+import models.enums.*;
 import utils.Database;
 import utils.GeneratedUUID;
 
@@ -22,7 +18,7 @@ public class PaymentRepository {
     public List<Payment> getPaymentHistory(String guestId) throws NoResultsFound {
         List<Payment> paymentList = new ArrayList<>();
         try {
-            PreparedStatement stmt = con.prepareStatement("SELECT p.*, b. FROM payment WHERE guestid= ? ;");
+            PreparedStatement stmt = con.prepareStatement("SELECT p.*, t.*, r.*, b.* FROM payment p JOIN task t ON p.bookingid = t.bookingid JOIN booking b ON p.bookingid = b.bookingid JOIN room r ON b.roomid = r.roomid WHERE p.guestid= ? ;");
             stmt.setString(1, guestId);
             ResultSet result = stmt.executeQuery();
             if (!result.isBeforeFirst()) {
@@ -33,19 +29,38 @@ public class PaymentRepository {
                 PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
                 PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
                 String paymentID = result.getString("paymentid");
-                double totalPrice = result.getDouble("amountpaid");
+                double totalPrice = result.getDouble("amountpaid") + result.getDouble("price");
+                String roomID = result.getString("roomid");
+                RoomType roomType = RoomType.valueOf(result.getString("roomtype"));
+                Room room = new Room(roomID, result.getString("roomnumber"), roomType, result.getString("roomdescription"), result.getDouble("roomprice"));
                 LocalDateTime paymentDate = result.getTimestamp("paymentdate").toLocalDateTime();
-
+                Timestamp completedAt = result.getTimestamp("completedat");
+                LocalDateTime completedAtDate =
+                        completedAt != null ? completedAt.toLocalDateTime() : null;
+                Booking booking = new Booking(result.getString("bookingid"),
+                        result.getTimestamp("checkindate").toLocalDateTime(),
+                        result.getTimestamp("checkoutdate").toLocalDateTime(),
+                        BookingStatus.valueOf(result.getString("bookingstatus")),
+                        room,result.getInt("numberofguest")
+                );
+                ExtraServices extraServices = new ExtraServices(result.getString("taskid"),
+                        result.getString("title"),
+                        result.getString("description"),
+                        TaskStatus.valueOf(result.getString("status")),
+                        result.getTimestamp("deadline").toLocalDateTime(),
+                        completedAtDate,
+                        result.getDouble("price")
+                );
                 if (paymentType.name().equals("CARD")){
                     String creditCardNumber = result.getString("creditcardnumberpin");
-                    paymentList.add(new PaymentByCard(paymentID,totalPrice,paymentDate,paymentStatus,creditCardNumber));
+                    paymentList.add(new PaymentByCard(paymentID,totalPrice,paymentDate,paymentStatus, booking, extraServices, creditCardNumber));
                 } else if (paymentType.name().equals("CASH")) {
                     double tip = result.getDouble("tips");
-                    paymentList.add(new PaymentByCash(paymentID,totalPrice,paymentDate,paymentStatus,tip));
+                    paymentList.add(new PaymentByCash(paymentID,totalPrice,paymentDate,paymentStatus, booking, extraServices, tip));
                 } else{
                     String eWalletProvider = result.getString("ewalletprovider");
                     String eWalletAccountID = result.getString("ewalletaccountid");
-                    paymentList.add(new PaymentByEWallet(paymentID,totalPrice,paymentDate,paymentStatus,eWalletProvider,eWalletAccountID));
+                    paymentList.add(new PaymentByEWallet(paymentID,totalPrice,paymentDate,paymentStatus,booking, extraServices, eWalletProvider,eWalletAccountID));
                 }
 
             }

@@ -6,6 +6,7 @@ import models.enums.PaymentType;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public abstract class Payment {
     private String paymentID;
@@ -13,20 +14,20 @@ public abstract class Payment {
     private LocalDateTime paymentDate;
     private PaymentType paymentType;
     private PaymentStatus paymentStatus;
-    private String guestID;
     private Booking booking;
     private ExtraServices extraService;
 
-    public Payment(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus, ExtraServices extraService) {
+    public Payment(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentType paymentType, PaymentStatus paymentStatus, Booking booking, ExtraServices extraService) {
         this.paymentID = paymentID;
         this.totalPrice = totalPrice;
         this.paymentDate = paymentDate;
         this.paymentType = paymentType;
         this.paymentStatus = paymentStatus;
+        this.booking = booking;
         this.extraService = extraService;
     }
 
-    public abstract boolean processPayment();
+    public abstract boolean processPayment(String input);
 
     public String getPaymentID() {
         return paymentID;
@@ -64,4 +65,10 @@ public abstract class Payment {
     public void setExtraService(ExtraServices extraService) {
         this.extraService = extraService;
     }
+    public Booking getBooking(){return booking; }
+    public void setBooking(Booking booking){this.booking = booking; }
+
+    //for specific details
+    public abstract List<String> getDisplayDetails();
+
 }

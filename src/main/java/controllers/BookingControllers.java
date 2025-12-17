@@ -18,22 +18,12 @@ public class BookingControllers {
         paymentRepository = new PaymentRepository();
     }
 
-    public List<Booking> showAllBooking(){
-        try{
+    public List<Booking> showAllBooking() throws NoResultsFound{
             return bookingRepository.getAllBooking();
-        } catch (NoResultsFound e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
-    public Booking showBooking(String guestID){
-        try{
+    public Booking showBooking(String guestID) throws NoResultsFound{
             return bookingRepository.getBooking(guestID);
-        } catch (NoResultsFound e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     public void addBooking (String guestID, int roomnumber, String checkIn, String checkOut,int guestTotal){
