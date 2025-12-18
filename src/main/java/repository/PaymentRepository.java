@@ -5,6 +5,7 @@ import exceptions.UnderPaymentHandling;
 import models.*;
 import models.enums.*;
 import utils.Database;
+import utils.GenerateUUID;
 import utils.GeneratedUUID;
 
 import java.sql.*;
@@ -71,7 +72,7 @@ public class PaymentRepository {
     }
 
     public static void addPayment(String bookingID, String guestID){
-        String paymentID = new GeneratedUUID().toString();
+        String paymentID = GenerateUUID.generateUUID();
         try{
             PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,bookingid,guestid,amountpaid) " +
             "SELECT ?,?,'CASH','PENDING',b.bookingid, b.guestid, r.roomprice + SUM(t.price) FROM booking b JOIN room r ON b.roomid = r.roomid JOIN task t ON t.bookingid = b.bookingid WHERE b.bookingid = ? " +

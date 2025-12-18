@@ -11,6 +11,7 @@ import models.enums.BookingStatus;
 import models.enums.PaymentStatus;
 import models.enums.PaymentType;
 import models.enums.RoomType;
+import moduls.GlobalVariables;
 import utils.Database;
 import utils.GeneratedUUID;
 
@@ -129,24 +130,13 @@ public class BookingRepository {
 //            throw new RuntimeException(e);
 //        }
 //    }
-    public static boolean isOccupied(String roomNumber, String checkIn, String checkOut){
-
-        try{
-            LocalDateTime start = LocalDateTime.parse(checkIn, formatter);
-            LocalDateTime end = LocalDateTime.parse(checkOut, formatter);
-            PreparedStatement stmt = con.prepareStatement("SELECT r.* FROM booking b JOIN room r ON b.roomid = r.roomid WHERE r.roomnumber = ? AND b.checkindate < ? AND b.checkoutdate > ?");
-            stmt.setString(1,roomNumber);
-            stmt.setTimestamp(2, Timestamp.valueOf(start));
-            stmt.setTimestamp(3, Timestamp.valueOf(end));
-            ResultSet result = stmt.executeQuery();
-            return result.next();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static Booking addBooking(String guestID, String room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
         try{
+            Room selectedRoom = RoomController.getRoomByRoomNumber(room);
+            if (selectedRoom == null) {
+                throw new InvalidInput("Room " + room + " does not exist.");
+            }
+
             String bookID = GeneratedUUID.generateUUID();
             LocalDateTime checkInDate = LocalDateTime.parse(checkIn, formatter);
             LocalDateTime checkOutDate = LocalDateTime.parse(checkOut,formatter);
@@ -169,9 +159,9 @@ public class BookingRepository {
                     checkInDate,
                     checkOutDate,
                     BookingStatus.BOOKED,
-                    room,
+                    selectedRoom,
                     guestTotal
-            );;
+            );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -180,9 +170,11 @@ public class BookingRepository {
 
     public static boolean checkInBooking(String bookingID){
         try{
+            String roomID = GlobalVariables.getBooking().getRoom().getRoomID();
             PreparedStatement stmt = con.prepareStatement("UPDATE booking SET bookingstatus = 'CHECKED_IN' WHERE bookingid = ? AND checkindate <= CURRENT_TIMESTAMP" +
-                    "AND bookingstatus = 'BOOKED'");
+            " AND bookingstatus = 'BOOKED' AND roomid = ?");
             stmt.setString(1,bookingID);
+            stmt.setString(2,roomID);
             int rowAffected = stmt.executeUpdate();
             return rowAffected > 0;
         } catch (SQLException e) {

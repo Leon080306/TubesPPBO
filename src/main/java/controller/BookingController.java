@@ -35,17 +35,13 @@ public class BookingController {
 
     public static Booking addBooking (String guestID, String roomnumber, String checkIn, String checkOut,int guestTotal){
         try{
-            String bookID = BookingRepository.addBooking(guestID, roomnumber, checkIn, checkOut, guestTotal);
-            PaymentRepository.addPayment(bookID, guestID);
-            return bookID;
+            Booking booking = BookingRepository.addBooking(guestID, roomnumber, checkIn, checkOut, guestTotal);
+            PaymentRepository.addPayment(booking.getBookingID(), guestID);
+            return booking;
         } catch (InvalidInput e) {
             System.out.println(e.getMessage());
             return  null;
         }
-    }
-
-    public static boolean isOccupied (String roomNumber,String checkIn, String checkOut){
-        return BookingRepository.isOccupied(roomNumber,checkIn,checkOut);
     }
     public static List<Booking> getBookingByRoomId(String roomId) {
         return BookingRepository.getBookingByRoomId(roomId);

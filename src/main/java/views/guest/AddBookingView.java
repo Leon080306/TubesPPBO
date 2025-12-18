@@ -3,6 +3,7 @@ package views.guest;
 import com.sun.tools.javac.Main;
 import controller.BookingController;
 import controller.RoomController;
+import models.Booking;
 import models.Guest;
 import models.Room;
 import moduls.GlobalVariables;
@@ -132,9 +133,9 @@ public class AddBookingView {
                 return;
             }
             String selectedRoom = item.toString();
-            if (!BookingController.isOccupied((String) rooms.getSelectedItem() ,checkInField.getText(),checkOutField.getText())){
-                String bookingID = BookingController.addBooking(guest.getGuestID(),(String) selectedRoom,checkInField.getText(),checkOutField.getText(),Integer.parseInt(guestTotalField.getText()) );
-                GlobalVariables.setBooking(bookingID);
+            if (!RoomController.isOccupied(selectedRoom)){
+                Booking booking = BookingController.addBooking(guest.getGuestID(),(String) selectedRoom,checkInField.getText(),checkOutField.getText(),Integer.parseInt(guestTotalField.getText()) );
+                GlobalVariables.setBooking(booking);
             } else{
                 JOptionPane.showMessageDialog(frame, "Room is Occupied",
                         "Occupied", JOptionPane.INFORMATION_MESSAGE);

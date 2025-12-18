@@ -15,7 +15,6 @@ import static moduls.GlobalVariables.getUser;
 
 public class GuestBookingView {
     private MainFrame frame;
-    private Guest guest = (Guest) GlobalVariables.getUser();
     public GuestBookingView(){
         frame = new MainFrame(true);
         renderHistoryMenu();
@@ -29,6 +28,7 @@ public class GuestBookingView {
     }
 
     private void renderHistoryMenu(){
+        Guest guest = (Guest) GlobalVariables.getUser();
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 

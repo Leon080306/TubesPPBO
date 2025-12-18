@@ -42,7 +42,7 @@ public class GuestMainMenu {
         mainPanel.add(Box.createVerticalStrut(20));
 
         //CheckIn
-        JButton checkInButton = new JButton("Extra Services");
+        JButton checkInButton = new JButton("Check In");
         checkInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         checkInButton.addActionListener(e -> {
             BookingController.checkInBooking(GlobalVariables.getBooking().getBookingID());
