@@ -25,8 +25,7 @@ public class RoomRepository {
             insertRoom.setString(3, roomType.name());
             insertRoom.setString(4, roomDescription);
             insertRoom.setDouble(5, roomPrice);
-            insertRoom.executeUpdate();
-            return true;
+            return insertRoom.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -50,8 +49,7 @@ public class RoomRepository {
         try {
             PreparedStatement psmt = con.prepareStatement("DELETE FROM room WHERE roomid = ?");
             psmt.setString(1, roomId);
-            psmt.executeUpdate();
-            return true;
+            return psmt.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -66,8 +64,7 @@ public class RoomRepository {
             psmt.setString(3, roomDescription);
             psmt.setDouble(4, roomPrice);
             psmt.setString(5, roomId);
-            psmt.executeUpdate();
-            return true;
+            return psmt.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

@@ -31,9 +31,7 @@ public class TaskRepository {
             pstmt.setString(3, title);
             pstmt.setString(4, descriptionTask);
             pstmt.setTimestamp(5,Timestamp.valueOf(deadline));
-            
-            pstmt.executeUpdate();
-            return true;
+            return pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,16 +83,14 @@ public class TaskRepository {
                 pstmt.setString(1, status.name());
                 pstmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
                 pstmt.setString(3, taskId);
-                pstmt.executeUpdate();
-                return true;
+                return pstmt.executeUpdate() > 0;
             } else {
                 String sql = "UPDATE task SET status = cast(? as taskstatus_type), completedat = ? WHERE taskid = ?";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, status.name());
                 pstmt.setNull(2, java.sql.Types.TIMESTAMP);
                 pstmt.setString(3, taskId);
-                pstmt.executeUpdate();
-                return true;
+                return pstmt.executeUpdate() > 0;
             } 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -138,9 +134,7 @@ public class TaskRepository {
             pstmtInsert.setString(5, description);
             pstmtInsert.setTimestamp(6, Timestamp.valueOf(deadline));
             pstmtInsert.setDouble(7, price);
-
-            pstmtInsert.executeUpdate();
-            return true;
+            return pstmtInsert.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

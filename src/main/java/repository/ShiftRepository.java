@@ -28,8 +28,7 @@ public class ShiftRepository {
             pstmt.setTime(3, Time.valueOf(startTime));
             pstmt.setTime(4, Time.valueOf(endTime));
             pstmt.setDate(5, Date.valueOf(date));
-            pstmt.executeUpdate();
-            return true;
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -119,8 +118,7 @@ public class ShiftRepository {
             pstmt.setBoolean(1, isPresent);
             pstmt.setString(2, employeeId);
             pstmt.setString(3, shiftId);
-            pstmt.executeUpdate();
-            return true;
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
