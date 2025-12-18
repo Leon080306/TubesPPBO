@@ -55,7 +55,17 @@ public class GuestMainMenu {
             mainPanel.add(Box.createVerticalStrut(20));
         }
         //CheckOut
-
+        JButton checkOutButton = new JButton("Check Out");
+        checkOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        checkOutButton.addActionListener(e -> {
+            frame.dispose();
+            // Passing the current booking to the payment view
+            new CheckOutPaymentTypeView(GlobalVariables.getBooking());
+        });
+        if (GlobalVariables.getBooking() != null && GlobalVariables.getBooking().getBookingID() != null) {
+            mainPanel.add(checkOutButton);
+            mainPanel.add(Box.createVerticalStrut(20));
+        }
         //Cancel
 
         //Extra Services

@@ -42,7 +42,8 @@ public class PaymentRepository {
                         result.getTimestamp("checkindate").toLocalDateTime(),
                         result.getTimestamp("checkoutdate").toLocalDateTime(),
                         BookingStatus.valueOf(result.getString("bookingstatus")),
-                        room,result.getInt("numberofguest")
+                        room,result.getInt("numberofguest"),
+                        GuestRepository.getGuestByGuestId(guestId)
                 );
                 ExtraServices extraServices = new ExtraServices(result.getString("taskid"),
                         result.getString("title"),
