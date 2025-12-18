@@ -62,7 +62,7 @@ public class ShiftRepository {
     }
 
     //show all shift perhari (admin)
-    public List<Shift> getAllShiftByDate(LocalDate dateInput){
+    public List<Shift> getAllShiftsByDate(LocalDate dateInput){
         
         List<Shift> listShiftStaff = new ArrayList<>();
         String sql = "SELECT shift.*, u.nama, staff.employeeid, staff.department FROM shift INNER JOIN staff ON shift.employeeid = staff.employeeid INNER JOIN users u ON staff.userid = u.userid WHERE shift.date = ?";
@@ -88,7 +88,7 @@ public class ShiftRepository {
     }
 
     //show shift untuk semua staff
-    public List<Shift> showAllShift(){
+    public List<Shift> showAllShifts(){
         List<Shift> listShiftStaff = new ArrayList<>();
         String sql = "SELECT shift.*, u.nama, staff.employeeid, staff.department FROM shift INNER JOIN staff ON shift.employeeid = staff.employeeid INNER JOIN users u ON staff.userid = u.userid";
         try {

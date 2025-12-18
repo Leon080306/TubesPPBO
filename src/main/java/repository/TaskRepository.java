@@ -104,7 +104,7 @@ public class TaskRepository {
     }
 
     //get staff 
-    public List<Staff> getStaff(Department department){
+    public List<Staff> getStaffbyDepartment(Department department){
         String sqlGetStaffId = "SELECT st.*, t.status FROM task t INNER JOIN shift sh ON sh.shiftid = t.shiftid INNER JOIN staff st ON st.employeeid = sh.employeeid WHERE t.status != 'ON_PROGRESS' AND t.status != 'ASSIGNED' AND st.department = cast(? as department_type)";
         List<Staff> availableStaff = new ArrayList<>();
 
@@ -127,7 +127,7 @@ public class TaskRepository {
         String sqlInsert = "INSERT INTO task(taskid, shiftid, bookingid, title, description, status, deadline, completedat, price) VALUES (?, ?, ?, ?,?, 'ASSIGNED', ?, NULL, ?)";
         Random random = new Random();
         try {
-            List<Staff> listStaffDepartment = getStaff(department);
+            List<Staff> listStaffDepartment = getStaffbyDepartment(department);
             Staff chosenStaff = listStaffDepartment.get(random.nextInt(listStaffDepartment.size()));
 
             PreparedStatement pstmtInsert = conn.prepareStatement(sqlInsert);

@@ -33,7 +33,7 @@ public class TaskController {
         return false;
     }
 
-    public boolean doAllTaskInAShift(String shiftId){
+    public boolean doAllTasksInAShift(String shiftId){
         for (Task current_Task : taskRepository.findTasksByShiftId(shiftId)) {
             if (!doSpesificTask(current_Task.getTask_id())) {
                 return false;

@@ -376,7 +376,7 @@ public class TaskView {
             String shiftId = fieldShiftId.getText();
 
             
-            if (taskController.doAllTaskInAShift(shiftId)) {
+            if (taskController.doAllTasksInAShift(shiftId)) {
                 List<Task> taskList = taskController.getTasksByShift(shiftId);
                 String[] columnNames = {"Task ID", "Title", "Description", "Status", "Deadline", "Completed At"};
                 DefaultTableModel model = new DefaultTableModel(columnNames, 0);
