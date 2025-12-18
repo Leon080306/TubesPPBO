@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import models.Shift;
+import models.Staff;
+import models.enums.Department;
 import utils.Database;
 import utils.GenerateUUID;
 
@@ -125,5 +127,24 @@ public class ShiftRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    //get shift id 1 staff by department
+    public List<Shift> getShiftByDepartment(Department department){
+        String sqlGetShiftId = "SELECT st.*, t.status FROM task t INNER JOIN shift sh ON sh.shiftid = t.shiftid INNER JOIN staff st ON st.employeeid = sh.employeeid WHERE t.status != 'ON_PROGRESS' AND t.status != 'ASSIGNED' AND st.department = cast(? as department_type)";
+        List<Shift> availableShift = new ArrayList<>();
+
+        try {
+            PreparedStatement pstmtGetStaff = conn.prepareStatement(sqlGetShiftId);
+            pstmtGetStaff.setString(1, department.name());
+            ResultSet resultQuery = pstmtGetStaff.executeQuery();
+            while (resultQuery.next()) {
+                availableShift.addAll(findShiftsByEmployeeId("employeeid"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return availableShift;
+        
     }
 }

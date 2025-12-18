@@ -34,8 +34,8 @@ public class TaskView {
 
     public TaskView() {
         this.taskController = new TaskController();
-        //renderTaskViewAdmin();
-        renderTaskViewStaff();
+        renderTaskViewAdmin();
+        //renderTaskViewStaff();
     }
 
     private void renderTaskViewAdmin() {

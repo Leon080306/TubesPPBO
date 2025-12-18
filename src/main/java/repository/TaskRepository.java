@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import models.Shift;
 import models.Staff;
 import models.Task;
 import models.enums.Department;
@@ -19,6 +20,7 @@ import utils.GenerateUUID;
 
 public class TaskRepository {
     public static Connection conn = Database.connect();
+    ShiftRepository shiftRepository;
     //add task
     public boolean addTask(String shiftId, String title, String descriptionTask, LocalDateTime deadline){
         String sql = "INSERT INTO task (taskid, shiftid, bookingid, title, description, status, deadline, completedat) VALUES (?, ?, NULL, ?, ?, 'ASSIGNED', ?, NULL)"; 
@@ -100,37 +102,19 @@ public class TaskRepository {
         }
         return false;
     }
-
-    //get staff 
-    public List<Staff> getStaffbyDepartment(Department department){
-        String sqlGetStaffId = "SELECT st.*, t.status FROM task t INNER JOIN shift sh ON sh.shiftid = t.shiftid INNER JOIN staff st ON st.employeeid = sh.employeeid WHERE t.status != 'ON_PROGRESS' AND t.status != 'ASSIGNED' AND st.department = cast(? as department_type)";
-        List<Staff> availableStaff = new ArrayList<>();
-
-        try {
-            PreparedStatement pstmtGetStaff = conn.prepareStatement(sqlGetStaffId);
-            pstmtGetStaff.setString(1, department.name());
-            ResultSet resultQuery = pstmtGetStaff.executeQuery();
-            while (resultQuery.next()) {
-                availableStaff.add(StaffRepository.findStaffByStaffId(resultQuery.getString("employeeid")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return availableStaff;
-        
-    }
+    
 
     //add extraservice
     public boolean addExtraSevices(String title, String description, String bookingID, LocalDateTime deadline, Department department, double price){
         String sqlInsert = "INSERT INTO task(taskid, shiftid, bookingid, title, description, status, deadline, completedat, price) VALUES (?, ?, ?, ?,?, 'ASSIGNED', ?, NULL, ?)";
         Random random = new Random();
         try {
-            List<Staff> listStaffDepartment = getStaffbyDepartment(department);
-            Staff chosenStaff = listStaffDepartment.get(random.nextInt(listStaffDepartment.size()));
+            List<Shift> listShiftDepartment = shiftRepository.getShiftByDepartment(department);
+            Shift chosenStaff = listShiftDepartment.get(random.nextInt(listShiftDepartment.size()));
 
             PreparedStatement pstmtInsert = conn.prepareStatement(sqlInsert);
             pstmtInsert.setString(1, GenerateUUID.generateUUID());
-            pstmtInsert.setString(2, chosenStaff.getEmployeeID()); 
+            pstmtInsert.setString(2, chosenStaff.getShiftId()); 
             pstmtInsert.setString(3, bookingID); 
             pstmtInsert.setString(4, title);
             pstmtInsert.setString(5, description);
