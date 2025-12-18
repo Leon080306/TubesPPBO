@@ -1,15 +1,13 @@
 package views;
 
+import exceptions.NoResultsFound;
+import views.admin.AdminBookingView;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    private JPanel contentPanel;
-    private boolean isLoggedIn;
-
-    public MainFrame(boolean isLoggedin) {
-        this.isLoggedIn = isLoggedin;
-
+    public MainFrame() {
         setTitle("Hotel Harapan Bangsa Management System");
 
         int width = 800;
@@ -21,77 +19,28 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         createMenuBar();
+
         setLayout(new BorderLayout());
-
-        contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        add(scrollPane, BorderLayout.CENTER);
-    }
-
-    public void addComponent(Component component) {
-        contentPanel.add(component);
-    }
-
-    public void showFrame() {
         setVisible(true);
     }
 
     private void createMenuBar() {
-        if(isLoggedIn) {
-            JMenuBar menuBar = new JMenuBar();
-            JMenu fileMenu = new JMenu("Menu");
-            JMenuItem logoutbutton = new JMenuItem("Logout");
+        JMenuBar menuBar = new JMenuBar();
 
-            logoutbutton.addActionListener(e -> {
-                dispose();
-                new LoginView();
-            });
+        JMenu fileMenu = new JMenu("Menu");
+        JMenuItem exitItem = new JMenuItem("Logout");
 
-            fileMenu.add(logoutbutton);
+        exitItem.addActionListener(e -> {
+            dispose();
+            try {
+                new AdminBookingView();
+            } catch (NoResultsFound ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
-            JMenuItem editProfile = new JMenuItem("Edit Profile");
-
-            editProfile.addActionListener(e -> {
-                dispose();
-                new EditProfileMenu();
-            });
-
-            fileMenu.add(editProfile);
-
-            menuBar.add(fileMenu);
-            setJMenuBar(menuBar);
-        }
-    }
-
-    public void showDialog(String title, String message) {
-        JDialog dialog = new JDialog(this, title, true);
-        dialog.setSize(300, 150);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        panel.add(Box.createVerticalStrut(20));
-
-        JLabel label = new JLabel(message);
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(label);
-
-        panel.add(Box.createVerticalStrut(20));
-
-        JButton okButton = new JButton("OK");
-        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(okButton);
-
-        okButton.addActionListener(e -> dialog.dispose());
-
-        dialog.add(panel);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
+        fileMenu.add(exitItem);
+        menuBar.add(fileMenu);
+        setJMenuBar(menuBar);
     }
 }

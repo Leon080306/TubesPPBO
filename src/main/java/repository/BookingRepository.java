@@ -22,23 +22,12 @@ import java.util.List;
 
 public class BookingRepository {
     private static final Connection con = Database.connect();
-    PaymentRepository paymentRepository;
 
-    public BookingRepository (){
-        this.paymentRepository = new PaymentRepository();
-    }
-
-    public List<Booking> getAllBooking () throws NoResultsFound {
+    public static List<Booking> getAllBooking ( ) throws NoResultsFound {
         List<Booking> bookingList = new ArrayList<>();
         try{
             PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.guestid = p.guestid;");
             ResultSet result = stmt.executeQuery();
-            if(!result.isBeforeFirst()) {
-                throw new NoResultsFound();
-            }
-
-
-
             while (result.next()){
                 String bookingID = result.getString("bookingid");
                 String roomID = result.getString("roomid");
@@ -47,10 +36,8 @@ public class BookingRepository {
                 BookingStatus bookingStatus = BookingStatus.valueOf(result.getString("bookingstatus"));
                 int totalGuests = result.getInt("numberofguest");
                 double totalPrice = result.getDouble("totalprice");
-
                 RoomType roomType = RoomType.valueOf(result.getString("roomtype"));
                 Room room = new Room(roomID, result.getString("roomnumber"), roomType, result.getString("roomdescription"), result.getDouble("roomprice"));
-
                 PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
                 PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
                 Booking book = new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests);
@@ -62,7 +49,7 @@ public class BookingRepository {
         return bookingList;
     }
 
-    public List<Booking> getAllBooking (String guestID) throws NoResultsFound {
+    public static List<Booking> getAllBooking (String guestID) throws NoResultsFound {
         List<Booking> bookingList = new ArrayList<>();
         try{
             PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.guestid = p.guestid WHERE b.guestid=?;");
@@ -97,7 +84,7 @@ public class BookingRepository {
         return bookingList;
     }
 
-    public Booking getBooking(String guestID) throws NoResultsFound{
+    public static Booking getBooking(String guestID) throws NoResultsFound{
         try{
             PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.paymentid = p.paymentid WHERE b.guestid = ?;");
             stmt.setString(1,guestID);
@@ -128,7 +115,7 @@ public class BookingRepository {
     }
 
 
-    public String addBooking(String guestID, int room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
+    public static String addBooking(String guestID, int room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
         try{
             String bookID = GeneratedUUID.generateUUID();
             LocalDate checkOutDate = LocalDate.parse(checkOut);

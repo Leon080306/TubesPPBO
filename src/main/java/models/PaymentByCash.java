@@ -12,9 +12,10 @@ public class PaymentByCash extends Payment {
         super(paymentID, totalPrice, paymentDate, PaymentType.CASH,paymentStatus, booking, extraServices);
         this.tip = tip;
     }
+
     @Override
-    public boolean processPayment() {
-        return true;
+    public void processPayment(SecurePayment securePayment) {
+        securePayment.securePayment();
     }
 
     public double getTip() {

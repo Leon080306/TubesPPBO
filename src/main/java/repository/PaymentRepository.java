@@ -70,7 +70,7 @@ public class PaymentRepository {
         return paymentList;
     }
 
-    public void addPayment(String bookingID, String guestID){
+    public static void addPayment(String bookingID, String guestID){
         String paymentID = new GeneratedUUID().toString();
         try{
             PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,bookingid,guestid,amountpaid) " +

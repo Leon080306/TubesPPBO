@@ -13,23 +13,16 @@ public class Shift {
     private LocalDate date;
     private boolean isPresent;
     private List<Task> tasksList;
-    private String staff_id;
 
-    public Shift(String shift_id, LocalTime startTime, LocalTime endTime, LocalDate date, boolean isPresent, String staff_id) {
+    public Shift(String shift_id, LocalTime startTime, LocalTime endTime, LocalDate date, boolean isPresent) {
         this.shift_id = shift_id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
         this.isPresent = isPresent;
         this.tasksList = new ArrayList<>();
-        this.staff_id = staff_id;
     }
-    public String getShiftId(){
-        return shift_id;
-    }
-    public void setShiftID(String shiftId){
-        this.shift_id = shiftId;
-    }
+
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -64,13 +57,5 @@ public class Shift {
 
     public List<Task> getTasksList() {
         return tasksList;
-    }
-
-    public void setStaffId(String staff_id){
-        this.staff_id = staff_id;
-    }
-
-    public String getStaffId(){
-        return staff_id;
     }
 }

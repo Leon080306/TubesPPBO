@@ -6,7 +6,7 @@ import models.enums.PaymentType;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PaymentByEWallet extends Payment implements SecurePayment{
+public class PaymentByEWallet extends Payment{
     private String provider;
     private String accountID;
 
@@ -16,22 +16,9 @@ public class PaymentByEWallet extends Payment implements SecurePayment{
         this.accountID = accountID;
     }
 
-//    //wip
-//    @Override
-//    public boolean securePayment(String input) {
-//        return Guest.equals(inputPin);
-//    }
-
     @Override
-    public boolean processPayment(String inputPin) {
-        // example: card must be validated first
-        if (!securePayment(inputPin)) {
-            setPaymentStatus(PaymentStatus.FAILED);
-            return false;
-        }
-
-        setPaymentStatus(PaymentStatus.SUCCESSFUL);
-        return true;
+    public void processPayment(SecurePayment securePayment) {
+        securePayment.securePayment();
     }
     public String getProvider (){return this.provider;}
     public void setProvider (String provider){this.provider = provider;}
