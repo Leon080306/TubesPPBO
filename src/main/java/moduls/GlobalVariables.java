@@ -19,7 +19,7 @@ public class GlobalVariables {
         return this.booking;
     }
 
-    public void getBookingId(Booking booking){
+    public void setBooking(Booking booking){
         
     }
 }
