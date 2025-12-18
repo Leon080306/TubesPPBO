@@ -27,7 +27,7 @@ public abstract class Payment {
         this.extraService = extraService;
     }
 
-    public abstract boolean processPayment(String input);
+    public abstract void processPayment(SecurePayment securePayment);
 
     public String getPaymentID() {
         return paymentID;
@@ -67,8 +67,4 @@ public abstract class Payment {
     }
     public Booking getBooking(){return booking; }
     public void setBooking(Booking booking){this.booking = booking; }
-
-    //for specific details
-    public abstract List<String> getDisplayDetails();
-
 }

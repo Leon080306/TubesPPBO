@@ -2,8 +2,8 @@ package views;
 
 import controllers.PaymentControllers;
 import exceptions.NoResultsFound;
-import models.Payment;
-import models.ExtraServices;
+import models.*;
+import models.enums.PaymentType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +54,14 @@ public class GuestPaymentView {
             paymentPanel.add(new JLabel("Type: " + p.getPaymentType()));
             paymentPanel.add(new JLabel("Status: " + p.getPaymentStatus()));
             paymentPanel.add(new JLabel("Total Price: Rp " + p.getTotalPrice()));
-
+            if (p instanceof PaymentByCash cash){
+                paymentPanel.add(new JLabel("Tips : " + cash.getTip()));
+            } else if (p instanceof PaymentByCard card){
+                paymentPanel.add(new JLabel("Credit Card Number : " + card.getCreditCardNumber()));
+            } else if (p instanceof PaymentByEWallet eWallet){
+                paymentPanel.add(new JLabel("E Wallet Provider : " + eWallet.getProvider()));
+                paymentPanel.add(new JLabel("E Wallet Account ID : " + eWallet.getAccountID()));
+            }
             paymentPanel.add(Box.createVerticalStrut(8));
 
             // BOOKING INFO

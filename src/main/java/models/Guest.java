@@ -7,7 +7,6 @@ public class Guest extends Users{
     private String guestID;
     private MembershipLevel membershipLevel;
     private int points;
-    private String creditCardNumberPin;
 
     public Guest (String guestID, String password, String nama, int umur, String email, String phone, String address, MembershipLevel membershipLevel) {
         super(guestID, password, nama, umur, email, phone, address, UserType.GUEST);
@@ -19,6 +18,5 @@ public class Guest extends Users{
         super(guestID, password, nama, umur, email, phone, address, UserType.GUEST);
         this.membershipLevel = membershipLevel;
         this.points = 0;
-        this.creditCardNumberPin = creditCardNumberPin;
     }
 }

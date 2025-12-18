@@ -9,14 +9,14 @@ public class PaymentByCash extends Payment {
     private double tip;
 
     public PaymentByCash(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus,Booking booking,ExtraServices extraServices, double tip) {
-        super(paymentID, totalPrice, paymentDate, PaymentType.CARD,paymentStatus, booking, extraServices);
+        super(paymentID, totalPrice, paymentDate, PaymentType.CASH,paymentStatus, booking, extraServices);
         this.tip = tip;
     }
-
     @Override
-    public boolean processPayment(String inputPin) {
+    public boolean processPayment() {
         return true;
     }
+
     public double getTip() {
         return tip;
     }

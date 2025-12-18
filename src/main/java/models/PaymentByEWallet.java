@@ -11,16 +11,16 @@ public class PaymentByEWallet extends Payment implements SecurePayment{
     private String accountID;
 
     public PaymentByEWallet(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, Booking booking,ExtraServices extraServices, String provider, String accountID) {
-        super(paymentID, totalPrice, paymentDate, PaymentType.CARD, paymentStatus, booking, extraServices);
+        super(paymentID, totalPrice, paymentDate, PaymentType.E_WALLET, paymentStatus, booking, extraServices);
         this.provider = provider;
         this.accountID = accountID;
     }
 
-    //wip
-    @Override
-    public boolean securePayment(String input) {
-        return input.equals("test");
-    }
+//    //wip
+//    @Override
+//    public boolean securePayment(String input) {
+//        return Guest.equals(inputPin);
+//    }
 
     @Override
     public boolean processPayment(String inputPin) {
@@ -33,10 +33,9 @@ public class PaymentByEWallet extends Payment implements SecurePayment{
         setPaymentStatus(PaymentStatus.SUCCESSFUL);
         return true;
     }
+    public String getProvider (){return this.provider;}
+    public void setProvider (String provider){this.provider = provider;}
+    public String getAccountID (){return this.accountID;}
+    public void setAccountID (String accountID){this.accountID = accountID;}
 
-    //wip
-    @Override
-    public List<String> getDisplayDetails() {
-        return List.of();
-    }
 }
