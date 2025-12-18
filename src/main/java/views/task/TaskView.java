@@ -27,6 +27,8 @@ import controller.TaskController;
 import models.Task;
 import models.enums.TaskStatus;
 import views.MainFrame;
+import views.admin.AdminMainMenu;
+import views.staff.StaffMainMenu;
 
 public class TaskView {
     MainFrame frame;
@@ -76,6 +78,18 @@ public class TaskView {
         buttonAddTask.setPreferredSize(new Dimension(250, 45));
         buttonAddTask.addActionListener(e -> addTask());
         panelAdmin.add(buttonAddTask);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new AdminMainMenu();
+        });
+        panelAdmin.add(backButton);
 
         panelAdmin.add(Box.createVerticalGlue());
 
@@ -224,6 +238,18 @@ public class TaskView {
         buttonUpdateTaskStatus.setPreferredSize(new Dimension(250, 45));
         buttonUpdateTaskStatus.addActionListener(e -> updateTaskStatus());
         panelStaff.add(buttonUpdateTaskStatus);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new StaffMainMenu();
+        });
+        panelStaff.add(backButton);
 
         panelStaff.add(Box.createVerticalGlue());
 

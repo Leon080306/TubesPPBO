@@ -2,6 +2,8 @@ package views.admin;
 
 import models.Admin;
 import views.MainFrame;
+import views.shift.ShiftView;
+import views.task.TaskView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,6 +43,24 @@ public class AdminMainMenu {
             new RoomManagementView();
         });
         mainPanel.add(roomManagementButton);
+        mainPanel.add(Box.createVerticalStrut(20));
+
+        JButton taskManagementButton = new JButton("Task Management");
+        taskManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        taskManagementButton.addActionListener(e -> {
+            frame.dispose();
+            new TaskView(true);
+        });
+        mainPanel.add(taskManagementButton);
+        mainPanel.add(Box.createVerticalStrut(20));
+
+        JButton shiftManagementButton = new JButton("Shift Management");
+        shiftManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        shiftManagementButton.addActionListener(e -> {
+            frame.dispose();
+            new ShiftView(true);
+        });
+        mainPanel.add(shiftManagementButton);
         mainPanel.add(Box.createVerticalStrut(20));
 
         frame.addComponent(mainPanel);

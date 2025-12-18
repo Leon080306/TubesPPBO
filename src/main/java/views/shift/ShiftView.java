@@ -29,15 +29,22 @@ import controller.StaffController;
 import models.Shift;
 import models.Staff;
 import views.MainFrame;
+import views.admin.AdminMainMenu;
+import views.staff.StaffMainMenu;
 
 public class ShiftView {
     MainFrame frame;
     ShiftController shiftController;
+    private boolean isAdmin;
 
-    public ShiftView() {
+    public ShiftView(boolean isAdmin) {
         this.shiftController = new ShiftController();
-        //renderShiftViewAdmin();
-        renderShiftViewStaff();
+        this.isAdmin = isAdmin;
+        if(isAdmin) {
+            renderShiftViewAdmin();
+        } else {
+            renderShiftViewStaff();
+        }
     }
 
     private void renderShiftViewAdmin() {
@@ -83,6 +90,18 @@ public class ShiftView {
         buttonShowShift.setPreferredSize(new Dimension(250, 45));
         buttonShowShift.addActionListener(e -> viewDailyShift());
         panelAdmin.add(buttonShowShift);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new AdminMainMenu();
+        });
+        panelAdmin.add(backButton);
 
         panelAdmin.add(Box.createVerticalGlue());
 
@@ -299,6 +318,18 @@ public class ShiftView {
         buttonAttendance.setPreferredSize(new Dimension(250, 45));
         buttonAttendance.addActionListener(e -> submitAttendance());
         panelStaff.add(buttonAttendance);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new StaffMainMenu();
+        });
+        panelStaff.add(backButton);
 
         panelStaff.add(Box.createVerticalGlue());
 
