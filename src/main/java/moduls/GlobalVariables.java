@@ -1,5 +1,6 @@
 package moduls;
 
+import controller.UserController;
 import models.Booking;
 import models.Users;
 
@@ -7,19 +8,23 @@ public class GlobalVariables {
     private static Users user;
     private static Booking booking;
 
-    public Users getUser(){
-        return this.user;
+    public static Users getUser(){
+        return user;
     }
 
-    public void setUser(Users user){
-        this.user = user;
+    public static void setUser(Users newUser){
+        user = newUser;
     }
 
-    public Booking getBooking(){
-        return this.booking;
+    public static Booking getBooking(){
+        return booking;
     }
 
-    public void setBooking(Booking booking){
-        
+    public static void setBooking(Booking newBooking){
+        booking = newBooking;
+    }
+
+    public static void refreshUserData() {
+        UserController.getUserDataByEmail(user.getEmail());
     }
 }
