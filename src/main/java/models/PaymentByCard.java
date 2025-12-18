@@ -6,7 +6,7 @@ import models.enums.PaymentType;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PaymentByCard extends Payment{
+public class PaymentByCard extends Payment implements SecurePayment{
     private String creditCardNumber;
     private String passwordInput;
 
@@ -19,8 +19,8 @@ public class PaymentByCard extends Payment{
 
     //wip
     @Override
-    public void processPayment(SecurePayment securePayment) {
-        securePayment.securePayment();
+    public void securePayment(){
+        System.out.println("pay");
     }
 //
 //    @Override

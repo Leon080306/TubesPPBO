@@ -86,7 +86,7 @@ public class PaymentRepository {
         }
     }
 
-    public double getAmountNeeed(String paymentid, String guestID, String bookingid) throws NoResultsFound{
+    public double getAmountNeeded(String paymentid, String guestID, String bookingid) throws NoResultsFound{
         try{
             PreparedStatement stmt = con.prepareStatement("SELECT amountpaid FROM payment WHERE bookingid=? AND guestid=? AND bookingid=?");
             stmt.setString(1,paymentid);
@@ -105,7 +105,7 @@ public class PaymentRepository {
     public void cashPayment(String paymentID, double nominal, double tips, String guestID, String bookingID) throws UnderPaymentHandling, NoResultsFound {
 
         try {
-            double amountNeeded = getAmountNeeed(paymentID,guestID,bookingID);
+            double amountNeeded = getAmountNeeded(paymentID,guestID,bookingID);
             if (nominal<amountNeeded){
                 throw new UnderPaymentHandling();
             }
@@ -123,7 +123,7 @@ public class PaymentRepository {
     public void cardPayment(String paymentID, double nominal, String creditCardNumber , String guestID, String bookingID) throws UnderPaymentHandling, NoResultsFound {
 
         try {
-            double amountNeeded = getAmountNeeed(paymentID,guestID,bookingID);
+            double amountNeeded = getAmountNeeded(paymentID,guestID,bookingID);
             if (nominal<amountNeeded){
                 throw new UnderPaymentHandling();
             }
@@ -141,7 +141,7 @@ public class PaymentRepository {
     public void eWalletPayment(String paymentID, double nominal, String eWalletProvider, String eWalletAccountID , String guestID, String bookingID) throws UnderPaymentHandling, NoResultsFound {
 
         try {
-            double amountNeeded = getAmountNeeed(paymentID,guestID,bookingID);
+            double amountNeeded = getAmountNeeded(paymentID,guestID,bookingID);
             if (nominal<amountNeeded){
                 throw new UnderPaymentHandling();
             }

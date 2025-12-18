@@ -1,5 +1,6 @@
 package repository;
 
+import controller.BookingController;
 import controller.GuestController;
 import controller.RoomController;
 import exceptions.InvalidInput;
@@ -22,7 +23,7 @@ import java.util.List;
 public class BookingRepository {
     private static final Connection con = Database.connect();
 
-    public static List<Booking> getAllBooking ( ) throws NoResultsFound {
+    public static List<Booking> getAllBooking () throws NoResultsFound {
         List<Booking> bookingList = new ArrayList<>();
         try{
             PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.guestid = p.guestid;");
@@ -57,8 +58,6 @@ public class BookingRepository {
             if(!result.isBeforeFirst()) {
                 throw new NoResultsFound();
             }
-
-
 
             while (result.next()){
                 String bookingID = result.getString("bookingid");
@@ -99,54 +98,61 @@ public class BookingRepository {
         }
     }
 
-    public static Booking getBooking(String guestID) throws NoResultsFound{
+//    public static Booking getBooking(String guestID) throws NoResultsFound{
+//        try{
+//            PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.paymentid = p.paymentid WHERE b.guestid = ?;");
+//            stmt.setString(1,guestID);
+//            ResultSet result = stmt.executeQuery();
+//            if(!result.isBeforeFirst()) {
+//                throw new NoResultsFound();
+//            }
+//            result.next();
+//            String bookingID = result.getString("bookingid");
+//            String roomID = result.getString("roomid");
+//            String paymentID = result.getString("paymentid");
+//            LocalDateTime checkInDate = result.getTimestamp("checkindate").toLocalDateTime();
+//            LocalDateTime checkOutDate = result.getTimestamp("checkoutdate").toLocalDateTime();
+//            BookingStatus bookingStatus = BookingStatus.valueOf(result.getString("bookingstatus"));
+//            int totalGuests = result.getInt("numberofguest");
+//            double totalPrice = result.getDouble("totalprice");
+//
+//            RoomType roomType = RoomType.valueOf(result.getString("roomtype"));
+//            Room room = new Room(roomID, result.getString("roomnumber"), roomType, result.getString("roomdescription"), result.getDouble("roomprice"));
+//
+//            PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
+//            PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
+//
+//            return new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+    public static boolean isOccupied(String roomNumber, String checkIn, String checkOut){
         try{
-            PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.paymentid = p.paymentid WHERE b.guestid = ?;");
-            stmt.setString(1,guestID);
+
+            PreparedStatement stmt = con.prepareStatement("SELECT r.* FROM booking b JOIN room r ON b.roomid = r.roomid WHERE r.roomnumber = ? AND b.checkindate = ? AND b.checkoutdate = ?");
             ResultSet result = stmt.executeQuery();
-            if(!result.isBeforeFirst()) {
-                throw new NoResultsFound();
-            }
-            result.next();
-            String bookingID = result.getString("bookingid");
-            String roomID = result.getString("roomid");
-            String paymentID = result.getString("paymentid");
-            LocalDateTime checkInDate = result.getTimestamp("checkindate").toLocalDateTime();
-            LocalDateTime checkOutDate = result.getTimestamp("checkoutdate").toLocalDateTime();
-            BookingStatus bookingStatus = BookingStatus.valueOf(result.getString("bookingstatus"));
-            int totalGuests = result.getInt("numberofguest");
-            double totalPrice = result.getDouble("totalprice");
-
-            RoomType roomType = RoomType.valueOf(result.getString("roomtype"));
-            Room room = new Room(roomID, result.getString("roomnumber"), roomType, result.getString("roomdescription"), result.getDouble("roomprice"));
-
-            PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
-            PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
-
-            return new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests);
+            return result.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-
-    public static String addBooking(String guestID, int room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
+    public static String addBooking(String guestID, String room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
         try{
             String bookID = GeneratedUUID.generateUUID();
-            LocalDate checkOutDate = LocalDate.parse(checkOut);
-            LocalDateTime checkOutTime = checkOutDate.atStartOfDay();
-            LocalDate checkInDate = LocalDate.parse(checkIn);
-            LocalDateTime checkInTime = checkInDate.atStartOfDay();
+            LocalDateTime checkOutDate = LocalDateTime.parse(checkOut);
+            LocalDateTime checkInDate = LocalDateTime.parse(checkIn);
             PreparedStatement stmt = con.prepareStatement("INSERT INTO booking (bookingid,roomid,checkindate,checkoutdate,bookingstatus,numberofguest,totalprice,guestid) " +
                     "SELECT ?,r.roomid,?,?,?::bookingstatus,?,?,? FROM room r WHERE r.roomnumber = ?;  ");
             stmt.setString(1,bookID);
-            stmt.setTimestamp(2, Timestamp.valueOf(checkInTime));
-            stmt.setTimestamp(3,Timestamp.valueOf(checkOutTime));
+            stmt.setTimestamp(2, Timestamp.valueOf(checkInDate));
+            stmt.setTimestamp(3,Timestamp.valueOf(checkOutDate));
             stmt.setString(4,BookingStatus.BOOKED.name());
             stmt.setInt(5,guestTotal);
             stmt.setDouble(6,0);
             stmt.setString(7,guestID);
-            stmt.setInt(8,room);
+            stmt.setString(8,room);
             int check = stmt.executeUpdate();
             if (check == 0 ){
                 throw new InvalidInput("Room Not Found");

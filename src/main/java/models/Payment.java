@@ -27,7 +27,6 @@ public abstract class Payment {
         this.extraService = extraService;
     }
 
-    public abstract void processPayment(SecurePayment securePayment);
 
     public String getPaymentID() {
         return paymentID;

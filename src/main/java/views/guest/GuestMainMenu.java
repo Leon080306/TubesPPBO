@@ -30,19 +30,39 @@ public class GuestMainMenu {
         mainPanel.add(titlePanel);
         mainPanel.add(Box.createVerticalStrut(50));
 
-        //Extra Services
-        if (GlobalVariables.getUser().){
+        //Make Reservation
+        //Booking History
+        JButton reservationButton = new JButton("Make Reservation");
+        reservationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        reservationButton.addActionListener(e -> {
+            frame.dispose();
+            new AddBookingView();
+        });
+        mainPanel.add(reservationButton);
+        mainPanel.add(Box.createVerticalStrut(20));
 
-        }
+        //Extra Services
         JButton extraServicesButton = new JButton("Extra Services");
         extraServicesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         extraServicesButton.addActionListener(e -> {
             frame.dispose();
             new ExtraServicesView();
         });
-        mainPanel.add(extraServicesButton);
-        mainPanel.add(Box.createVerticalStrut(20));
+        //Check if user currently has booking or not
+        if (GlobalVariables.getBooking() != null && GlobalVariables.getBooking().getBookingID() != null && !GlobalVariables.getBooking().getBookingID().isEmpty()){
+            mainPanel.add(extraServicesButton);
+            mainPanel.add(Box.createVerticalStrut(20));
+        }
 
+        //Booking History
+        JButton bookingHistoryButton = new JButton("Booking History");
+        bookingHistoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bookingHistoryButton.addActionListener(e -> {
+            frame.dispose();
+            new GuestBookingView();
+        });
+        mainPanel.add(bookingHistoryButton);
+        mainPanel.add(Box.createVerticalStrut(20));
 
         frame.addComponent(mainPanel);
         frame.setVisible(true);

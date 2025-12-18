@@ -62,7 +62,7 @@ public class AdminBookingView {
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 0));
         headerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        headerPanel.setBackground(new Color(230, 230, 230)); // Light grey so it looks like a header
+        headerPanel.setBackground(new Color(230, 230, 230));
 
 // Add your column names here
         headerPanel.add(createHeaderLabel("Room", 50));

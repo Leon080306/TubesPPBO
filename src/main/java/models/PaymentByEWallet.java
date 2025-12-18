@@ -6,7 +6,7 @@ import models.enums.PaymentType;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PaymentByEWallet extends Payment{
+public class PaymentByEWallet extends Payment implements SecurePayment{
     private String provider;
     private String accountID;
 
@@ -17,9 +17,10 @@ public class PaymentByEWallet extends Payment{
     }
 
     @Override
-    public void processPayment(SecurePayment securePayment) {
-        securePayment.securePayment();
+    public void securePayment() {
+        System.out.println("pay");
     }
+
     public String getProvider (){return this.provider;}
     public void setProvider (String provider){this.provider = provider;}
     public String getAccountID (){return this.accountID;}

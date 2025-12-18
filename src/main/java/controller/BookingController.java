@@ -20,11 +20,20 @@ public class BookingController {
         }
     }
 
-    public static Booking showBooking(String guestID) throws NoResultsFound{
-            return BookingRepository.getBooking(guestID);
+    public static List<Booking> showAllBooking(String guestID){
+        try{
+            return BookingRepository.getAllBooking(guestID);
+        } catch (NoResultsFound e) {
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
-    public static void addBooking (String guestID, int roomnumber, String checkIn, String checkOut,int guestTotal){
+//    public static Booking showBooking(String guestID) throws NoResultsFound{
+//            return BookingRepository.getBooking(guestID);
+//    }
+
+    public static void addBooking (String guestID, String roomnumber, String checkIn, String checkOut,int guestTotal){
         try{
             String bookID = BookingRepository.addBooking(guestID, roomnumber, checkIn, checkOut, guestTotal);
             PaymentRepository.addPayment(bookID, guestID);
@@ -34,6 +43,9 @@ public class BookingController {
 
     }
 
+    public static boolean isOccupied (String roomNumber,String checkIn, String checkOut){
+        return BookingRepository.isOccupied(roomNumber,checkIn,checkOut);
+    }
     public static List<Booking> getBookingByRoomId(String roomId) {
         return BookingRepository.getBookingByRoomId(roomId);
     }
