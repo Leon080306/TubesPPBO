@@ -17,11 +17,13 @@ import utils.GeneratedUUID;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingRepository {
     private static final Connection con = Database.connect();
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static List<Booking> getAllBooking () throws NoResultsFound {
         List<Booking> bookingList = new ArrayList<>();
@@ -128,9 +130,14 @@ public class BookingRepository {
 //        }
 //    }
     public static boolean isOccupied(String roomNumber, String checkIn, String checkOut){
-        try{
 
-            PreparedStatement stmt = con.prepareStatement("SELECT r.* FROM booking b JOIN room r ON b.roomid = r.roomid WHERE r.roomnumber = ? AND b.checkindate = ? AND b.checkoutdate = ?");
+        try{
+            LocalDateTime start = LocalDateTime.parse(checkIn, formatter);
+            LocalDateTime end = LocalDateTime.parse(checkOut, formatter);
+            PreparedStatement stmt = con.prepareStatement("SELECT r.* FROM booking b JOIN room r ON b.roomid = r.roomid WHERE r.roomnumber = ? AND b.checkindate < ? AND b.checkoutdate > ?");
+            stmt.setString(1,roomNumber);
+            stmt.setTimestamp(2, Timestamp.valueOf(start));
+            stmt.setTimestamp(3, Timestamp.valueOf(end));
             ResultSet result = stmt.executeQuery();
             return result.next();
         } catch (SQLException e) {
@@ -138,11 +145,11 @@ public class BookingRepository {
         }
     }
 
-    public static String addBooking(String guestID, String room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
+    public static Booking addBooking(String guestID, String room, String checkIn, String checkOut, int guestTotal) throws InvalidInput {
         try{
             String bookID = GeneratedUUID.generateUUID();
-            LocalDateTime checkOutDate = LocalDateTime.parse(checkOut);
-            LocalDateTime checkInDate = LocalDateTime.parse(checkIn);
+            LocalDateTime checkInDate = LocalDateTime.parse(checkIn, formatter);
+            LocalDateTime checkOutDate = LocalDateTime.parse(checkOut,formatter);
             PreparedStatement stmt = con.prepareStatement("INSERT INTO booking (bookingid,roomid,checkindate,checkoutdate,bookingstatus,numberofguest,totalprice,guestid) " +
                     "SELECT ?,r.roomid,?,?,?::bookingstatus,?,?,? FROM room r WHERE r.roomnumber = ?;  ");
             stmt.setString(1,bookID);
@@ -157,11 +164,30 @@ public class BookingRepository {
             if (check == 0 ){
                 throw new InvalidInput("Room Not Found");
             }
-            return bookID;
+            RoomController.getRoomByRoomId(room);
+            return new Booking(bookID,
+                    checkInDate,
+                    checkOutDate,
+                    BookingStatus.BOOKED,
+                    room,
+                    guestTotal
+            );;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static boolean checkInBooking(String bookingID){
+        try{
+            PreparedStatement stmt = con.prepareStatement("UPDATE booking SET bookingstatus = 'CHECKED_IN' WHERE bookingid = ? AND checkindate <= CURRENT_TIMESTAMP" +
+                    "AND bookingstatus = 'BOOKED'");
+            stmt.setString(1,bookingID);
+            int rowAffected = stmt.executeUpdate();
+            return rowAffected > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

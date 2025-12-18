@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AddBookingView {
     private MainFrame frame;
-    private Guest guest = (Guest) GlobalVariables.getUser();
+
 
     public AddBookingView(){
         frame = new MainFrame(true);
@@ -114,6 +114,7 @@ public class AddBookingView {
         JPanel buttonsPanel = new JPanel();
 
         mainPanel.add(formPanel);
+
         //Cancel
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> {
@@ -124,8 +125,16 @@ public class AddBookingView {
         //Make Reservation
         JButton reserveButton = new JButton("Reserve");
         reserveButton.addActionListener(e -> {
+            Guest guest = (Guest) GlobalVariables.getUser();
+            Object item = rooms.getSelectedItem();
+            if (item == null) {
+                JOptionPane.showMessageDialog(frame, "No room selected! Is the room list empty?");
+                return;
+            }
+            String selectedRoom = item.toString();
             if (!BookingController.isOccupied((String) rooms.getSelectedItem() ,checkInField.getText(),checkOutField.getText())){
-                BookingController.addBooking(guest.getGuestID(),(String) rooms.getSelectedItem(),checkInField.getText(),checkOutField.getText(),Integer.parseInt(guestTotalField.getText()) );
+                String bookingID = BookingController.addBooking(guest.getGuestID(),(String) selectedRoom,checkInField.getText(),checkOutField.getText(),Integer.parseInt(guestTotalField.getText()) );
+                GlobalVariables.setBooking(bookingID);
             } else{
                 JOptionPane.showMessageDialog(frame, "Room is Occupied",
                         "Occupied", JOptionPane.INFORMATION_MESSAGE);
@@ -148,4 +157,5 @@ public class AddBookingView {
     public static void main(String[] args) {
         new AddBookingView();
     }
+
 }

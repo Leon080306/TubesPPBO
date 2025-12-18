@@ -22,4 +22,5 @@ public class GlobalVariables {
     }
 
     public static Booking getBooking(){return booking;}
+    public static void setBooking(Booking bookingData){booking = bookingData;}
 }

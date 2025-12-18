@@ -1,5 +1,6 @@
 package views.guest;
 
+import controller.BookingController;
 import controller.GuestController;
 import models.Guest;
 import moduls.GlobalVariables;
@@ -31,7 +32,6 @@ public class GuestMainMenu {
         mainPanel.add(Box.createVerticalStrut(50));
 
         //Make Reservation
-        //Booking History
         JButton reservationButton = new JButton("Make Reservation");
         reservationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         reservationButton.addActionListener(e -> {
@@ -40,6 +40,21 @@ public class GuestMainMenu {
         });
         mainPanel.add(reservationButton);
         mainPanel.add(Box.createVerticalStrut(20));
+
+        //CheckIn
+        JButton checkInButton = new JButton("Extra Services");
+        checkInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        checkInButton.addActionListener(e -> {
+            BookingController.checkInBooking(GlobalVariables.getBooking().getBookingID());
+        });
+        //Check if user currently has booking or not
+        if (GlobalVariables.getBooking() != null && GlobalVariables.getBooking().getBookingID() != null && !GlobalVariables.getBooking().getBookingID().isEmpty()){
+            mainPanel.add(checkInButton);
+            mainPanel.add(Box.createVerticalStrut(20));
+        }
+        //CheckOut
+
+        //Cancel
 
         //Extra Services
         JButton extraServicesButton = new JButton("Extra Services");
