@@ -5,13 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import models.Shift;
 import utils.Database;
@@ -74,7 +72,6 @@ public class ShiftRepository {
             ResultSet resultQuery = pstmt.executeQuery();
             
             while (resultQuery.next()) {
-                String nama = resultQuery.getString("nama");
                 String shiftId = resultQuery.getString("shiftid");
                 LocalTime startTime = resultQuery.getTime("starttime").toLocalTime();
                 LocalTime endTime = resultQuery.getTime("endtime").toLocalTime();
@@ -127,60 +124,6 @@ public class ShiftRepository {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        ShiftRepository cobaShift = new ShiftRepository();
-       
-        // List<Shift> dataShift =  cobaShift.showAllShift();
-        // for (Shift s : dataShift) {
-        //     System.out.println();
-        //     System.out.println(s.getShiftId() + " - " + s.getStartTime() + " - " + s.getEndTime() + " - " + s.getDate() + " - " + s.isPresent() + "\nstaff id: " + s.getStaffId());
-        // }
-
-        // System.out.println("Masukan employee id: ");
-        // String employeeIdInput = sc.nextLine();
-        // dataShift = cobaShift.findShiftsByEmployeeId(employeeIdInput);
-        // for (Shift sh : dataShift) {
-        //    System.out.println(sh.getShiftId() + " - " + sh.getStartTime() + " - " + sh.getEndTime() + " - " + sh.getDate() + " - " + sh.isPresent());
-        // }
-
-        // System.out.println("Masukkan employee id: ");
-        // String absenEmployee = sc.nextLine();
-        // System.out.println("Masukkan shift id: ");
-        // String absenShiftId = sc.nextLine();
-        // System.out.println("Apakah hadir (true = hadir or false = tidak hadir) : ");
-        // boolean absenKehadiran = sc.nextBoolean();
-        // cobaShift.submitAttendance(absenEmployee, absenShiftId, absenKehadiran);
-
-        // System.out.println("Masukkan employee id: ");
-        // String employeeIdAdd = sc.nextLine();
-        // System.out.println("Masukkan start time shift (HH:mm:ss): ");
-        // String startTimeInput = sc.nextLine();
-        // LocalTime starTime = LocalTime.parse(startTimeInput, timeFormat);
-        // System.out.println("Masukkan end time shift (HH:mm:ss): ");
-        // String endTimeInput = sc.nextLine();
-        // LocalTime endTime = LocalTime.parse(endTimeInput, timeFormat);
-        // System.out.println("Masukkan tanggal shift (yyyy-MM-dd): ");
-        // String dateInput = sc.nextLine();
-        // LocalDate date = LocalDate.parse(dateInput, dateFormat);
-        // if (cobaShift.addShift(employeeIdAdd, starTime, endTime, date)) {
-        //     System.out.println("Berhasil");
-        // } else {
-        //     System.out.println("gagal");
-        // }
-
-        System.out.println("Masukkan tanggal presensi (yyyy-MM-dd) : ");
-        String dateSearchInput = sc.nextLine();
-        LocalDate dateSearch = LocalDate.parse(dateSearchInput, dateFormat);
-        List<Shift> getShiftList = cobaShift.getAllShiftByDate(dateSearch);
-        for (Shift shift : getShiftList) {
-            System.out.println();
-            System.out.println(shift.getShiftId() + " - " + shift.getStartTime() + " - " + shift.getEndTime() + " - " + shift.getDate() + " - " + shift.isPresent());
         }
     }
 }
