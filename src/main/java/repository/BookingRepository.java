@@ -56,7 +56,13 @@ public class BookingRepository {
     public static List<Booking> getAllBooking (String guestID) throws NoResultsFound {
         List<Booking> bookingList = new ArrayList<>();
         try{
-            PreparedStatement stmt = con.prepareStatement("SELECT b.*, r.*, p.* FROM booking b JOIN room r ON b.roomid = r.roomid JOIN payment p ON b.guestid = p.guestid WHERE b.guestid=?;");
+            PreparedStatement stmt = con.prepareStatement("// Fix this line in BookingRepository.getAllBooking(String guestID)\n" +
+                    "PreparedStatement stmt = con.prepareStatement(\n" +
+                    "    \"SELECT b.*, r.*, p.* FROM booking b \" +\n" +
+                    "    \"JOIN room r ON b.roomid = r.roomid \" +\n" +
+                    "    \"LEFT JOIN payment p ON b.bookingid = p.bookingid \" + // Link by bookingID, not just guestID!\n" +
+                    "    \"WHERE b.guestid=?;\"\n" +
+                    ");");
             stmt.setString(1, guestID);
             ResultSet result = stmt.executeQuery();
             if(!result.isBeforeFirst()) {

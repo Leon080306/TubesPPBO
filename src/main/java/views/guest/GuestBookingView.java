@@ -10,6 +10,7 @@ import views.admin.RoomManagementView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 import static moduls.GlobalVariables.getUser;
 
@@ -80,7 +81,8 @@ public class GuestBookingView {
         containerPanel.add(Box.createVerticalStrut(10));
 
         //loop booking
-        for(Booking b : BookingController.showAllBooking(guest.getGuestID())){
+        List<Booking> history = BookingController.showAllBooking(guest.getGuestID());
+        for(Booking b : history){
             JPanel bookingPanel = new JPanel();
             bookingPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20,0));
             bookingPanel.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -4,6 +4,7 @@ import exceptions.InvalidInput;
 import exceptions.NoResultsFound;
 import com.sun.jdi.PathSearchingVirtualMachine;
 import models.Booking;
+import models.enums.BookingStatus;
 import repository.BookingRepository;
 import repository.PaymentRepository;
 
@@ -56,7 +57,7 @@ public class BookingController {
     public static Booking getCurrentBooking(String guestId) {
         System.out.println(getBookingByGuestId(guestId).size());
         for(Booking booking : getBookingByGuestId(guestId)) {
-            if(booking.getCheckInDate().isBefore(LocalDateTime.now()) && booking.getCheckOutDate().isAfter(LocalDateTime.now())) {
+            if(booking.getBookingStatus() != BookingStatus.CANCELED && booking.getCheckOutDate().isAfter(LocalDateTime.now())) {
                 return booking;
             }
         }

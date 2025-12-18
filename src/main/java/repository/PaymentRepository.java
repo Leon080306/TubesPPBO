@@ -19,7 +19,12 @@ public class PaymentRepository {
     public List<Payment> getPaymentHistory(String guestId) throws NoResultsFound {
         List<Payment> paymentList = new ArrayList<>();
         try {
-            PreparedStatement stmt = con.prepareStatement("SELECT p.*, t.*, r.*, b.* FROM payment p JOIN task t ON p.bookingid = t.bookingid JOIN booking b ON p.bookingid = b.bookingid JOIN room r ON b.roomid = r.roomid WHERE p.guestid= ? ;");
+            PreparedStatement stmt = con.prepareStatement("\"SELECT p.*, t.*, r.*, b.* \" +\n" +
+                    "    \"FROM booking b \" +\n" +
+                    "    \"JOIN room r ON b.roomid = r.roomid \" +\n" +
+                    "    \"LEFT JOIN payment p ON b.bookingid = p.bookingid \" + // Link by bookingid, not just guestid!\n" +
+                    "    \"LEFT JOIN task t ON b.bookingid = t.bookingid \" +    // Don't kill the row if there's no task!\n" +
+                    "    \"WHERE b.guestid = ?;\"");
             stmt.setString(1, guestId);
             ResultSet result = stmt.executeQuery();
             if (!result.isBeforeFirst()) {
@@ -75,9 +80,13 @@ public class PaymentRepository {
     public static void addPayment(String bookingID, String guestID){
         String paymentID = GenerateUUID.generateUUID();
         try{
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,bookingid,guestid,amountpaid) " +
-            "SELECT ?,?,'CASH','PENDING',b.bookingid, b.guestid, r.roomprice + SUM(t.price) FROM booking b JOIN room r ON b.roomid = r.roomid JOIN task t ON t.bookingid = b.bookingid WHERE b.bookingid = ? " +
-            "GROUP BY b.bookingid, b.guestid, r.roomprice;");
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO payment (paymentid,paymentdate,paymenttype,paymentstatus,bookingid,guestid,amountpaid) \" +\n" +
+                    "\"SELECT ?,?,'CASH','PENDING', b.bookingid, b.guestid, r.roomprice + COALESCE(SUM(t.price), 0) \" +\n" +
+                    "\"FROM booking b \" +\n" +
+                    "\"JOIN room r ON b.roomid = r.roomid \" +\n" +
+                    "\"LEFT JOIN task t ON t.bookingid = b.bookingid \" + // LEFT JOIN is your best friend here!\n" +
+                    "\"WHERE b.bookingid = ? \" +\n" +
+                    "\"GROUP BY b.bookingid, b.guestid, r.roomprice;");
             stmt.setString(1,paymentID);
             stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             stmt.setString(3,bookingID);
@@ -90,9 +99,10 @@ public class PaymentRepository {
 
     public double getAmountNeeded(String paymentid, String guestID, String bookingid) throws NoResultsFound{
         try{
-            PreparedStatement stmt = con.prepareStatement("SELECT amountpaid FROM payment WHERE bookingid=? AND guestid=? AND bookingid=?");
+            PreparedStatement stmt = con.prepareStatement("SELECT amountpaid FROM payment WHERE paymentid=? AND guestid=? AND bookingid=?");
             stmt.setString(1,paymentid);
             stmt.setString(2,guestID);
+            stmt.setString(3, bookingid);
             ResultSet result = stmt.executeQuery();
             if (result.next()){
                 return result.getDouble("amountpaid");
