@@ -33,4 +33,20 @@ public class BookingRepository {
             return null;
         }
     }
+
+    public static List<Booking> getBookingByGuestId(String guestId) {
+        List<Booking> bookingList = new ArrayList<>();
+        try {
+            PreparedStatement psmt = con.prepareStatement("SELECT * FROM booking WHERE guestid = ?");
+            psmt.setString(1, guestId);
+            ResultSet rs = psmt.executeQuery();
+            while(rs.next()) {
+                bookingList.add(new Booking(rs.getString("bookingid"), rs.getTimestamp("checkindate").toLocalDateTime(), rs.getTimestamp("checkoutdate").toLocalDateTime(), BookingStatus.valueOf(rs.getString("bookingstatus").toUpperCase()), RoomController.getRoomByRoomId(rs.getString("roomid")), rs.getInt("numberofguest"), GuestController.getGuestByGuestId(rs.getString("guestid"))));
+            }
+            return bookingList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
