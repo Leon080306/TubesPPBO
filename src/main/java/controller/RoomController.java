@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RoomController {
 
-    public static boolean addRoom(int roomNumber, RoomType roomType, String roomDescription, double roomPrice) {
+    public static boolean addRoom(String roomNumber, RoomType roomType, String roomDescription, double roomPrice) {
         return RoomRepository.addRoom(roomNumber, roomType, roomDescription, roomPrice);
     }
 
@@ -25,7 +25,7 @@ public class RoomController {
         return RoomRepository.deleteRoom(roomId);
     }
 
-    public static boolean updateRoom(int roomNumber, RoomType roomType, String roomDescription, double roomPrice, String roomId) {
+    public static boolean updateRoom(String roomNumber, RoomType roomType, String roomDescription, double roomPrice, String roomId) {
         return RoomRepository.updateRoom(roomNumber, roomType, roomDescription, roomPrice, roomId);
     }
 
