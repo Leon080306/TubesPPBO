@@ -31,11 +31,15 @@ import views.MainFrame;
 public class TaskView {
     MainFrame frame;
     TaskController taskController;
+    private boolean isAdmin;
 
-    public TaskView() {
+    public TaskView(boolean isAdmin) {
         this.taskController = new TaskController();
-        //renderTaskViewAdmin();
-        renderTaskViewStaff();
+        if(isAdmin) {
+            renderTaskViewAdmin();
+        } else {
+            renderTaskViewStaff();
+        }
     }
 
     private void renderTaskViewAdmin() {
@@ -153,9 +157,10 @@ public class TaskView {
         panelAdminAddTask.add(Box.createVerticalStrut(15));
         panelAdminAddTask.add(buttonAddTask);
         panelAdminAddTask.add(Box.createVerticalStrut(15));
-        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> renderTaskViewAdmin()));
+        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> frameAddTaskAdmin.dispose()));
 
         frameAddTaskAdmin.addComponent(panelAdminAddTask);
+        frameAddTaskAdmin.setVisible(true);
     }
 
     private void renderTaskViewStaff(){

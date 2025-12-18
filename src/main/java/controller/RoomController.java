@@ -1,9 +1,12 @@
 package controller;
 
+import models.Booking;
 import models.Room;
+import models.enums.BookingStatus;
 import models.enums.RoomType;
 import repository.RoomRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -14,7 +17,16 @@ public class RoomController {
     }
 
     public static boolean isOccupied(String roomId) {
-        return !BookingController.getBookingByRoomId(roomId).isEmpty();
+        List<Booking> bookingList = BookingController.getBookingByRoomId(roomId);
+        if(bookingList.isEmpty()) {
+            return false;
+        }
+        for(Booking booking : bookingList) {
+            if (booking.getBookingStatus() == BookingStatus.CHECKED_IN && booking.getCheckInDate().isBefore(LocalDateTime.now()) && booking.getCheckOutDate().isAfter(LocalDateTime.now())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static Room getRoomByRoomId(String roomId) {
