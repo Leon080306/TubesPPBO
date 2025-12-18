@@ -17,8 +17,8 @@ public class PaymentByEWallet extends Payment implements SecurePayment{
     }
 
     @Override
-    public void securePayment() {
-        System.out.println("pay");
+    public boolean securePayment() {
+       return accountID.matches("08\\d(8,11)");
     }
 
     public String getProvider (){return this.provider;}

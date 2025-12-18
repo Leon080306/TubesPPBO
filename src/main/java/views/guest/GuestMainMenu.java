@@ -3,6 +3,7 @@ package views.guest;
 import controller.BookingController;
 import controller.GuestController;
 import models.Guest;
+import models.enums.BookingStatus;
 import moduls.GlobalVariables;
 import views.MainFrame;
 import views.admin.AdminMainMenu;
@@ -22,11 +23,15 @@ public class GuestMainMenu {
     }
 
     private void renderAdminMainMenu() {
+        String currentBooking = "!";
+        if (GlobalVariables.getBooking() != null && GlobalVariables.getBooking().getBookingStatus() != null){
+            currentBooking += " You Are Currently : "+GlobalVariables.getBooking().getBookingStatus();
+        }
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Welcome "+ GlobalVariables.getUser().getNama(), SwingConstants.CENTER);
+        JLabel title = new JLabel("Welcome "+ GlobalVariables.getUser().getNama() + currentBooking, SwingConstants.CENTER);
         title.setFont(new Font("Poppins", Font.BOLD, 32));
         titlePanel.add(title, BorderLayout.CENTER);
         titlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60)); // Add this line
@@ -47,22 +52,37 @@ public class GuestMainMenu {
         JButton checkInButton = new JButton("Check In");
         checkInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         checkInButton.addActionListener(e -> {
-            BookingController.checkInBooking(GlobalVariables.getBooking().getBookingID());
+            boolean check = BookingController.checkInBooking(GlobalVariables.getBooking().getBookingID());
+            if (check){
+                JOptionPane.showMessageDialog(null, "Check-in Successful!");
+                frame.dispose();
+                new GuestMainMenu();
+            }else{
+                JOptionPane.showMessageDialog(null, "Check-in Failed: Ensure it is your check-in date.");
+            }
         });
         //Check if user currently has booking or not
-        if (GlobalVariables.getBooking() != null && GlobalVariables.getBooking().getBookingID() != null && !GlobalVariables.getBooking().getBookingID().isEmpty()){
+        if (GlobalVariables.getBooking() != null &&
+                GlobalVariables.getBooking().getBookingStatus() == BookingStatus.BOOKED){
             mainPanel.add(checkInButton);
             mainPanel.add(Box.createVerticalStrut(20));
         }
+
         //CheckOut
         JButton checkOutButton = new JButton("Check Out");
         checkOutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         checkOutButton.addActionListener(e -> {
-            frame.dispose();
-            // Passing the current booking to the payment view
-            new CheckOutPaymentTypeView(GlobalVariables.getBooking());
+            if (GlobalVariables.getBooking() != null) {
+                frame.dispose();
+                new CheckOutPaymentTypeView(GlobalVariables.getBooking());
+            } else {
+                JOptionPane.showMessageDialog(null, "No active booking found for checkout.");
+            }
         });
-        if (GlobalVariables.getBooking() != null && GlobalVariables.getBooking().getBookingID() != null) {
+        if (GlobalVariables.getBooking() != null &&
+                GlobalVariables.getBooking().getBookingStatus() == BookingStatus.CHECKED_IN) {
+
             mainPanel.add(checkOutButton);
             mainPanel.add(Box.createVerticalStrut(20));
         }

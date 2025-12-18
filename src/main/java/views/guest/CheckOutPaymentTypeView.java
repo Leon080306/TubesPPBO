@@ -9,7 +9,6 @@ import java.awt.*;
 public class CheckOutPaymentTypeView {
     private MainFrame frame;
     private Booking booking;
-    // We grab the price from the room associated with the booking!
     private double amountNeeded;
 
     public CheckOutPaymentTypeView(Booking booking) {

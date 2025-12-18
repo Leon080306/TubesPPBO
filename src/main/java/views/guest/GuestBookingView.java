@@ -3,7 +3,9 @@ package views.guest;
 import controller.BookingController;
 import models.Booking;
 import models.Guest;
+import models.enums.BookingStatus;
 import moduls.GlobalVariables;
+import views.EditProfileMenu;
 import views.MainFrame;
 import views.admin.AdminMainMenu;
 import views.admin.RoomManagementView;
@@ -76,6 +78,7 @@ public class GuestBookingView {
         headerPanel.add(createHeaderLabel("Description", 150));
         headerPanel.add(createHeaderLabel("Check In", 100));
         headerPanel.add(createHeaderLabel("Check Out", 100));
+        headerPanel.add(createHeaderLabel("View Payment", 100));
 
         containerPanel.add(headerPanel);
         containerPanel.add(Box.createVerticalStrut(10));
@@ -106,6 +109,18 @@ public class GuestBookingView {
             JLabel checkOutDate = new JLabel(String.valueOf(b.getCheckOutDate()));
             checkOutDate.setPreferredSize(new Dimension(100,25));
             bookingPanel.add(checkOutDate);
+
+            //View Payment
+            // Inside the for(Booking b : history) loop
+            if (b.getBookingStatus() == BookingStatus.CHECKED_OUT) {
+                JButton viewPaymentButton = new JButton("View Payment");
+                viewPaymentButton.setPreferredSize(new Dimension(100, 25));
+                viewPaymentButton.addActionListener(e -> {
+                    frame.dispose();
+                    new PaymentView(b); // Pass the specific booking object
+                });
+                bookingPanel.add(viewPaymentButton);
+            }
 
             //add to container
             containerPanel.add(bookingPanel);

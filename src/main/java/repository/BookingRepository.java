@@ -53,41 +53,39 @@ public class BookingRepository {
         return bookingList;
     }
 
-    public static List<Booking> getAllBooking (String guestID) throws NoResultsFound {
+    public static List<Booking> getAllBooking(String guestID) throws NoResultsFound {
         List<Booking> bookingList = new ArrayList<>();
-        try{
-            PreparedStatement stmt = con.prepareStatement("// Fix this line in BookingRepository.getAllBooking(String guestID)\n" +
-                    "PreparedStatement stmt = con.prepareStatement(\n" +
-                    "    \"SELECT b.*, r.*, p.* FROM booking b \" +\n" +
-                    "    \"JOIN room r ON b.roomid = r.roomid \" +\n" +
-                    "    \"LEFT JOIN payment p ON b.bookingid = p.bookingid \" + // Link by bookingID, not just guestID!\n" +
-                    "    \"WHERE b.guestid=?;\"\n" +
-                    ");");
+        try {
+            // CORRECTED: Clean SQL query without Java comments/code inside the string
+            String query = "SELECT b.*, r.*, p.* FROM booking b " +
+                    "JOIN room r ON b.roomid = r.roomid " +
+                    "LEFT JOIN payment p ON b.bookingid = p.bookingid " +
+                    "WHERE b.guestid = ?";
+
+            PreparedStatement stmt = con.prepareStatement(query);
             stmt.setString(1, guestID);
             ResultSet result = stmt.executeQuery();
-            if(!result.isBeforeFirst()) {
+
+            if (!result.isBeforeFirst()) {
                 throw new NoResultsFound();
             }
 
-            while (result.next()){
+            while (result.next()) {
                 String bookingID = result.getString("bookingid");
                 String roomID = result.getString("roomid");
                 LocalDateTime checkInDate = result.getTimestamp("checkindate").toLocalDateTime();
                 LocalDateTime checkOutDate = result.getTimestamp("checkoutdate").toLocalDateTime();
                 BookingStatus bookingStatus = BookingStatus.valueOf(result.getString("bookingstatus"));
                 int totalGuests = result.getInt("numberofguest");
-                double totalPrice = result.getDouble("totalprice");
 
                 RoomType roomType = RoomType.valueOf(result.getString("roomtype"));
                 Room room = new Room(roomID, result.getString("roomnumber"), roomType, result.getString("roomdescription"), result.getDouble("roomprice"));
 
-                PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
-                PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
                 Booking book = new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests, GuestRepository.getGuestByGuestId(guestID));
                 bookingList.add(book);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Database Error: " + e.getMessage());
         }
         return bookingList;
     }

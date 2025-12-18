@@ -19,8 +19,8 @@ public class PaymentByCard extends Payment implements SecurePayment{
 
     //wip
     @Override
-    public void securePayment(){
-        System.out.println("pay");
+    public boolean securePayment(){
+        return creditCardNumber.matches("\\d(16)");
     }
 //
 //    @Override
