@@ -19,8 +19,6 @@ import utils.GenerateUUID;
 
 public class TaskRepository {
     public static Connection conn = Database.connect();
-    StaffRepository staffRepository = new StaffRepository();
-
     //add task
     public boolean addTask(String shiftId, String title, String descriptionTask, LocalDateTime deadline){
         String sql = "INSERT INTO task (taskid, shiftid, bookingid, title, description, status, deadline, completedat) VALUES (?, ?, NULL, ?, ?, 'ASSIGNED', ?, NULL)"; 
@@ -109,7 +107,7 @@ public class TaskRepository {
             pstmtGetStaff.setString(1, department.name());
             ResultSet resultQuery = pstmtGetStaff.executeQuery();
             while (resultQuery.next()) {
-                availableStaff.add(staffRepository.findStaffByStaffId(resultQuery.getString("employeeid")));
+                availableStaff.add(StaffRepository.findStaffByStaffId(resultQuery.getString("employeeid")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

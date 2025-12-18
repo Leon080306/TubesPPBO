@@ -20,16 +20,13 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import controller.TaskController;
-import models.Guest;
 import models.enums.Department;
-import models.enums.TaskStatus;
 import moduls.GlobalVariables;
 import views.MainFrame;
 
 public class ExtraServicesView {
     MainFrame frame;
     TaskController taskController;
-    GlobalVariables globalVariables;
 
     public ExtraServicesView() {
         this.taskController = new TaskController();
@@ -209,7 +206,7 @@ public class ExtraServicesView {
             String deadlineInput = fieldDeadline.getText();
             LocalDateTime deadline = LocalDateTime.parse(deadlineInput, formatDateTime);
 
-            if (taskController.addExtraSevices(title, description, globalVariables.getBooking().getBookingID(), deadline, selectedDepartment, price)) {
+            if (taskController.addExtraSevices(title, description, GlobalVariables.getBooking().getBookingID(), deadline, selectedDepartment, price)) {
                 showDialog(frameExtraSevice, "Success", "Order received. Please wait a moment", () -> {
                     frameExtraSevice.dispose();
                     renderExtraServicesView();
@@ -225,7 +222,7 @@ public class ExtraServicesView {
         panelExtraService.add(Box.createVerticalStrut(15));
         panelExtraService.add(buttonAddExtraServ);
         panelExtraService.add(Box.createVerticalStrut(15));
-        panelExtraService.add(buttonBack(frameExtraSevice, () -> renderExtraServicesView()));
+        panelExtraService.add(buttonBack(frameExtraSevice, () -> frameExtraSevice.dispose()));
         panelExtraService.add(Box.createVerticalGlue());
         frameExtraSevice.addComponent(panelExtraService);
         frameExtraSevice.showFrame();
