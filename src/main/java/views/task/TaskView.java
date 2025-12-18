@@ -153,9 +153,10 @@ public class TaskView {
         panelAdminAddTask.add(Box.createVerticalStrut(15));
         panelAdminAddTask.add(buttonAddTask);
         panelAdminAddTask.add(Box.createVerticalStrut(15));
-        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> renderTaskViewAdmin()));
+        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> frameAddTaskAdmin.dispose()));
 
         frameAddTaskAdmin.addComponent(panelAdminAddTask);
+        frameAddTaskAdmin.setVisible(true);
     }
 
     private void renderTaskViewStaff(){
@@ -292,7 +293,7 @@ public class TaskView {
 
         panelViewTask.add(buttonSearch);
         panelViewTask.add(Box.createVerticalStrut(15));
-        panelViewTask.add(buttonBack(frameViewTask, () -> renderTaskViewStaff()));
+        panelViewTask.add(buttonBack(frameViewTask, () -> frameViewTask.dispose()));
         panelViewTask.add(Box.createVerticalGlue());
         frameViewTask.addComponent(panelViewTask);
         frameViewTask.setVisible(true);
@@ -340,7 +341,7 @@ public class TaskView {
 
         });
         panelDoSpesificTask.add(Box.createVerticalStrut(15));
-        panelDoSpesificTask.add(buttonBack(frameDoSpesificTask, () -> renderTaskViewStaff()));
+        panelDoSpesificTask.add(buttonBack(frameDoSpesificTask, () -> frameDoSpesificTask.dispose()));
         panelDoSpesificTask.add(Box.createVerticalGlue());
         frameDoSpesificTask.addComponent(panelDoSpesificTask);
         frameDoSpesificTask.setVisible(true);
@@ -413,9 +414,10 @@ public class TaskView {
             }
         });
         panelDoAllTask.add(Box.createVerticalStrut(15));
-        panelDoAllTask.add(buttonBack(frameDoAllTask, () -> renderTaskViewStaff()));
+        panelDoAllTask.add(buttonBack(frameDoAllTask, () -> frameDoAllTask.dispose()));
         panelDoAllTask.add(Box.createVerticalGlue());
         frameDoAllTask.addComponent(panelDoAllTask);
+        frameDoAllTask.setVisible(true);
     }
 
     private void updateTaskStatus(){
@@ -467,7 +469,7 @@ public class TaskView {
 
         });
         panelUpdateTaskStatus.add(Box.createVerticalStrut(15));
-        panelUpdateTaskStatus.add(buttonBack(frameUpdateTaskStatus, () -> renderTaskViewStaff()));
+        panelUpdateTaskStatus.add(buttonBack(frameUpdateTaskStatus, () -> frameUpdateTaskStatus.dispose()));
         panelUpdateTaskStatus.add(Box.createVerticalGlue());
         frameUpdateTaskStatus.addComponent(panelUpdateTaskStatus);
         frameUpdateTaskStatus.setVisible(true);
