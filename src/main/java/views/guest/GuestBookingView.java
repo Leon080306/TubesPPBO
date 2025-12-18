@@ -78,7 +78,7 @@ public class GuestBookingView {
         headerPanel.add(createHeaderLabel("Description", 150));
         headerPanel.add(createHeaderLabel("Check In", 100));
         headerPanel.add(createHeaderLabel("Check Out", 100));
-        headerPanel.add(createHeaderLabel("View Payment", 100));
+        headerPanel.add(createHeaderLabel("View Payment", 150));
 
         containerPanel.add(headerPanel);
         containerPanel.add(Box.createVerticalStrut(10));
@@ -111,7 +111,6 @@ public class GuestBookingView {
             bookingPanel.add(checkOutDate);
 
             //View Payment
-            // Inside the for(Booking b : history) loop
             if (b.getBookingStatus() == BookingStatus.CHECKED_OUT) {
                 JButton viewPaymentButton = new JButton("View Payment");
                 viewPaymentButton.setPreferredSize(new Dimension(100, 25));
@@ -134,6 +133,7 @@ public class GuestBookingView {
         frame.showFrame();
 
     }
+
     public static void main(String[] args) {
         new GuestBookingView();
     }

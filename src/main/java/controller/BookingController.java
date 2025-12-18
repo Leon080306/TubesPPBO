@@ -67,4 +67,8 @@ public class BookingController {
     public static boolean checkInBooking(String bookingID){
         return BookingRepository.checkInBooking(bookingID);
     }
+
+    public static boolean checkOutBooking(String bookingID){
+        return BookingRepository.checkOutBooking(bookingID);
+    }
 }

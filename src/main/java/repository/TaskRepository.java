@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import models.ExtraServices;
 import models.Staff;
 import models.Task;
 import models.enums.Department;
+import models.enums.RoomType;
 import models.enums.TaskStatus;
 import utils.Database;
 import utils.GenerateUUID;
@@ -71,6 +73,7 @@ public class TaskRepository {
         }
         return listTaskByShiftId;
     }
+
 
     //update task status
     public boolean updateTaskStatus(String taskId, TaskStatus status){
@@ -137,5 +140,41 @@ public class TaskRepository {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //get extra service by bookingid
+    public static List<ExtraServices> getExtraServicesByBookingId(String bookingId) {
+        List<ExtraServices> services = new ArrayList<>();
+        String sql = "SELECT * FROM task WHERE bookingid = ? AND price IS NOT NULL";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bookingId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("taskid") == null) continue;
+
+                Timestamp deadlineRaw = rs.getTimestamp("deadline");
+                LocalDateTime deadline = (deadlineRaw != null) ? deadlineRaw.toLocalDateTime() : null;
+
+                Timestamp completedAtRaw = rs.getTimestamp("completedat");
+                LocalDateTime completedAt = (completedAtRaw != null) ? completedAtRaw.toLocalDateTime() : null;
+
+                TaskStatus taskStatus = TaskStatus.valueOf(rs.getString("status"));
+                ExtraServices service = new ExtraServices(
+                        rs.getString("taskid"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        taskStatus,
+                        deadline,
+                        completedAt,
+                        rs.getDouble("price")
+                );
+                services.add(service);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return services;
     }
 }

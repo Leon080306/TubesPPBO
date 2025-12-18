@@ -20,7 +20,7 @@ public class PaymentByCard extends Payment implements SecurePayment{
     //wip
     @Override
     public boolean securePayment(){
-        return creditCardNumber.matches("\\d(16)");
+        return creditCardNumber.matches("\\d{16}");
     }
 //
 //    @Override

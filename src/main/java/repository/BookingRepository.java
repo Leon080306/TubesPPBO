@@ -204,5 +204,18 @@ public class BookingRepository {
         }
     }
 
+    public static boolean checkOutBooking(String bookingID) {
+        try {
+            String sql = "UPDATE booking SET bookingstatus = 'CHECKED_OUT' WHERE bookingid = ? AND bookingstatus = 'CHECKED_IN'";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, bookingID);
+
+            int rowAffected = stmt.executeUpdate();
+            return rowAffected > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
