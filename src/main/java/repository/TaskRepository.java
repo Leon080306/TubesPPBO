@@ -6,20 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
-import models.Booking;
 import models.Staff;
 import models.Task;
 import models.enums.Department;
 import models.enums.TaskStatus;
 import utils.Database;
 import utils.GenerateUUID;
-import moduls.GlobalVariables;
 
 public class TaskRepository {
     public static Connection conn = Database.connect();
@@ -108,7 +104,7 @@ public class TaskRepository {
     }
 
     //get staff 
-    public List<Staff> getStaff(Department department){
+    public List<Staff> getStaffbyDepartment(Department department){
         String sqlGetStaffId = "SELECT st.*, t.status FROM task t INNER JOIN shift sh ON sh.shiftid = t.shiftid INNER JOIN staff st ON st.employeeid = sh.employeeid WHERE t.status != 'ON_PROGRESS' AND t.status != 'ASSIGNED' AND st.department = cast(? as department_type)";
         List<Staff> availableStaff = new ArrayList<>();
 
@@ -131,12 +127,12 @@ public class TaskRepository {
         String sqlInsert = "INSERT INTO task(taskid, shiftid, bookingid, title, description, status, deadline, completedat, price) VALUES (?, ?, ?, ?,?, 'ASSIGNED', ?, NULL, ?)";
         Random random = new Random();
         try {
-            List<Staff> listStaffDepartment = getStaff(department);
+            List<Staff> listStaffDepartment = getStaffbyDepartment(department);
             Staff chosenStaff = listStaffDepartment.get(random.nextInt(listStaffDepartment.size()));
 
             PreparedStatement pstmtInsert = conn.prepareStatement(sqlInsert);
             pstmtInsert.setString(1, GenerateUUID.generateUUID());
-            pstmtInsert.setString(2, chosenStaff.getEmployeeID()); // ini blm shiftidnya
+            pstmtInsert.setString(2, chosenStaff.getEmployeeID()); 
             pstmtInsert.setString(3, bookingID); 
             pstmtInsert.setString(4, title);
             pstmtInsert.setString(5, description);
@@ -149,91 +145,5 @@ public class TaskRepository {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        //cara panggil function generate uuid 
-        // String uuid = GenerateUUID.generateUUID();
-        
-        TaskRepository cobaTask = new TaskRepository();
-
-        // System.out.println("Masukkan shift id: ");
-        // String shiftIdInput = sc.nextLine();
-        // List<Task> listTask = cobaTask.findTasksByShiftId(shiftIdInput);
-        // for (Task t : listTask) {
-        //     System.out.println(t.getTask_id() + " - " + t.getTitle() + " - " + t.getDescription() + " - " + t.isStatus() + " - " + t.getDeadline() + " - " + t.getCompletedAt());
-        // }
-
-        // System.out.println("Masukkan shift id: ");
-        // String employeeIdForTask = sc.nextLine();
-
-        // List<Task> listTaskPerStaff = cobaTask.findTasksByShiftId(employeeIdForTask);
-        // for (Task t : listTaskPerStaff) {
-        //     System.out.println(t.getTask_id() + " - " + t.getTitle() + " - " + t.getDescription() + " - " + t.isStatus() + " - " + t.getDeadline() + " - " + t.getCompletedAt());
-        // }
-
-        // System.out.println("masukkan task id: ");
-        // String taskIdInput = sc.nextLine();
-        // System.out.println("Update status (completed, cancelled, on progress): ");
-        // String inputStatus = sc.nextLine();
-        // TaskStatus taskStatus = null;
-        // switch (inputStatus) {
-        //     case "completed":
-        //         taskStatus = TaskStatus.COMPLETED;
-        //         break;
-        //     case "cancelled":
-        //         taskStatus = TaskStatus.CANCELLED;
-        //         break;
-        //     case "on progress":
-        //         taskStatus = TaskStatus.ON_PROGRESS;
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // if (cobaTask.updateTaskStatus(taskIdInput, taskStatus)) {
-        //     System.out.println("update berhasil");
-        // } else {
-        //     System.out.println("update gagal");
-        // }
-
-        // System.out.println("Masukan shift id: ");
-        // String shiftIDAdd = sc.nextLine();
-        // System.out.println("Masukkan title: ");
-        // String tittleAdd = sc.nextLine();
-        // System.out.println("Masukkan description: ");
-        // String descAdd = sc.nextLine();
-        // System.out.println("Masukkan deadline (yyy-mm-dd hh:mm:ss): ");
-        // String deadlineInput = sc.nextLine();
-        // DateTimeFormatter formatDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        // LocalDateTime deadline = LocalDateTime.parse(deadlineInput, formatDateTime);
-        // if (cobaTask.addTask(shiftIDAdd, tittleAdd, descAdd, deadline)) {
-        //     System.out.println("berhasil");
-        // } else {
-        //     System.out.println("gagal");
-        // }   
-
-    //     System.out.print("Masukkan department: ");
-    //     String inputDepart = sc.nextLine();
-    //     Department department = null;
-    //     switch (inputDepart) {
-    //         case "cleaning":
-    //             department = Department.CLEANING;
-    //             break;
-    //         case "food":
-    //             department = Department.FOOD;
-    //             break;
-    //         case "management":
-    //             department = Department.MANAGEMENT;
-    //             break;
-        
-    //         default:
-    //             break;
-    //     }
-    //     List<Staff> getStaffs = cobaTask.getStaff(department);
-    //     for (Staff st : getStaffs) {
-    //         System.out.println(st.getNama() + "\n" + st.getDepartment() + "\n" + st.getAddress());
-    //     }
     }
 }

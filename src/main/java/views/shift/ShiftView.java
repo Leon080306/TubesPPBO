@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -202,7 +201,7 @@ public class ShiftView {
             String dateInput = fieldDate.getText();
             LocalDate date = LocalDate.parse(dateInput, dateFormat);
 
-            List<Shift> shiftList = shiftController.getDailyAttendanceReport(date);
+            List<Shift> shiftList = shiftController.getDailyAttendanceReports(date);
 
             if (shiftList.isEmpty()) {
                 showDialog(frameViewDailyShift, "Error", "Data Not Found", () -> {
