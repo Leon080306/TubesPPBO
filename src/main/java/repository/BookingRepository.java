@@ -43,7 +43,8 @@ public class BookingRepository {
                 Room room = new Room(roomID, result.getString("roomnumber"), roomType, result.getString("roomdescription"), result.getDouble("roomprice"));
                 PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
                 PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
-                Booking book = new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests);
+                String guestId = result.getString("guestid");
+                Booking book = new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests, GuestRepository.getGuestByGuestId(guestId));
                 bookingList.add(book);
             }
         } catch (SQLException e) {
@@ -76,7 +77,7 @@ public class BookingRepository {
 
                 PaymentType paymentType = PaymentType.valueOf(result.getString("paymenttype"));
                 PaymentStatus paymentStatus = PaymentStatus.valueOf(result.getString("paymentstatus"));
-                Booking book = new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests);
+                Booking book = new Booking(bookingID, checkInDate, checkOutDate, bookingStatus, room, totalGuests, GuestRepository.getGuestByGuestId(guestID));
                 bookingList.add(book);
             }
         } catch (SQLException e) {
@@ -92,7 +93,23 @@ public class BookingRepository {
             psmt.setString(1, roomId);
             ResultSet rs = psmt.executeQuery();
             while(rs.next()) {
-                bookingList.add(new Booking(rs.getString("bookingid"), rs.getTimestamp("checkindate").toLocalDateTime(), rs.getTimestamp("checkoutdate").toLocalDateTime(), BookingStatus.valueOf(rs.getString("bookingstatus").toUpperCase()), RoomController.getRoomByRoomId(rs.getString("roomid")), rs.getInt("numberofguest")));
+                bookingList.add(new Booking(rs.getString("bookingid"), rs.getTimestamp("checkindate").toLocalDateTime(), rs.getTimestamp("checkoutdate").toLocalDateTime(), BookingStatus.valueOf(rs.getString("bookingstatus").toUpperCase()), RoomController.getRoomByRoomId(rs.getString("roomid")), rs.getInt("numberofguest"), GuestRepository.getGuestByGuestId(rs.getString("guestid"))));
+            }
+            return bookingList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<Booking> getBookingByGuestId(String guestId) {
+        List<Booking> bookingList = new ArrayList<>();
+        try {
+            PreparedStatement psmt = con.prepareStatement("SELECT * FROM booking WHERE guestid = ?");
+            psmt.setString(1, guestId);
+            ResultSet rs = psmt.executeQuery();
+            while(rs.next()) {
+                bookingList.add(new Booking(rs.getString("bookingid"), rs.getTimestamp("checkindate").toLocalDateTime(), rs.getTimestamp("checkoutdate").toLocalDateTime(), BookingStatus.valueOf(rs.getString("bookingstatus").toUpperCase()), RoomController.getRoomByRoomId(rs.getString("roomid")), rs.getInt("numberofguest"), GuestController.getGuestByGuestId(rs.getString("guestid"))));
             }
             return bookingList;
         } catch (Exception e) {
@@ -160,7 +177,8 @@ public class BookingRepository {
                     checkOutDate,
                     BookingStatus.BOOKED,
                     selectedRoom,
-                    guestTotal
+                    guestTotal,
+                    GuestRepository.getGuestByGuestId(guestID)
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

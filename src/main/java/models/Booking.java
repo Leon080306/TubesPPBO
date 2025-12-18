@@ -11,14 +11,16 @@ public class Booking {
     private BookingStatus bookingStatus;
     private Room room;
     private int numberOfGuests;
+    private Guest guest;
 
-    public Booking(String bookingID, LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, int numberOfGuests) {
+    public Booking(String bookingID, LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, int numberOfGuests, Guest guest) {
         this.bookingID = bookingID;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.bookingStatus = bookingStatus;
         this.room = room;
         this.numberOfGuests = numberOfGuests;
+        this.guest = guest;
     }
 
     public String getBookingID() {

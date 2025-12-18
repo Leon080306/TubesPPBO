@@ -1,6 +1,8 @@
 package views;
 
+import controller.BookingController;
 import controller.UserController;
+import models.Guest;
 import models.Users;
 import models.enums.UserType;
 import moduls.GlobalVariables;
@@ -85,6 +87,10 @@ public class LoginView {
             else {
                 //set global variable
                 GlobalVariables.setUser(UserController.getUserDataByEmail(email));
+                if(userType == UserType.GUEST) {
+                    Guest guestData = (Guest) GlobalVariables.getUser();
+                    GlobalVariables.setBooking(BookingController.getCurrentBooking(guestData.getGuestID()));
+                }
                 showDialog("Login Successful", "Login Successful!");
             }
         });
