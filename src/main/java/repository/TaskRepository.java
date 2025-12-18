@@ -126,7 +126,7 @@ public class TaskRepository {
 
             PreparedStatement pstmtInsert = conn.prepareStatement(sqlInsert);
             pstmtInsert.setString(1, GenerateUUID.generateUUID());
-            pstmtInsert.setString(2, chosenStaff.getEmployeeID()); 
+            pstmtInsert.setString(2, chosenStaff.getEmployeeID());
             pstmtInsert.setString(3, bookingID); 
             pstmtInsert.setString(4, title);
             pstmtInsert.setString(5, description);
