@@ -13,13 +13,14 @@ public class Guest extends Users{
         super(userID, password, nama, umur, email, phone, address, UserType.GUEST);
         this.guestID = guestID;
         this.membershipLevel = membershipLevel;
-        this.points = 0;
+        this.points = points;
+        this.creditCardNumberPin = "";
     }
 
     public Guest (String userID, String guestID, String password, String nama, int umur, String email, String phone, String address, MembershipLevel membershipLevel, String creditCardNumberPin) {
         super(userID, password, nama, umur, email, phone, address, UserType.GUEST);
         this.membershipLevel = membershipLevel;
-        this.points = points;
+        this.points = 0;
         this.creditCardNumberPin = creditCardNumberPin;
         this.guestID = guestID;
     }

@@ -1,5 +1,7 @@
 package views.guest;
 
+import models.Guest;
+import moduls.GlobalVariables;
 import views.MainFrame;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ public class GuestMainMenu {
     MainFrame frame;
 
     public GuestMainMenu() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
         renderAdminMainMenu();
     }
 

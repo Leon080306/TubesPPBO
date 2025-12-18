@@ -1,7 +1,10 @@
 package views;
 
 import controller.UserController;
+import models.Users;
 import models.enums.UserType;
+import moduls.GlobalVariables;
+import repository.UserRepository;
 import views.admin.AdminMainMenu;
 import views.guest.GuestMainMenu;
 import views.staff.StaffMainMenu;
@@ -20,7 +23,7 @@ public class LoginView {
     }
 
     private void renderLoginView() {
-        frame = new MainFrame();
+        frame = new MainFrame(false);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -34,6 +37,11 @@ public class LoginView {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         centerPanel.add(title);
 
+        JLabel subTitle = new JLabel("Login");
+        subTitle.setFont(new Font("Poppins", Font.BOLD, 32));
+        subTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(subTitle);
+
         centerPanel.add(Box.createVerticalStrut(40));
 
         JLabel labelEmail = new JLabel("Email");
@@ -42,10 +50,10 @@ public class LoginView {
 
         centerPanel.add(Box.createVerticalStrut(5));
 
-        JTextField textField = new JTextField(20);
-        textField.setMaximumSize(new Dimension(300, 30));
-        textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(textField);
+        JTextField emailField = new JTextField(20);
+        emailField.setMaximumSize(new Dimension(300, 30));
+        emailField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(emailField);
 
         centerPanel.add(Box.createVerticalStrut(20));
 
@@ -62,34 +70,40 @@ public class LoginView {
 
         centerPanel.add(Box.createVerticalStrut(30));
 
-        JButton btn = new JButton("Login");
-        btn.setMaximumSize(new Dimension(300, 35));
-        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centerPanel.add(btn);
+        JButton loginBtn = new JButton("Login");
+        loginBtn.setMaximumSize(new Dimension(300, 35));
+        loginBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(loginBtn);
 
-        btn.addActionListener(e -> {
-            String email = textField.getText();
+        loginBtn.addActionListener(e -> {
+            String email = emailField.getText();
             String password = new String(passwordField.getPassword());
-            userType = userController.login(email, password);
-            switch (userType) {
-                case null:
-                    showDialog("Error", "Invalid email or password");
-                    break;
-                case ADMIN:
-                    showDialog("Success", "Login successful");
-                    break;
-                case GUEST:
-                    showDialog("Success", "Login successful");
-                    break;
-                case STAFF:
-                    showDialog("Success", "Login successful");
-                    break;
+            userType = UserController.login(email, password);
+            if(userType == null) {
+                showDialog("Login Failed", "Invalid email or password");
+            }
+            else {
+                //set global variable
+                GlobalVariables.setUser(UserController.getUserDataByEmail(email));
+                showDialog("Login Successful", "Login Successful!");
             }
         });
 
+        centerPanel.add(Box.createVerticalStrut(30));
+
+        JButton registerBtn = new JButton("Register as New Guest");
+        registerBtn.setMaximumSize(new Dimension(300, 35));
+        registerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.add(registerBtn);
+
+        registerBtn.addActionListener(e -> {
+            frame.dispose();
+            new GuestRegisterView();
+        });
+
         mainPanel.add(centerPanel, BorderLayout.CENTER);
-        frame.add(mainPanel);
-        frame.setVisible(true);
+        frame.addComponent(mainPanel);
+        frame.showFrame();
     }
 
     private void showDialog(String title, String message) {
@@ -113,7 +127,7 @@ public class LoginView {
             dialog.dispose();
             if (userType != null) {
                 frame.dispose();
-                navigateMenu();
+                navigateMenu(userType);
             }
         });
 
@@ -124,7 +138,7 @@ public class LoginView {
         dialog.setVisible(true);
     }
 
-    private void navigateMenu() {
+    private void navigateMenu(UserType userType) {
         switch (userType) {
             case ADMIN:
                 new AdminMainMenu();

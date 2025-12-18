@@ -44,4 +44,3 @@ src/main/java/utils/AppConfig.java
 
 ### Mac OS ###
 .DS_Store
-*.log

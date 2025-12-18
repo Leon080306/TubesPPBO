@@ -37,7 +37,7 @@ public class ExtraServicesView {
     }
 
     private void renderExtraServicesView() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
 
         JPanel panelGuest = new JPanel();
         panelGuest.setLayout(new BoxLayout(panelGuest, BoxLayout.Y_AXIS));
@@ -73,12 +73,12 @@ public class ExtraServicesView {
 
         panelGuest.add(Box.createVerticalGlue());
 
-        frame.add(panelGuest);
+        frame.addComponent(panelGuest);
         frame.setVisible(true);
     }
 
     private void addExtraService() {
-        JFrame frameExtraSevice = new MainFrame();
+        MainFrame frameExtraSevice = new MainFrame(true);
         JPanel panelExtraService = new JPanel();
 
         panelExtraService.setLayout(new BoxLayout(panelExtraService, BoxLayout.Y_AXIS));
@@ -227,7 +227,8 @@ public class ExtraServicesView {
         panelExtraService.add(Box.createVerticalStrut(15));
         panelExtraService.add(buttonBack(frameExtraSevice, () -> renderExtraServicesView()));
         panelExtraService.add(Box.createVerticalGlue());
-        frameExtraSevice.add(panelExtraService);
+        frameExtraSevice.addComponent(panelExtraService);
+        frameExtraSevice.showFrame();
     }
 
     private JButton buttonBack(JFrame mainFrame, Runnable nextAction) {

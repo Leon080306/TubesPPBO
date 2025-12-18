@@ -43,7 +43,7 @@ public class ShiftView {
     }
 
     private void renderShiftViewAdmin() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
         JPanel panelAdmin = new JPanel();
 
         panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
@@ -88,12 +88,12 @@ public class ShiftView {
 
         panelAdmin.add(Box.createVerticalGlue());
 
-        frame.add(panelAdmin);
+        frame.addComponent(panelAdmin);
         frame.setVisible(true);
     }
 
     private void addShift() {
-        JFrame frameAddShiftAdmin = new MainFrame();
+        MainFrame frameAddShiftAdmin = new MainFrame(true);
         JPanel panelAdminAddShift = new JPanel();
 
         panelAdminAddShift.setLayout(new BoxLayout(panelAdminAddShift, BoxLayout.Y_AXIS));
@@ -170,11 +170,11 @@ public class ShiftView {
         panelAdminAddShift.add(buttonAddTask);
         panelAdminAddShift.add(Box.createVerticalStrut(15));
         panelAdminAddShift.add(buttonBack(frameAddShiftAdmin, () -> renderShiftViewAdmin()));
-        frameAddShiftAdmin.add(panelAdminAddShift);
+        frameAddShiftAdmin.addComponent(panelAdminAddShift);
     }
 
     private void viewDailyShift() {
-        JFrame frameViewDailyShift = new MainFrame();
+        MainFrame frameViewDailyShift = new MainFrame(true);
         JPanel panelViewDailyShift = new JPanel();
 
         panelViewDailyShift.setLayout(new BoxLayout(panelViewDailyShift, BoxLayout.Y_AXIS));
@@ -244,12 +244,12 @@ public class ShiftView {
         panelViewDailyShift.add(Box.createVerticalStrut(15));
         panelViewDailyShift.add(buttonBack(frameViewDailyShift, () -> renderShiftViewAdmin()));
         panelViewDailyShift.add(Box.createVerticalGlue());
-        frameViewDailyShift.add(panelViewDailyShift);
+        frameViewDailyShift.addComponent(panelViewDailyShift);
         frameViewDailyShift.setVisible(true);
     }
 
     private void renderShiftViewStaff() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
         JPanel panelStaff = new JPanel();
 
         panelStaff.setLayout(new BoxLayout(panelStaff, BoxLayout.Y_AXIS));
@@ -303,12 +303,12 @@ public class ShiftView {
 
         panelStaff.add(Box.createVerticalGlue());
 
-        frame.add(panelStaff);
+        frame.addComponent(panelStaff);
         frame.setVisible(true);
     }
 
     private void viewAllShifts() {
-        JFrame frameViewShift = new MainFrame();
+        MainFrame frameViewShift = new MainFrame(true);
         JPanel panelViewShift = new JPanel();
 
         panelViewShift.setLayout(new BoxLayout(panelViewShift, BoxLayout.Y_AXIS));
@@ -350,12 +350,12 @@ public class ShiftView {
             panelViewShift.add( buttonBack(frameViewShift, () -> renderShiftViewStaff()));
         }
         panelViewShift.add(Box.createVerticalGlue());
-        frameViewShift.add(panelViewShift);
+        frameViewShift.addComponent(panelViewShift);
         frameViewShift.setVisible(true);
     }
 
     private void viewShiftsByEmployeeId() {
-        JFrame frameViewShiftById = new MainFrame();
+        MainFrame frameViewShiftById = new MainFrame(true);
         JPanel panelViewShiftById = new JPanel();
 
         panelViewShiftById.setLayout(new BoxLayout(panelViewShiftById, BoxLayout.Y_AXIS));
@@ -423,12 +423,12 @@ public class ShiftView {
         panelViewShiftById.add(Box.createVerticalStrut(15));
         panelViewShiftById.add(buttonBack(frameViewShiftById, () -> renderShiftViewStaff()));
         panelViewShiftById.add(Box.createVerticalGlue());
-        frameViewShiftById.add(panelViewShiftById);
+        frameViewShiftById.addComponent(panelViewShiftById);
         frameViewShiftById.setVisible(true);
     }
 
     private void submitAttendance() {
-        JFrame frameAttendance = new MainFrame();
+        MainFrame frameAttendance = new MainFrame(true);
         JPanel panelAttendance = new JPanel();
 
         panelAttendance.setLayout(new BoxLayout(panelAttendance, BoxLayout.Y_AXIS));
@@ -493,7 +493,7 @@ public class ShiftView {
         panelAttendance.add(Box.createVerticalStrut(20));
         panelAttendance.add(buttonBack(frameAttendance, () -> renderShiftViewStaff()));
         panelAttendance.add(Box.createVerticalGlue());
-        frameAttendance.add(panelAttendance);
+        frameAttendance.addComponent(panelAttendance);
         frameAttendance.setVisible(true);
     }
 

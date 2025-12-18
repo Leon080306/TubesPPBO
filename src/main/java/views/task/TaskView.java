@@ -39,7 +39,7 @@ public class TaskView {
     }
 
     private void renderTaskViewAdmin() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
 
         JPanel panelAdmin = new JPanel();
         panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
@@ -75,12 +75,12 @@ public class TaskView {
 
         panelAdmin.add(Box.createVerticalGlue());
 
-        frame.add(panelAdmin);
+        frame.addComponent(panelAdmin);
         frame.setVisible(true);
     }
 
     private void addTask() {
-        JFrame frameAddTaskAdmin = new MainFrame();
+        MainFrame frameAddTaskAdmin = new MainFrame(true);
         JPanel panelAdminAddTask = new JPanel();
 
         panelAdminAddTask.setLayout(new BoxLayout(panelAdminAddTask, BoxLayout.Y_AXIS));
@@ -155,11 +155,11 @@ public class TaskView {
         panelAdminAddTask.add(Box.createVerticalStrut(15));
         panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> renderTaskViewAdmin()));
 
-        frameAddTaskAdmin.add(panelAdminAddTask);
+        frameAddTaskAdmin.addComponent(panelAdminAddTask);
     }
 
     private void renderTaskViewStaff(){
-        frame = new MainFrame();
+        frame = new MainFrame(true);
 
         JPanel panelStaff = new JPanel();
         panelStaff.setLayout(new BoxLayout(panelStaff, BoxLayout.Y_AXIS));
@@ -222,12 +222,12 @@ public class TaskView {
 
         panelStaff.add(Box.createVerticalGlue());
 
-        frame.add(panelStaff);
+        frame.addComponent(panelStaff);
         frame.setVisible(true);
     }
 
     private void viewTaskByShiftId(){
-        JFrame frameViewTask = new MainFrame();
+        MainFrame frameViewTask = new MainFrame(true);
         JPanel panelViewTask = new JPanel();
 
         panelViewTask.setLayout(new BoxLayout(panelViewTask, BoxLayout.Y_AXIS));
@@ -294,13 +294,13 @@ public class TaskView {
         panelViewTask.add(Box.createVerticalStrut(15));
         panelViewTask.add(buttonBack(frameViewTask, () -> renderTaskViewStaff()));
         panelViewTask.add(Box.createVerticalGlue());
-        frameViewTask.add(panelViewTask);
+        frameViewTask.addComponent(panelViewTask);
         frameViewTask.setVisible(true);
 
     }
 
     private void doSpesificTask(){
-        JFrame frameDoSpesificTask = new MainFrame();
+        MainFrame frameDoSpesificTask = new MainFrame(true);
         JPanel panelDoSpesificTask = new JPanel();
 
         panelDoSpesificTask.setLayout(new BoxLayout(panelDoSpesificTask, BoxLayout.Y_AXIS));
@@ -342,12 +342,12 @@ public class TaskView {
         panelDoSpesificTask.add(Box.createVerticalStrut(15));
         panelDoSpesificTask.add(buttonBack(frameDoSpesificTask, () -> renderTaskViewStaff()));
         panelDoSpesificTask.add(Box.createVerticalGlue());
-        frameDoSpesificTask.add(panelDoSpesificTask);
+        frameDoSpesificTask.addComponent(panelDoSpesificTask);
         frameDoSpesificTask.setVisible(true);
     }
 
     private void doAllTaskInAShift(){
-        JFrame frameDoAllTask = new MainFrame();
+        MainFrame frameDoAllTask = new MainFrame(true);
         JPanel panelDoAllTask = new JPanel();
 
         panelDoAllTask.setLayout(new BoxLayout(panelDoAllTask, BoxLayout.Y_AXIS));
@@ -415,11 +415,11 @@ public class TaskView {
         panelDoAllTask.add(Box.createVerticalStrut(15));
         panelDoAllTask.add(buttonBack(frameDoAllTask, () -> renderTaskViewStaff()));
         panelDoAllTask.add(Box.createVerticalGlue());
-        frameDoAllTask.add(panelDoAllTask);
+        frameDoAllTask.addComponent(panelDoAllTask);
     }
 
     private void updateTaskStatus(){
-        JFrame frameUpdateTaskStatus = new MainFrame();
+        MainFrame frameUpdateTaskStatus = new MainFrame(true);
         JPanel panelUpdateTaskStatus = new JPanel();
 
         panelUpdateTaskStatus.setLayout(new BoxLayout(panelUpdateTaskStatus, BoxLayout.Y_AXIS));
@@ -469,7 +469,7 @@ public class TaskView {
         panelUpdateTaskStatus.add(Box.createVerticalStrut(15));
         panelUpdateTaskStatus.add(buttonBack(frameUpdateTaskStatus, () -> renderTaskViewStaff()));
         panelUpdateTaskStatus.add(Box.createVerticalGlue());
-        frameUpdateTaskStatus.add(panelUpdateTaskStatus);
+        frameUpdateTaskStatus.addComponent(panelUpdateTaskStatus);
         frameUpdateTaskStatus.setVisible(true);
 
     }

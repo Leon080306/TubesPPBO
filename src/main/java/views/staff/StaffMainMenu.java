@@ -8,7 +8,7 @@ public class StaffMainMenu {
     MainFrame frame;
 
     public StaffMainMenu() {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
         renderAdminMainMenu();
     }
 
