@@ -1,9 +1,8 @@
 package views;
 
-import controllers.PaymentControllers;
+import controller.PaymentControllers;
 import exceptions.NoResultsFound;
 import models.*;
-import models.enums.PaymentType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class GuestPaymentView {
 
 
     public void displayAllPayments(List<Payment> payments) {
-        frame = new MainFrame();
+        frame = new MainFrame(true);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 

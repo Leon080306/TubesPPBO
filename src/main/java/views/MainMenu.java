@@ -1,6 +1,6 @@
 package views;
 
-import controllers.BookingControllers;
+import controller.BookingController;
 import exceptions.NoResultsFound;
 import models.Booking;
 import views.admin.AdminBookingView;
@@ -8,14 +8,14 @@ import views.admin.AdminBookingView;
 import java.util.List;
 
 public class MainMenu {
-    BookingControllers controller = new BookingControllers();
+    BookingController controller = new BookingController();
     AdminBookingView view = new AdminBookingView();
 
     public MainMenu() throws NoResultsFound {
     }
 
     public void showBookings() {
-        List<Booking> bookings = BookingControllers.showAllBooking();
+        List<Booking> bookings = BookingController.showAllBooking();
         view.displayAllBookings();
     }
 

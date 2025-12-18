@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import exceptions.InvalidInput;
 import exceptions.NoResultsFound;
@@ -6,11 +6,10 @@ import models.Booking;
 import repository.BookingRepository;
 import repository.PaymentRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingControllers {
+public class BookingController {
 
     public static List<Booking> showAllBooking(){
         try{
@@ -35,7 +34,7 @@ public class BookingControllers {
 
     }
 
-    public static boolean isCheckIn (String ){
-
+    public static List<Booking> getBookingByRoomId(String roomId) {
+        return BookingRepository.getBookingByRoomId(roomId);
     }
 }

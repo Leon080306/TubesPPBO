@@ -1,4 +1,4 @@
-package controllers;
+package controller;
 
 import exceptions.NoResultsFound;
 import models.ExtraServices;

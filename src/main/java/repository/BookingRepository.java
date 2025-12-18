@@ -1,9 +1,10 @@
 package repository;
 
+import controller.GuestController;
+import controller.RoomController;
 import exceptions.InvalidInput;
 import exceptions.NoResultsFound;
 import models.Booking;
-import models.Payment;
 import models.Room;
 import models.enums.BookingStatus;
 import models.enums.PaymentStatus;
@@ -12,12 +13,10 @@ import models.enums.RoomType;
 import utils.Database;
 import utils.GeneratedUUID;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BookingRepository {
@@ -82,6 +81,22 @@ public class BookingRepository {
             System.out.println(e.getMessage());
         }
         return bookingList;
+    }
+
+    public static List<Booking> getBookingByRoomId(String roomId) {
+        List<Booking> bookingList = new ArrayList<>();
+        try {
+            PreparedStatement psmt = con.prepareStatement("SELECT * FROM booking WHERE roomid = ?");
+            psmt.setString(1, roomId);
+            ResultSet rs = psmt.executeQuery();
+            while(rs.next()) {
+                bookingList.add(new Booking(rs.getString("bookingid"), rs.getTimestamp("checkindate").toLocalDateTime(), rs.getTimestamp("checkoutdate").toLocalDateTime(), BookingStatus.valueOf(rs.getString("bookingstatus").toUpperCase()), RoomController.getRoomByRoomId(rs.getString("roomid")), rs.getInt("numberofguest")));
+            }
+            return bookingList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Booking getBooking(String guestID) throws NoResultsFound{

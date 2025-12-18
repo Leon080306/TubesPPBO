@@ -1,6 +1,6 @@
 package models;
 
-import controllers.BookingControllers;
+import controller.BookingController;
 import models.enums.PaymentStatus;
 import models.enums.PaymentType;
 
