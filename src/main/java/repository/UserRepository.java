@@ -27,8 +27,7 @@ public class UserRepository {
         try {
             PreparedStatement updatePrepUser = con.prepareStatement("DELETE FROM users WHERE userid = ?");
             updatePrepUser.setString(1, userId);
-            updatePrepUser.executeUpdate();
-            return true;
+            return updatePrepUser.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -74,7 +73,6 @@ public class UserRepository {
                     String employeeId = staffResult.getString("employeeid");
                     double salary = staffResult.getDouble("salary");
                     Department department = StringToEnum.toDepartment(staffResult.getString("department"));
-
 
                     Staff staff = new Staff(userId, password, nama, umur, email, phone, address, employeeId, salary, department);
                     usersList.add(staff);
@@ -263,9 +261,7 @@ public class UserRepository {
             updatePrepUser.setString(5, address);
             updatePrepUser.setString(6, type.name());
             updatePrepUser.setString(7, userId);
-            updatePrepUser.executeUpdate();
-
-            return true;
+            return updatePrepUser.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -284,9 +280,7 @@ public class UserRepository {
             updatePrepUser.setString(6, address);
             updatePrepUser.setString(7, type.name());
             updatePrepUser.setString(8, userId);
-            updatePrepUser.executeUpdate();
-
-            return true;
+            return updatePrepUser.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

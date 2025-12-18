@@ -17,16 +17,15 @@ import java.util.List;
 public class RoomRepository {
     private static final Connection con = Database.connect();
 
-    public static boolean addRoom(int roomNumber, RoomType roomType, String roomDescription, double roomPrice) {
+    public static boolean addRoom(String roomNumber, RoomType roomType, String roomDescription, double roomPrice) {
         try {
             PreparedStatement insertRoom = con.prepareStatement("INSERT INTO room (roomid, roomnumber, roomtype, roomdescription, roomprice) VALUES (?, ?, cast(? as room_type), ?, ?)");
             insertRoom.setString(1, GenerateUUID.generateUUID());
-            insertRoom.setInt(2, roomNumber);
+            insertRoom.setString(2, roomNumber);
             insertRoom.setString(3, roomType.name());
             insertRoom.setString(4, roomDescription);
             insertRoom.setDouble(5, roomPrice);
-            insertRoom.executeUpdate();
-            return true;
+            return insertRoom.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -50,24 +49,22 @@ public class RoomRepository {
         try {
             PreparedStatement psmt = con.prepareStatement("DELETE FROM room WHERE roomid = ?");
             psmt.setString(1, roomId);
-            psmt.executeUpdate();
-            return true;
+            return psmt.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public static boolean updateRoom(int roomNumber, RoomType roomType, String roomDescription, double roomPrice, String roomId) {
+    public static boolean updateRoom(String roomNumber, RoomType roomType, String roomDescription, double roomPrice, String roomId) {
         try {
             PreparedStatement psmt = con.prepareStatement("UPDATE room SET roomnumber = ?, roomtype = cast(? as room_type), roomdescription = ?, roomprice = ? WHERE roomid = ?");
-            psmt.setInt(1, roomNumber);
+            psmt.setString(1, roomNumber);
             psmt.setString(2, roomType.name());
             psmt.setString(3, roomDescription);
             psmt.setDouble(4, roomPrice);
             psmt.setString(5, roomId);
-            psmt.executeUpdate();
-            return true;
+            return psmt.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

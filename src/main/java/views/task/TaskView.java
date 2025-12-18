@@ -27,15 +27,21 @@ import controller.TaskController;
 import models.Task;
 import models.enums.TaskStatus;
 import views.MainFrame;
+import views.admin.AdminMainMenu;
+import views.staff.StaffMainMenu;
 
 public class TaskView {
     MainFrame frame;
     TaskController taskController;
+    private boolean isAdmin;
 
-    public TaskView() {
+    public TaskView(boolean isAdmin) {
         this.taskController = new TaskController();
-        //renderTaskViewAdmin();
-        renderTaskViewStaff();
+        if(isAdmin) {
+            renderTaskViewAdmin();
+        } else {
+            renderTaskViewStaff();
+        }
     }
 
     private void renderTaskViewAdmin() {
@@ -72,6 +78,18 @@ public class TaskView {
         buttonAddTask.setPreferredSize(new Dimension(250, 45));
         buttonAddTask.addActionListener(e -> addTask());
         panelAdmin.add(buttonAddTask);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new AdminMainMenu();
+        });
+        panelAdmin.add(backButton);
 
         panelAdmin.add(Box.createVerticalGlue());
 
@@ -153,9 +171,10 @@ public class TaskView {
         panelAdminAddTask.add(Box.createVerticalStrut(15));
         panelAdminAddTask.add(buttonAddTask);
         panelAdminAddTask.add(Box.createVerticalStrut(15));
-        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> renderTaskViewAdmin()));
+        panelAdminAddTask.add(buttonBack(frameAddTaskAdmin, () -> frameAddTaskAdmin.dispose()));
 
         frameAddTaskAdmin.addComponent(panelAdminAddTask);
+        frameAddTaskAdmin.setVisible(true);
     }
 
     private void renderTaskViewStaff(){
@@ -219,6 +238,18 @@ public class TaskView {
         buttonUpdateTaskStatus.setPreferredSize(new Dimension(250, 45));
         buttonUpdateTaskStatus.addActionListener(e -> updateTaskStatus());
         panelStaff.add(buttonUpdateTaskStatus);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new StaffMainMenu();
+        });
+        panelStaff.add(backButton);
 
         panelStaff.add(Box.createVerticalGlue());
 
@@ -292,7 +323,7 @@ public class TaskView {
 
         panelViewTask.add(buttonSearch);
         panelViewTask.add(Box.createVerticalStrut(15));
-        panelViewTask.add(buttonBack(frameViewTask, () -> renderTaskViewStaff()));
+        panelViewTask.add(buttonBack(frameViewTask, () -> frameViewTask.dispose()));
         panelViewTask.add(Box.createVerticalGlue());
         frameViewTask.addComponent(panelViewTask);
         frameViewTask.setVisible(true);
@@ -340,7 +371,7 @@ public class TaskView {
 
         });
         panelDoSpesificTask.add(Box.createVerticalStrut(15));
-        panelDoSpesificTask.add(buttonBack(frameDoSpesificTask, () -> renderTaskViewStaff()));
+        panelDoSpesificTask.add(buttonBack(frameDoSpesificTask, () -> frameDoSpesificTask.dispose()));
         panelDoSpesificTask.add(Box.createVerticalGlue());
         frameDoSpesificTask.addComponent(panelDoSpesificTask);
         frameDoSpesificTask.setVisible(true);
@@ -376,7 +407,7 @@ public class TaskView {
             String shiftId = fieldShiftId.getText();
 
             
-            if (taskController.doAllTaskInAShift(shiftId)) {
+            if (taskController.doAllTasksInAShift(shiftId)) {
                 List<Task> taskList = taskController.getTasksByShift(shiftId);
                 String[] columnNames = {"Task ID", "Title", "Description", "Status", "Deadline", "Completed At"};
                 DefaultTableModel model = new DefaultTableModel(columnNames, 0);
@@ -413,9 +444,10 @@ public class TaskView {
             }
         });
         panelDoAllTask.add(Box.createVerticalStrut(15));
-        panelDoAllTask.add(buttonBack(frameDoAllTask, () -> renderTaskViewStaff()));
+        panelDoAllTask.add(buttonBack(frameDoAllTask, () -> frameDoAllTask.dispose()));
         panelDoAllTask.add(Box.createVerticalGlue());
         frameDoAllTask.addComponent(panelDoAllTask);
+        frameDoAllTask.setVisible(true);
     }
 
     private void updateTaskStatus(){
@@ -467,7 +499,7 @@ public class TaskView {
 
         });
         panelUpdateTaskStatus.add(Box.createVerticalStrut(15));
-        panelUpdateTaskStatus.add(buttonBack(frameUpdateTaskStatus, () -> renderTaskViewStaff()));
+        panelUpdateTaskStatus.add(buttonBack(frameUpdateTaskStatus, () -> frameUpdateTaskStatus.dispose()));
         panelUpdateTaskStatus.add(Box.createVerticalGlue());
         frameUpdateTaskStatus.addComponent(panelUpdateTaskStatus);
         frameUpdateTaskStatus.setVisible(true);

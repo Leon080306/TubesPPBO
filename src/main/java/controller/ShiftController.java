@@ -21,12 +21,12 @@ public class ShiftController {
         return false;
     }
 
-    public List<Shift> getDailyAttendanceReport(LocalDate dateInput){
-        return shiftRepository.getAllShiftByDate(dateInput);
+    public List<Shift> getDailyAttendanceReports(LocalDate dateInput){
+        return shiftRepository.getAllShiftsByDate(dateInput);
     }
 
     public List<Shift> getAllShifts(){
-        return shiftRepository.showAllShift();
+        return shiftRepository.showAllShifts();
     }
     
     public List<Shift> getShiftsByEmployeeId(String employeeId){

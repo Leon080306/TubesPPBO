@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,17 +29,22 @@ import controller.StaffController;
 import models.Shift;
 import models.Staff;
 import views.MainFrame;
+import views.admin.AdminMainMenu;
+import views.staff.StaffMainMenu;
 
 public class ShiftView {
     MainFrame frame;
     ShiftController shiftController;
-    StaffController staffController;
+    private boolean isAdmin;
 
-    public ShiftView() {
+    public ShiftView(boolean isAdmin) {
         this.shiftController = new ShiftController();
-        this.staffController = new StaffController();
-        renderShiftViewAdmin();
-        // renderShiftViewStaff();
+        this.isAdmin = isAdmin;
+        if(isAdmin) {
+            renderShiftViewAdmin();
+        } else {
+            renderShiftViewStaff();
+        }
     }
 
     private void renderShiftViewAdmin() {
@@ -86,6 +90,18 @@ public class ShiftView {
         buttonShowShift.setPreferredSize(new Dimension(250, 45));
         buttonShowShift.addActionListener(e -> viewDailyShift());
         panelAdmin.add(buttonShowShift);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new AdminMainMenu();
+        });
+        panelAdmin.add(backButton);
 
         panelAdmin.add(Box.createVerticalGlue());
 
@@ -170,8 +186,9 @@ public class ShiftView {
 
         panelAdminAddShift.add(buttonAddTask);
         panelAdminAddShift.add(Box.createVerticalStrut(15));
-        panelAdminAddShift.add(buttonBack(frameAddShiftAdmin, () -> renderShiftViewAdmin()));
+        panelAdminAddShift.add(buttonBack(frameAddShiftAdmin, () -> frameAddShiftAdmin.dispose()));
         frameAddShiftAdmin.addComponent(panelAdminAddShift);
+        frameAddShiftAdmin.setVisible(true);
     }
 
     private void viewDailyShift() {
@@ -202,7 +219,7 @@ public class ShiftView {
             String dateInput = fieldDate.getText();
             LocalDate date = LocalDate.parse(dateInput, dateFormat);
 
-            List<Shift> shiftList = shiftController.getDailyAttendanceReport(date);
+            List<Shift> shiftList = shiftController.getDailyAttendanceReports(date);
 
             if (shiftList.isEmpty()) {
                 showDialog(frameViewDailyShift, "Error", "Data Not Found", () -> {
@@ -214,7 +231,7 @@ public class ShiftView {
                 DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
                 for (Shift shift : shiftList) {
-                    Staff staff = staffController.getStaffByEmployeeId(shift.getStaffId());
+                    Staff staff = StaffController.getStaffByEmployeeId(shift.getStaffId());
                     Object[] rowData = {
                             staff.getNama(),
                             shift.getShiftId(),
@@ -243,7 +260,7 @@ public class ShiftView {
 
         panelViewDailyShift.add(buttonSearch);
         panelViewDailyShift.add(Box.createVerticalStrut(15));
-        panelViewDailyShift.add(buttonBack(frameViewDailyShift, () -> renderShiftViewAdmin()));
+        panelViewDailyShift.add(buttonBack(frameViewDailyShift, () -> frameViewDailyShift.dispose()));
         panelViewDailyShift.add(Box.createVerticalGlue());
         frameViewDailyShift.addComponent(panelViewDailyShift);
         frameViewDailyShift.setVisible(true);
@@ -302,6 +319,18 @@ public class ShiftView {
         buttonAttendance.addActionListener(e -> submitAttendance());
         panelStaff.add(buttonAttendance);
 
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new StaffMainMenu();
+        });
+        panelStaff.add(backButton);
+
         panelStaff.add(Box.createVerticalGlue());
 
         frame.addComponent(panelStaff);
@@ -329,7 +358,7 @@ public class ShiftView {
             DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
             for (Shift shift : shiftList) {
-                Staff staff = staffController.getStaffByEmployeeId(shift.getStaffId());
+                Staff staff = StaffController.getStaffByEmployeeId(shift.getStaffId());
                 Object[] rowData = {
                         staff.getNama(),
                         shift.getShiftId(),
@@ -348,7 +377,7 @@ public class ShiftView {
             panelViewShift.add(scrollPane);
             panelViewShift.add(Box.createVerticalStrut(20));
 
-            panelViewShift.add( buttonBack(frameViewShift, () -> renderShiftViewStaff()));
+            panelViewShift.add( buttonBack(frameViewShift, () -> frameViewShift.dispose()));
         }
         panelViewShift.add(Box.createVerticalGlue());
         frameViewShift.addComponent(panelViewShift);
@@ -391,7 +420,7 @@ public class ShiftView {
                 DefaultTableModel model = new DefaultTableModel(columnNames, 0);
     
                 for (Shift shift : shiftList) {
-                    Staff staff = staffController.getStaffByEmployeeId(shift.getStaffId());
+                    Staff staff = StaffController.getStaffByEmployeeId(shift.getStaffId());
                     Object[] rowData = {
                             staff.getNama(),
                             shift.getShiftId(),
@@ -422,7 +451,7 @@ public class ShiftView {
 
         panelViewShiftById.add(buttonSearch);
         panelViewShiftById.add(Box.createVerticalStrut(15));
-        panelViewShiftById.add(buttonBack(frameViewShiftById, () -> renderShiftViewStaff()));
+        panelViewShiftById.add(buttonBack(frameViewShiftById, () -> frameViewShiftById.dispose()));
         panelViewShiftById.add(Box.createVerticalGlue());
         frameViewShiftById.addComponent(panelViewShiftById);
         frameViewShiftById.setVisible(true);
@@ -492,7 +521,7 @@ public class ShiftView {
 
         panelAttendance.add(buttonSubmit);
         panelAttendance.add(Box.createVerticalStrut(20));
-        panelAttendance.add(buttonBack(frameAttendance, () -> renderShiftViewStaff()));
+        panelAttendance.add(buttonBack(frameAttendance, () -> frameAttendance.dispose()));
         panelAttendance.add(Box.createVerticalGlue());
         frameAttendance.addComponent(panelAttendance);
         frameAttendance.setVisible(true);

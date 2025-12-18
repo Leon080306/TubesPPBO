@@ -121,7 +121,7 @@ public class AddRoomView {
             dialog.setLayout(new BorderLayout());
 
             String message = "";
-            if(RoomController.addRoom(Integer.parseInt(roomNumberField.getText()), (RoomType) roomTypeField.getSelectedItem(), descriptionField.getText(), Double.parseDouble(priceField.getText()))) {
+            if(RoomController.addRoom(roomNumberField.getText(), (RoomType) roomTypeField.getSelectedItem(), descriptionField.getText(), Double.parseDouble(priceField.getText()))) {
                 message = "Room successfully added!";
             }
             else {

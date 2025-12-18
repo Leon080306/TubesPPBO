@@ -148,7 +148,7 @@ public class EditRoomView {
             dialog.setLayout(new BorderLayout());
 
             String message = "";
-            if(RoomController.updateRoom(Integer.parseInt(roomNumberField.getText()), (RoomType) roomTypeField.getSelectedItem(), descriptionField.getText(), Double.parseDouble(priceField.getText()), roomData.getRoomID())) {
+            if(RoomController.updateRoom(roomNumberField.getText(), (RoomType) roomTypeField.getSelectedItem(), descriptionField.getText(), Double.parseDouble(priceField.getText()), roomData.getRoomID())) {
                 message = "Room successfully updated!";
             }
             else {

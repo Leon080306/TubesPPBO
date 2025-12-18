@@ -23,8 +23,7 @@ public class StaffRepository {
             insertStaff.setString(2, uuid);
             insertStaff.setDouble(3, salary);
             insertStaff.setString(4, department.name());
-            insertStaff.executeUpdate();
-            return true;
+            return insertStaff.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -37,8 +36,7 @@ public class StaffRepository {
             pstmt.setDouble(1, salary);
             pstmt.setString(2, department.name());
             pstmt.setString(3, userId);
-            pstmt.executeUpdate();
-            return true;
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

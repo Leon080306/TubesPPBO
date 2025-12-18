@@ -41,8 +41,7 @@ public class GuestRepository {
             pstmt.setString(1, membershipLevel.name());
             pstmt.setInt(2, points);
             pstmt.setString(3, userId);
-            pstmt.executeUpdate();
-            return true;
+            return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -57,8 +56,8 @@ public class GuestRepository {
             insertGuest.setString(2, membershipLevel.name());
             insertGuest.setInt(3, points);
             insertGuest.setString(4, uuid);
-            insertGuest.executeUpdate();
-            return true;
+
+            return insertGuest.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
