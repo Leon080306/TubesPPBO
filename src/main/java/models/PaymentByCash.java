@@ -5,28 +5,19 @@ import models.enums.PaymentType;
 
 import java.time.LocalDateTime;
 
-public class PaymentByCash extends Payment {
-    private double amountPaid;
+public class PaymentByCash extends Payment{
+    private double tip;
 
-    public PaymentByCash(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus, double amountPayed) {
-        super(paymentID, totalPrice, paymentDate, PaymentType.CARD, paymentStatus);
-        this.amountPaid = amountPayed;
+    public PaymentByCash(String paymentID, double totalPrice, LocalDateTime paymentDate, PaymentStatus paymentStatus,Booking booking,ExtraServices extraServices, double tip) {
+        super(paymentID, totalPrice, paymentDate, PaymentType.CASH,paymentStatus, booking, extraServices);
+        this.tip = tip;
     }
 
-    public double getChange() {
-        return amountPaid - getTotalPrice();
+    public double getTip() {
+        return tip;
     }
 
-    @Override
-    public boolean processPayment() {
-        return true;
-    }
-
-    public double getAmountPayed() {
-        return amountPaid;
-    }
-
-    public void setAmountPayed(double amountPayed) {
-        this.amountPaid = amountPayed;
+    public void setTip(double tip) {
+        this.tip = tip;
     }
 }

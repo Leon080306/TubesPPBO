@@ -33,6 +33,10 @@ public class RoomController {
         return RoomRepository.getRoomByRoomId(roomId);
     }
 
+    public static Room getRoomByRoomNumber(String roomNumber) {
+        return RoomRepository.getRoomByRoomNumber(roomNumber);
+    }
+
     public static boolean deleteRoom(String roomId) {
         return RoomRepository.deleteRoom(roomId);
     }

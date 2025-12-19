@@ -37,6 +37,29 @@ public class RoomRepository {
             PreparedStatement pstmt = con.prepareStatement("SELECT * FROM room WHERE roomid = ?");
             pstmt.setString(1, roomId);
             ResultSet rs = pstmt.executeQuery();
+//            rs.next();
+//            return new Room(rs.getString("roomid"), rs.getString("roomnumber"), RoomType.valueOf(rs.getString("roomtype").toUpperCase()), rs.getString("roomdescription"), rs.getDouble("roomprice"));
+            if (rs.next()) {
+                return new Room(
+                        rs.getString("roomid"),
+                        rs.getString("roomnumber"),
+                        RoomType.valueOf(rs.getString("roomtype").toUpperCase()),
+                        rs.getString("roomdescription"),
+                        rs.getDouble("roomprice")
+                );
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Room getRoomByRoomNumber(String roomNumber){
+        try {
+            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM room WHERE roomnumber = ?");
+            pstmt.setString(1, roomNumber);
+            ResultSet rs = pstmt.executeQuery();
             rs.next();
             return new Room(rs.getString("roomid"), rs.getString("roomnumber"), RoomType.valueOf(rs.getString("roomtype").toUpperCase()), rs.getString("roomdescription"), rs.getDouble("roomprice"));
         } catch (Exception e) {

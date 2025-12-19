@@ -63,6 +63,15 @@ public class AdminMainMenu {
         mainPanel.add(shiftManagementButton);
         mainPanel.add(Box.createVerticalStrut(20));
 
+        JButton bookingManagementButton = new JButton("Hotel Booking History");
+        bookingManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bookingManagementButton.addActionListener(e -> {
+            frame.dispose();
+            new AdminBookingView();
+        });
+        mainPanel.add(bookingManagementButton);
+        mainPanel.add(Box.createVerticalStrut(20));
+
         frame.addComponent(mainPanel);
         frame.setVisible(true);
     }

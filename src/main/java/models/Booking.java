@@ -10,8 +10,8 @@ public class Booking {
     private LocalDateTime checkOutDate;
     private BookingStatus bookingStatus;
     private Room room;
-    private Guest guest;
     private int numberOfGuests;
+    private Guest guest;
 
     public Booking(String bookingID, LocalDateTime checkInDate, LocalDateTime checkOutDate, BookingStatus bookingStatus, Room room, int numberOfGuests, Guest guest) {
         this.bookingID = bookingID;

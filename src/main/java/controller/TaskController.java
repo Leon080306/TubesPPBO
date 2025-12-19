@@ -2,7 +2,8 @@ package controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
- 
+
+import models.ExtraServices;
 import models.Task;
 import models.enums.Department;
 import models.enums.TaskStatus;
@@ -25,6 +26,8 @@ public class TaskController {
     public List<Task> getTasksByShift(String shiftId){
         return taskRepository.findTasksByShiftId(shiftId);
     }
+
+    public static List<ExtraServices> getExtraServicesByBookingId(String bookingId) {return TaskRepository.getExtraServicesByBookingId(bookingId);}
 
     public boolean doSpesificTask(String taskId){
         if(taskRepository.updateTaskStatus(taskId, TaskStatus.COMPLETED)){

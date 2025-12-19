@@ -2,6 +2,7 @@ package moduls;
 
 import controller.UserController;
 import models.Booking;
+import models.Guest;
 import models.Users;
 
 public class GlobalVariables {
@@ -12,19 +13,14 @@ public class GlobalVariables {
         return user;
     }
 
-    public static void setUser(Users newUser){
-        user = newUser;
-    }
-
-    public static Booking getBooking(){
-        return booking;
-    }
-
-    public static void setBooking(Booking newBooking){
-        booking = newBooking;
+    public static void setUser(Users userData){
+        user = userData;
     }
 
     public static void refreshUserData() {
-        UserController.getUserDataByEmail(user.getEmail());
+        user = UserController.getUserDataByUserId(user.getUserID());
     }
+
+    public static Booking getBooking(){return booking;}
+    public static void setBooking(Booking bookingData){booking = bookingData;}
 }
