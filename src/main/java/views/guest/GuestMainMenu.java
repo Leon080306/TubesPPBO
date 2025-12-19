@@ -73,6 +73,7 @@ public class GuestMainMenu {
 
         checkOutButton.addActionListener(e -> {
             if (GlobalVariables.getBooking() != null) {
+                frame.dispose();
                 new CheckOutPaymentTypeView(GlobalVariables.getBooking());
             } else {
                 showDialog("Over the Date", "check out is past date .");
