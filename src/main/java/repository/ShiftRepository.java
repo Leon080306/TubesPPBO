@@ -137,12 +137,11 @@ public class ShiftRepository {
             pstmtGetStaff.setString(1, department.name());
             ResultSet resultQuery = pstmtGetStaff.executeQuery();
             while (resultQuery.next()) {
-                availableShift.addAll(findShiftsByEmployeeId("employeeid"));
+                availableShift.addAll(findShiftsByEmployeeId(resultQuery.getString("employeeid")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return availableShift;
-        
     }
 }

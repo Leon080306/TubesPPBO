@@ -30,6 +30,7 @@ import models.Shift;
 import models.Staff;
 import views.MainFrame;
 import views.admin.AdminMainMenu;
+import views.guest.GuestMainMenu;
 import views.staff.StaffMainMenu;
 
 public class ShiftView {

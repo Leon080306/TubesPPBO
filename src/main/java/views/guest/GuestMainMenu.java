@@ -28,24 +28,6 @@ public class GuestMainMenu {
         mainPanel.add(titlePanel);
         mainPanel.add(Box.createVerticalStrut(50));
 
-        JButton taskManagementButton = new JButton("Task Management");
-        taskManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        taskManagementButton.addActionListener(e -> {
-            frame.dispose();
-            new TaskView(false);
-        });
-        mainPanel.add(taskManagementButton);
-        mainPanel.add(Box.createVerticalStrut(20));
-
-        JButton shiftManagementButton = new JButton("Shift Management");
-        shiftManagementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        shiftManagementButton.addActionListener(e -> {
-            frame.dispose();
-            new ShiftView(false);
-        });
-        mainPanel.add(shiftManagementButton);
-        mainPanel.add(Box.createVerticalStrut(20));
-
         //user is currently in a booking
         if(GlobalVariables.getBooking() != null) {
             JButton extraServiceButton = new JButton("Order Extra Service");

@@ -20,7 +20,7 @@ import utils.GenerateUUID;
 
 public class TaskRepository {
     public static Connection conn = Database.connect();
-    ShiftRepository shiftRepository;
+    ShiftRepository shiftRepository = new ShiftRepository();
     //add task
     public boolean addTask(String shiftId, String title, String descriptionTask, LocalDateTime deadline){
         String sql = "INSERT INTO task (taskid, shiftid, bookingid, title, description, status, deadline, completedat) VALUES (?, ?, NULL, ?, ?, 'ASSIGNED', ?, NULL)"; 
@@ -124,6 +124,9 @@ public class TaskRepository {
         Random random = new Random();
         try {
             List<Shift> listShiftDepartment = shiftRepository.getShiftByDepartment(department);
+            if(listShiftDepartment.size() == 0) {
+                return false;
+            }
             Shift chosenStaff = listShiftDepartment.get(random.nextInt(listShiftDepartment.size()));
 
             PreparedStatement pstmtInsert = conn.prepareStatement(sqlInsert);

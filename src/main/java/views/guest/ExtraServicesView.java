@@ -23,6 +23,7 @@ import controller.TaskController;
 import models.enums.Department;
 import moduls.GlobalVariables;
 import views.MainFrame;
+import views.staff.StaffMainMenu;
 
 public class ExtraServicesView {
     MainFrame frame;
@@ -67,6 +68,18 @@ public class ExtraServicesView {
         buttonAddTask.setPreferredSize(new Dimension(250, 45));
         buttonAddTask.addActionListener(e -> addExtraService());
         panelGuest.add(buttonAddTask);
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.setFocusPainted(false);
+        backButton.setMaximumSize(new Dimension(250, 45));
+        backButton.setPreferredSize(new Dimension(250, 45));
+        backButton.addActionListener(e -> {
+            frame.dispose();
+            new GuestMainMenu();
+        });
+        panelGuest.add(backButton);
 
         panelGuest.add(Box.createVerticalGlue());
 
